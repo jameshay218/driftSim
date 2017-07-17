@@ -1,0 +1,17 @@
+Package: driftSim
+Title: driftSim
+Version: 1.0.0
+Author: James Hay <james.hay13@imperial.ac.uk>
+Maintainer: James Hay <james.hay13@imperial.ac.uk> <jameshay218@gmail.com>
+Description: driftSim
+License: GPL-2
+LazyData: true
+URL: https://github.com/<gh-username>/driftSim
+BugReports: https://github.com/<gh-username>/driftSim/issues
+Imports:
+    Rcpp, shiny, ggplot2, reshape2, gridExtra, data.table, deSolve, plyr
+LinkingTo: Rcpp
+SystemRequirements: C++11
+Suggests:
+    testthat
+RoxygenNote: 5.0.1
