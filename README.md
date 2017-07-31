@@ -22,15 +22,34 @@ devtools::install_github("jameshay218/driftSim")
 The first way of using the simulation is through an R console. There are a number of inputs for the simulation. These have default values, but the user should make sure to explicitly specify each to ensure understanding of the underlying dynamics.
 ```r
 library(driftSim)
+
+## Example parameter values attached to the package:
+## 1. flags (flags for simulation output saving)
+## 2. hostpars - vector of parameters related to host population. See vignettes
+## 3. viruspars - vector of parameters related to virus population. See vignettes
+## 4. deltaVMat - matrix of gradients describing how binding avidity changes within a 
+##    particular host in a single day
+attach(exampleParameters)
+
+sim_duration <- 365 ## Duration of simulation in days
+version <- 1
+scenario_descriptions(1) ## Which version of the simulation to run (1-4)
+output <- run_simulation(flags=flags, hostpars=hostpars, viruspars=viruspars, deltaVMat=deltaVMat,
+                         iniKs=NULL,start=0,end=365,input_files="",output_files=c("SIR.csv","","","","",""),
+                         VERBOSE=TRUE,scenario=3)
+sir <- read.table("SIR.csv",header=FALSE,sep=",")
+plot_SIR(sir)
 ```
 
 ## Usage 2 - shiny app
 The shiny app is intended for the following three uses:
-
 * Parameter exploration for binding avidity and within-host survival dynamics
 * Interface to the Cpp simulation, allowing the user to vary the parameter inputs and view SIR dynamics from the 3-4 scenarios.
 * View of the virus phylogenies using results from the simulation run. This will use Sean’s matlab code or a .exe
-
+```r
+library(driftSim)
+runSimulationApp()
+```
 
 ## License
 

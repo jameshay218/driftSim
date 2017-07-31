@@ -22,9 +22,9 @@ run_simulation(flags = c(1, 0, 0, 0, 0, 0, 0, 0), hostpars = c(90000, 100,
 7) import_start_saved: if TRUE, uses the provided iniKs vector as the actual starting immunity profile of the host population.
 8) save_hostsKs: if TRUE, saves the distribution of host immunity over time to file}
 
-\item{hostpars}{vector of parameters relating to the host population. In order, these are: S0, I0, R0, contact rate, birth/death rate, temporary immunity waning rate (duration of recovered period), infected recovery rate, initial binding avidity of all simulated viruses, mean level of antibody boosting following recovered, initial antigenic distance of virus population to base virus, how often to save the host population K distribution, and the maximum achievable antibody titre by a given host. SEE THE VIGNETTES FOR MORE DETAIL.}
+\item{hostpars}{vector of parameters relating to the host population. In order, these are: S0, I0, R0, contact rate, birth/death rate, temporary immunity waning rate (duration of recovered period), infected recovery rate, initial binding avidity of all simulated viruses, mean level of antibody boosting following recovered, initial antigenic distance of virus population to base virus, how often to save the host population K distribution, and the maximum achievable antibody titre by a given host. SEE THE VIGNETTES or \code{\link{exampleParameters}} FOR MORE DETAIL.}
 
-\item{viruspars}{vector of parameters related to the virus population. These are, in order: p, r, q, a, b, n, v, probability of an antigenic mutation upon infection, mean of the exponential distribution of mutation sizes, kc and VtoD. SEE VIGNETTES FOR DETAILS}
+\item{viruspars}{vector of parameters related to the virus population. These are, in order: p, r, q, a, b, n, v, probability of an antigenic mutation upon infection, mean of the exponential distribution of mutation sizes, kc and VtoD. SEE VIGNETTES or \code{\link{exampleParameters}} FOR DETAILS}
 
 \item{deltaVMat}{A two dimensional matrix giving binding avidity changes for different immunity/binding avidity levels}
 
@@ -45,5 +45,15 @@ Returns the ID of the last generated virus
 }
 \description{
 Main simulation interface
+}
+\examples{
+attach(exampleParameters)
+sim_duration <- 365 ## Duration of simulation in days
+version <- 1
+scenario_descriptions(1) ## Which version of the simulation to run (1-4)
+output <- run_simulation(flags=flags, hostpars=hostpars, viruspars=viruspars, deltaVMat=deltaVMat,
+                      iniKs=NULL,start=0,end=365,input_files="",output_files=c("SIR.csv","","","","",""),
+                      VERBOSE=TRUE,scenario=3)
+sir <- read.table("SIR.csv",header=FALSE,sep=",")
 }
 
