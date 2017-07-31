@@ -48,7 +48,7 @@ public:
   Virus(Virus* _parent, Host* _host, int _t, double _distHost, double _infectionNo);
   Virus(int _level, Virus* _parent, double _bindingavid, double _distance, Host* _host, int _t, double _distHost, double _tmpK);
   Virus(int _id, int _birth, int _death, Virus* _parent, int _level, double _bindini,double _bind, int _k, double _distToParent, double distToRoot, int _distHost, int _tmpK, Host* _host, double changeV, double changeR);
-  ~Virus(){};  // Don't really need to worry about pointers. VirusPopulation should take care of memory.
+  ~Virus(){}; 
 
   // Accessing attributes
   int getId();

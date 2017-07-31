@@ -8,6 +8,7 @@ library(deSolve)
 library(driftSim)
 library(plyr)
 
+## Where should we be working
 saveDir <- "~/tmp/"
 options(shiny.maxRequestSize=1000*1024^2)
 
@@ -16,8 +17,10 @@ shinyServer(
         
         values <- reactiveValues()
         
+         ## If iniCalc button is pressed, generates a distribution of host Ks
+        ## from the selected host input file.
         create_startingK <- observeEvent(inputs$iniCalc,{
-            print("Generating hostK...")
+            message("Generating hostK...")
             N <- isolate(inputs$s0) + isolate(inputs$i0) +  isolate(inputs$r0)
             if(is.null(isolate(inputs$hostInput))){
                 inputFile <- "hosts.csv"
@@ -29,6 +32,7 @@ shinyServer(
             write.table(iniK, file=paste(saveDir, "outputs/iniK.csv",sep=""),row.names=FALSE, col.names=FALSE, sep=",")
         })
         
+         ## Function to plot SIR dynamics in the shiny windows
         plot_SIR <- function(filename){
             N <- isolate(inputs$s0) + isolate(inputs$i0) +  isolate(inputs$r0) + 500
             dat <- read.csv(filename,header=0)
@@ -58,15 +62,15 @@ shinyServer(
             return(SIR_plot)
         }
 
+        ## Outputs total incidence at the top of the plots
         output$incidenceText1 <- renderText({
             N <- isolate(inputs$s0) + isolate(inputs$i0) +  isolate(inputs$r0)
             paste(round((values$infections/N)*100,3),"%",sep="")
         })
 
-        
-        
+                 ## If button is pressed, calculates the deltaV matrix of gradients for given binding avidity and immunity combinations        
         calculate_deltaVMat <- observeEvent(inputs$dVcalc,{
-            print("Calculating deltaV matrix...")
+            message("Calculating deltaV matrix...")
             maxV = 3
             maxK = 80
             time_step = 1
@@ -77,7 +81,8 @@ shinyServer(
             b = as.numeric(inputs$b)
             kc = as.numeric(inputs$kc)
             pars <- c(p,r,b,a,kc,q)
-            
+
+            ## Differential equation to solve
             difeq <- function(t, V, params){
                 x <- V
                 j <- params[1]
@@ -103,7 +108,7 @@ shinyServer(
             immKs = seq(0,maxK,by=0.1)
             allV <- matrix(nrow=length(immKs),ncol=length(V))
             for(j in 1:length(immKs)){
-                print(j)
+                message(j)
                 for(i in 1:length(V)){
                     deltaV <- ode(y=c(V[i]),seq(0,time_step,by=1/40),difeq,c(immKs[j],pars))
                     allV[j,i] <- deltaV[length(deltaV)] - V[i]
@@ -111,11 +116,15 @@ shinyServer(
             }
             write.table(allV, file=paste(saveDir,"outputs/deltaVMat.csv",sep=""),row.names=FALSE,col.names=FALSE,sep=",")
         })
-        
+
+        ## Main working function - running the simulation
         run_sim <- observeEvent(inputs$run, {
-            print("Running simulation")
+            message("Running simulation")
             #' Make sure Rcpp will compile and run
-               
+            
+               ###########################
+            ## FLAGS FOR RUN
+            ###########################
             SIR_flag <- 1 %in% inputs$flags #' Flag to save SIR dynamics
             voutput1_flag <- 2 %in% inputs$flags #' Flag to save virus information for Sean's phylogenetic tree
             voutput2_flag <- 3 %in% inputs$flags #' Flag to save pairwise distance matrix
@@ -129,11 +138,15 @@ shinyServer(
             
             flags <- c(SIR_flag, voutput1_flag, voutput2_flag, time_flag, save_state, input_flagA, input_flagB, save_k)
             flags <- as.numeric(flags)
-            
+            ###########################
+
+
+            ## SIR model inputs
             S0 <- as.numeric(inputs$s0)
             I0 <- as.numeric(inputs$i0)
             R0 <- as.numeric(inputs$r0)
 
+            ## Host parameters
             contactRate <- as.numeric(inputs$contact)
             mu <- 1/(as.numeric(inputs$mu)*365)
             wane <- 1/as.numeric(inputs$wane)
@@ -148,6 +161,7 @@ shinyServer(
 
             deltaVMat <- unname(as.matrix(read.csv(paste(saveDir,"outputs/deltaVMat.csv",sep=""),header=FALSE)))
 
+            ## Virus parameters
             p = as.numeric(inputs$p) 
             r = as.numeric(inputs$r)
             q = as.numeric(inputs$q)
@@ -163,27 +177,31 @@ shinyServer(
 
             viruspars <- c(p,r,q,a,b,n,v,probMut,expDist,kc,VtoD)
             
+            ## Callback function to evaluate simulation progress
             progress_within<- shiny::Progress$new()
             on.exit(progress_within$close())
             callback <- function(x) {
                 progress_within$set(value=x[[1]]/inputs$dur,detail= x[[1]])
             }
+
+             ## Get input file names from "Filenames" area
             if(is.null(inputs$hostInput)){
                 inputFiles <- c("hosts.csv")
             }
             else {
                 inputFiles <- c(inputs$hostInput$datapath)
             }
-            print("Working directory: " )
-            print(saveDir)
+            ## Where are we working?
+            message("Working directory: " )
+            message(saveDir)
 
             iniK <- NULL
             if(input_flagA){
-                print(paste("Generating starting K from... ",inputFiles[1],sep=""))
+                message(cat("Generating starting K from... ",inputFiles[1],sep=""))
                 iniK <- generateHostKDist(inputFiles[1],S0+I0+R0)
             }
             if(input_flagB){
-                print(paste("Using saved starting K from ",inputFiles[1],sep=""))
+                message(cat("Using saved starting K from ",inputFiles[1],sep=""))
                 iniK <- read.csv(inputFiles[1],header=FALSE)[,1]
             }
 
@@ -192,7 +210,7 @@ shinyServer(
                 withProgress(message="Simulation number", value=0, detail=1, {
                     index <- 1
                     for(i in inputs$scenarios){
-                        print(paste("Scenario number: ",as.numeric(i),sep=""))
+                        message(cat("Scenario number: ",as.numeric(i),sep=""))
                         progress_within$set(message = "Day", value = 0)
                         Sys.sleep(0.1)
                         filename1 <- paste("scenario_",i,"_SIR.csv",sep="")
@@ -202,7 +220,7 @@ shinyServer(
                         filename5 <- paste("hostKs_",i,".csv",sep="")
                         filenames <- c(filename1, filename2, filename3, filename4, filename5)
                         infections[[index]] <- run_simulation(flags,hostpars,viruspars,deltaVMat,iniK,0,inputs$dur,inputFiles,filenames,VERBOSE, as.numeric(i),callback)
-                        print(paste("Number of new viruses: ", infections[[index]], sep=""))
+                        message(cat("Number of new viruses: ", infections[[index]], sep=""))
                         incProgress(1/length(inputs$scenarios),detail=(as.numeric(i)+1))
                         index <- index + 1
                         for(j in filenames){
@@ -212,7 +230,7 @@ shinyServer(
                 })
                 values$infections <- infections
             }
-            print("Saving simulation parameters used...")
+            message("Saving simulation parameters used...")
             vParNames <- c("p","r","q","a","b","n","v","probMut","expDist","kc","VtoD")
             hParNames <- c("s0","i0","r0","c","mu","w","g","iniBind","meanBoost","iniDist","saveFreq","maxTitre")
             allNames <- c(vParNames, hParNames)

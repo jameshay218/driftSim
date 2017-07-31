@@ -2,11 +2,22 @@
 % Please edit documentation in R/antigenic_drift.R
 \name{generateHostKDist_2}
 \alias{generateHostKDist_2}
-\title{Add this to the source file so that you can access it ie. cluster_submission.R}
+\title{Generate distribution of host immunity}
 \usage{
 generateHostKDist_2(hostKs, N)
 }
+\arguments{
+\item{hostKs}{vector of K values}
+
+\item{N}{number of samples to generate}
+}
+\value{
+a vector of random K values of size N
+}
 \description{
-Add this to the source file so that you can access it ie. cluster_submission.R
+Given a vector of host immune values (K), creates a frequency distribution and then draws N samples to give a new host immunity distribution.
+}
+\seealso{
+\code{\link{generateHostKDist}}
 }
 

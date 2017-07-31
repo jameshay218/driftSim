@@ -1,15 +1,17 @@
 Package: driftSim
-Title: driftSim
+Title: Short-sighted evolution of influenza cellular receptor binding avidity shapes influenza epidemic dynamics
 Version: 1.0.0
 Author: James Hay <james.hay13@imperial.ac.uk>
 Maintainer: James Hay <james.hay13@imperial.ac.uk> <jameshay218@gmail.com>
-Description: driftSim
-License: GPL-2
+Description: Implementation of an R/C++ individual based model for simulating evolutionary dynamics of influenza binding avidity and antigenic drift in a human population with adaptive immunity.
+Depends:
+	R (>= 3.0.0)
+License: GPL-3
 LazyData: true
-URL: https://github.com/<gh-username>/driftSim
-BugReports: https://github.com/<gh-username>/driftSim/issues
-Imports:
-    Rcpp, shiny, ggplot2, reshape2, gridExtra, data.table, deSolve, plyr
+URL: https://github.com/jameshay218/driftSim
+BugReports: https://github.com/jameshay218/driftSim/issues
+Suggests:
+    ggplot2, reshape2, gridExtra, data.table, plyr
 LinkingTo: Rcpp
 SystemRequirements: C++11
 Suggests:

@@ -1,17 +1,6 @@
 ---
-title: "The effect of influenza receptor binding on antigenic drift"
+title: "Short-sighted evolution of influenza cellular receptor binding avidity shapes influenza epidemic dynamics"
 author: "James Hay"
-output: 
-  html_document
-header-includes:
-  - \usepackage{amsmath}
-  - \usepackage{amssymb}
-  - \usepackage{amsmath}
-  - \usepackage{amsfonts}
-  - \usepackage{amsthm}
-  - \usepackage{amsmath}
-  - \usepackage{mathtools}
-  - \newcommand{\HRule}{\rule{\linewidth}{0.4mm}}
 ---
 
 
@@ -19,48 +8,31 @@ header-includes:
 
 This git repository contains all of the code needed to run the binding avidity adaptation project either through command line or the accompanying shiny app.
 
+## Background
+This project is a continuation of previously [published work](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3678328/). Here, we are interested in the hypothesis that within-host cellular binding avidity changes of influenza viruses play an important role in the evolutionary dynamics of influenza. Furthermore, we consider how antigenic drift interacts with binding avidity on an evolutionary basis. This package contains an implementation of an inidividual based model that incorporates binding avidity as a virus property, human host immunity, antigenic drift, and SIR dynamics in a host population.
+
 ## Installation
-Installation is fairly straightforward. You should 
+Installation is fairly straightforward. The package uses compiled C++ code, so you should have Rtools installed.
 
 ```r
 devtools::install_github("jameshay218/driftSim")
 ```
 
-## Usage
-
+## Usage 1 - command line
+The first way of using the simulation is through an R console. There are a number of inputs for the simulation. These have default values, but the user should make sure to explicitly specify each to ensure understanding of the underlying dynamics.
 ```r
 library(driftSim)
 ```
 
+## Usage 2 - shiny app
+The shiny app is intended for the following three uses:
+
+* Parameter exploration for binding avidity and within-host survival dynamics
+* Interface to the Cpp simulation, allowing the user to vary the parameter inputs and view SIR dynamics from the 3-4 scenarios.
+* View of the virus phylogenies using results from the simulation run. This will use Sean’s matlab code or a .exe
+
+
 ## License
 
 GPL-2 © [James Hay &lt;james.hay13@imperial.ac.uk&gt;](https://github.com/).
-
-
-
-## Equations
-### 1. Probability of evading immune system
-After entering a host, the virus must first evade the immune response (Equation 1). Here, the probability of escaping the immune response increases as binding avidity increases. The virus must evade the immunity conferred from all previous infections (k), adjusted by the antigenic distance between the virus and the virus that elicited the host's immunity. This relationship can be seen in plot C. The rate of change of $f$ with respect to binding avidity is shown in plot E.
-
-$$f(k,V_i) = [1-e^{-p(V_i+q)}]^{rk - \delta_{ji}}$$
-
-### 2. Probability of Successful Replication Within Host
-Binding avidity also affects how well a virus is able to replicate within the host, as described by Equation 2. This relationship is shown in plot A. The naive case (ie. $k=0$) is shown in plot D.
-
-$$g(V_i) = e^{-aV_i^b}$$
-
-### 3. Within Host Reproductive Number
-The within-host reproductive number is therefore given by the product of the probability of successful within host infection, and the number of offspring virions produced per event:
-
-$$R_{in} = n \cdot \phi(H_k,V_i)$$
-
-### 4. Infectiousness
-The infectiousness of a particular virus is therefore related to the within-host reproductive number and the number of initially infecting virions as follows:
-
-$$ \rho = 1 - (\frac{1}{R_{in}})^{-v} = 1-(\frac{1}{\phi(H_k, V_i)})^{-nv} $$
-
-### 5. Transmission Rate
-The transmission rate between hosts, $\beta$, is therefore given by the product of the infectiousness of that virus and the contact rate between hosts. This relationship is shown in plot B. The rate of change of $\beta$ with respect to binding avidity is shown in plot F.
-
-$$\beta = c \cdot \rho$$
 

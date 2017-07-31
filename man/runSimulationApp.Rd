@@ -2,30 +2,11 @@
 % Please edit documentation in R/antigenic_drift.R
 \name{runSimulationApp}
 \alias{runSimulationApp}
-\title{xx}
+\title{Launches the shiny app interface}
 \usage{
 runSimulationApp()
 }
-\arguments{
-\item{flags}{xx}
-
-\item{hostpars}{xx}
-
-\item{viruspars}{xx}
-
-\item{start}{xx}
-
-\item{end}{xx}
-
-\item{output_files}{xx}
-
-\item{VERBOSE}{xx}
-
-\item{scenario}{xx}
-
-\item{callback}{xx}
-}
 \description{
-moar3
+Launches the shiny app interface
 }
 

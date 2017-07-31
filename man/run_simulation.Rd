@@ -2,7 +2,7 @@
 % Please edit documentation in R/antigenic_drift.R
 \name{run_simulation}
 \alias{run_simulation}
-\title{xx}
+\title{Main simulation interface}
 \usage{
 run_simulation(flags = c(1, 0, 0, 0, 0, 0, 0, 0), hostpars = c(90000, 100,
   0, 1.5, 1/(40 * 365), 1/25, 0.333, 0.8, 10, 0, 10, 10), viruspars = c(3, 70,
@@ -12,25 +12,38 @@ run_simulation(flags = c(1, 0, 0, 0, 0, 0, 0, 0), hostpars = c(90000, 100,
   "hostKs.csv"), VERBOSE = TRUE, scenario = 1, callback = NULL)
 }
 \arguments{
-\item{flags}{xx}
+\item{flags}{Vector of boolean flags for simulation outputs. All of the output file names are specified in the output_files arugment.
+1) save_SIR: if TRUE, saves the SIR dynamics
+2) save_viruses: if TRUE, saves information on the simulation viruses. From this file, phylogenetic reconstruction should be possible.
+3) save_pairwise_viruses: if TRUE, saves further virus information, spefically a matrix of pairwise antigenic distances between all viruses
+4) use_time: if TRUE, records the duration of the simulatoin run
+5) save_hosts: if TRUE, saves the properties of the simulation host population.
+6) import_start_generate: if TRUE, generates starting immunity (K) values for the host population. Requires iniK to be valid/
+7) import_start_saved: if TRUE, uses the provided iniKs vector as the actual starting immunity profile of the host population.
+8) save_hostsKs: if TRUE, saves the distribution of host immunity over time to file}
 
-\item{hostpars}{xx}
+\item{hostpars}{vector of parameters relating to the host population. In order, these are: S0, I0, R0, contact rate, birth/death rate, temporary immunity waning rate (duration of recovered period), infected recovery rate, initial binding avidity of all simulated viruses, mean level of antibody boosting following recovered, initial antigenic distance of virus population to base virus, how often to save the host population K distribution, and the maximum achievable antibody titre by a given host. SEE THE VIGNETTES FOR MORE DETAIL.}
 
-\item{viruspars}{xx}
+\item{viruspars}{vector of parameters related to the virus population. These are, in order: p, r, q, a, b, n, v, probability of an antigenic mutation upon infection, mean of the exponential distribution of mutation sizes, kc and VtoD. SEE VIGNETTES FOR DETAILS}
 
-\item{start}{xx}
+\item{deltaVMat}{A two dimensional matrix giving binding avidity changes for different immunity/binding avidity levels}
 
-\item{end}{xx}
+\item{start}{Simulation start day}
 
-\item{output_files}{xx}
+\item{end}{Simulation end day}
 
-\item{VERBOSE}{xx}
+\item{output_files}{Vector of output file names. Note that these should be csv files. In order: 1) location of the SIR dynamics; 2) location of virus characteristics output; 3) location of pairwise antigenic distances; 4) Where to save the entire host population characteristics; 5) where to save the host population K distribution over time}
 
-\item{scenario}{xx}
+\item{VERBOSE}{If TRUE, prints additional simulation output}
 
-\item{callback}{xx}
+\item{scenario}{Which version of the simulation to use. See \code{\link{scenario_descriptions}}}
+
+\item{callback}{Leave this - this is just used by the shiny app for the progress bar.}
+}
+\value{
+Returns the ID of the last generated virus
 }
 \description{
-moar
+Main simulation interface
 }
 

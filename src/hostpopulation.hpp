@@ -38,7 +38,9 @@ public:
 
   // Constructors
   HostPopulation();
+  // With no starting immunity
   HostPopulation(int initialS, int initialI, int initialR, int iniDay, double _contactRate, double _mu, double _wane, double _gamma, double _iniBindingAvid, double initialDistance);
+  // With a given vector of starting immunity values
   HostPopulation(int initialS, int initialI, int initialR, int iniDay, double _contactRate, double _mu, double _wane, double _gamma, double _iniBindingAvid, double initialDistance, Rcpp::NumericVector startingK);
   ~HostPopulation();
 

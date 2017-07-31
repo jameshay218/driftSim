@@ -2,30 +2,22 @@
 % Please edit documentation in R/antigenic_drift.R
 \name{generateHostKDist}
 \alias{generateHostKDist}
-\title{xx}
+\title{Generate distribution of host immunity from file}
 \usage{
 generateHostKDist(hostFile, N)
 }
 \arguments{
-\item{flags}{xx}
+\item{hostFile}{the file name to be read in (a csv file)}
 
-\item{hostpars}{xx}
-
-\item{viruspars}{xx}
-
-\item{start}{xx}
-
-\item{end}{xx}
-
-\item{output_files}{xx}
-
-\item{VERBOSE}{xx}
-
-\item{scenario}{xx}
-
-\item{callback}{xx}
+\item{N}{number of samples to generate}
+}
+\value{
+a vector of random K values of size N
 }
 \description{
-moar2
+Given a file which contains a column called "hostK", uses this column to generate a host K distribution as in \code{\link{generateHostKDist_2}}
+}
+\seealso{
+\code{\link{generateHostKDist_2}}
 }
 
