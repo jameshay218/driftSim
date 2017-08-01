@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Short-sighted evolution of Influenza cellular receptor binding avidity shapes influenza epidemic dynamics</title>
+
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Short-sighted evolution of Influenza cellular receptor binding avidity shapes influenza epidemic dynamics</h1>
+<h3 class="subtitle"><em>Within-host dynamics of influenza virus adaptation</em></h3>
+
+
+
+<div id="foreword" class="section level2">
+<h2>Foreword</h2>
+<p>The purpose of this vignette is to describe the theory behind the model of the <a href="http://www.github.com/jameshay218/driftSim">driftSim</a> package. Here, we will describe the model that governs the within-host dynamics of influenza binding avidity adaptation. Another way of understanding these equations is to check out the second (parameters) panel of the <code>driftSim</code> shiny app, which can be run with <code>driftSim::runSimulationApp()</code>. A useful piece of background reading can be found in a paper by <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3678328/">Yuan et al</a>.</p>
+<p>Note that this document does not describe the transmission model itself, which is described <a href>here</a>.</p>
+</div>
+<div id="model-equations" class="section level2">
+<h2>Model equations</h2>
+<p>The plots in the shiny app are governed by the equations shown below. These equations make up a model to represent how changes in binding avidity impact the various stages from host infection through to reinfection. The model also considers the immune history of the host, <span class="math inline">\(\textbf{h}\)</span>, and the level of immunity, <span class="math inline">\(k\)</span>, a host has, which is represented by the blue-red lines in the plots (blue <span class="math inline">\(k=0\)</span>, red <span class="math inline">\(k=k_{max}\)</span>). For the purposes of these plots, a higher value of <span class="math inline">\(k\)</span> simply represents higher levels of antibody-mediated immunity.</p>
+<div id="probability-of-evading-immune-system" class="section level3">
+<h3>1. Probability of evading immune system</h3>
+<p>After entering a host, the virus must first evade the immune response (Equation 1). Here, the probability of escaping the immune response increases as binding avidity increases as shown in plot C. The virus must also evade the host’s antibody-mediated immunity conferred from all previous infections (<span class="math inline">\(\textbf{h}\)</span>), adjusted by the antigenic distance between the infecting virus and the viruses that elicited the host’s previous antibody response.</p>
+<p>As hosts will have encountered a number of infections in their lifetime, the infection history <span class="math inline">\(\textbf{h}\)</span> for a given host is the vector of all viruses that the host has seen. This part of the model is described in greater detail in <a href>Section 3.3 of the accompanying vignette</a>.</p>
+<p>In summary, the level of immunity that a host has against an infecting virus is the sum of the host’s antibody repetoire less the minimum antigenic distance between the infecting virus and all past infections in the host’s immune history, represented by the term <span class="math inline">\(r(k - \delta_{ij})\)</span> below. <span class="math inline">\(i\)</span> represents the infecting strain and <span class="math inline">\(j\)</span> represents the most antigenically similar strain in the host’s infection history. The definition of antigenic distance is analagous to the concepts described by <a href="http://science.sciencemag.org/content/305/5682/371">Smith et al. 2004</a></p>
+<p>The rate of change of <span class="math inline">\(f\)</span> with respect to binding avidity is shown in plot E.</p>
+<span class="math display">\[\begin{equation}
+  f(k,\delta_{ij},V_i) = [1-e^{-p(V_i+q)}]^{r(k - \delta_{ij})}
+\end{equation}\]</span>
+<p>Where <span class="math inline">\(V_i\)</span> is the binding avidity of virus <span class="math inline">\(i\)</span>; <span class="math inline">\(k\)</span> is the total antibody titre of the host; <span class="math inline">\(\delta_{ij}\)</span> is the antigenic distance between strain <span class="math inline">\(i\)</span> and the host immunity virus, <span class="math inline">\(j\)</span>; and the remaining parameters are defined at the bottom of this document (or with <code>?exampleParameters</code> from the package).</p>
+</div>
+<div id="probability-of-successful-replication-within-host" class="section level3">
+<h3>2. Probability of successful replication within host</h3>
+<p>Binding avidity also affects how well a virus is able to replicate within the host, as described by Equation 2. This relationship is shown in plot A. The naive case (ie. <span class="math inline">\(k=0\)</span>) is shown in plot D.</p>
+<span class="math display">\[\begin{equation}
+g(V_i) = e^{-aV_i^b}
+\end{equation}\]</span>
+</div>
+<div id="probability-of-successful-within-host-infection" class="section level3">
+<h3>3. Probability of successful within host infection</h3>
+To successfully infect a host, the virus must escape the immune system (Equation 1) and successfully replicate (Equation 2). The probability of a successful within-host infection is given by:
+<span class="math display">\[\begin{equation}
+\phi(H_k,V_i) = f(k,\delta_{ij},V_i) \cdot g(V_i) = [1-e^{-p(V_i+q)}]^{r(k - \delta_{ij})} \cdot e^{-aV_i^b}
+\end{equation}\]</span>
+<p>Where <span class="math inline">\(H_k\)</span> represents the host with immunity <span class="math inline">\(k\)</span> and a known infection history such that <span class="math inline">\(H_k : \{k, \delta_{ij}\}\)</span>.</p>
+</div>
+<div id="within-host-reproductive-number" class="section level3">
+<h3>4. Within host reproductive number</h3>
+The within-host reproductive number is given by the product of the probability of successful within host infection, and the number of offspring virions produced per event:
+<span class="math display">\[\begin{equation}
+  R_{in} = n \cdot \phi(H_k,V_i)
+\end{equation}\]</span>
+</div>
+<div id="infectiousness" class="section level3">
+<h3>5. Infectiousness</h3>
+The infectiousness of a particular virus is therefore related to the within-host reproductive number and the number of initially infecting virions as follows:
+<span class="math display">\[\begin{equation}
+\rho = 1 - (\frac{1}{R_{in}})^{-v} = 1-(\frac{1}{\phi(H_k, V_i)})^{-nv}
+\end{equation}\]</span>
+</div>
+<div id="transmission-rate" class="section level3">
+<h3>6. Transmission rate</h3>
+The transmission rate between hosts, <span class="math inline">\(\beta\)</span>, is therefore given by the product of the infectiousness of that virus and the contact rate between hosts. This relationship is shown in plot B. The rate of change of <span class="math inline">\(\beta\)</span> with respect to binding avidity is shown in plot F.
+<span class="math display">\[\begin{equation}
+\beta = c \cdot \rho
+\end{equation}\]</span>
+</div>
+</div>
+<div id="parameter-descriptions" class="section level2">
+<h2>Parameter descriptions</h2>
+<ul>
+<li><span class="math inline">\(p\)</span>: parameter to control degree by which changes in binding avidity affect probability of escape from immune response</li>
+<li><span class="math inline">\(r\)</span>: parameter to control degree by which previous exposure reduce probability of immune escape</li>
+<li><span class="math inline">\(b\)</span>: parameter to control the shape of the relationship between probability of successful replication and changes in binding avidity</li>
+<li><span class="math inline">\(a\)</span>: controls rate of changes of relationship between probability of successful replication and change in binding avidity</li>
+<li><span class="math inline">\(c\)</span>: per day contact rate</li>
+<li><span class="math inline">\(n\)</span>: number of offspring per virus replication event</li>
+<li><span class="math inline">\(v\)</span>: number of virions initially transmitted</li>
+<li><span class="math inline">\(q\)</span>: parameter to control the shape of the relationship between binding avidity and immune escape (shift on the x-axis)</li>
+<li><span class="math inline">\(\delta\)</span>: antigenic distance between two viruses</li>
+</ul>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

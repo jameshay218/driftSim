@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Short-sighted evolution of influenza cellular receptor binding avidity shapes influenza epidemic dynamics</title>
+
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Short-sighted evolution of influenza cellular receptor binding avidity shapes influenza epidemic dynamics</h1>
+<h3 class="subtitle"><em>Transmission model</em></h3>
+
+
+
+<div id="foreword" class="section level2">
+<h2>1. Foreword</h2>
+<p>This is vignette describes the transmission model aspect of the binding avidity and antigenic drift simulation, <a href="http://www.github.com/jameshay218/driftSim"><code>driftSim</code></a>. You should refer to the README for instructions on how to use the package - this document is just intended to describe the model itself.</p>
+</div>
+<div id="sir-model" class="section level2">
+<h2>2. SIR model</h2>
+The heart of the simulation is a stochastic, agent based SIR model. The model can be described by the following set of ordinary differential equations:<br />
+
+<span class="math display">\[\begin{equation}
+\frac{dS}{dt} = \mu N - \beta SI - \mu S + \omega R\\
+\frac{dI}{dt} = \beta SI - (\mu + \gamma)I\\
+\frac{dR}{dt} = \gamma I - (\mu + \omega)R
+\end{equation}\]</span>
+<p><br />
+Where <span class="math inline">\(S\)</span> is the number of susceptible individuals; <span class="math inline">\(I\)</span> is the number of infected individuals; <span class="math inline">\(R\)</span> is the number of fully immune individuals; <span class="math inline">\(\mu\)</span> is the daily birth and death rate; <span class="math inline">\(\beta\)</span> is the transmission rate (see below); <span class="math inline">\(\omega\)</span> is the rate at which full, short term immunity wanes; and <span class="math inline">\(\gamma\)</span> is the recovery rate.</p>
+<p>The model can be approximately described by a set of difference equations which are implemented via a “<span class="math inline">\(\tau\)</span>-leap” algorithm to provide the stochastic, agent based form of the above SIR model. These equations are:</p>
+<br />
+
+<span class="math display">\[\begin{equation}
+S(t + \delta t) = S(t) + \delta M_B + \delta M_W - \delta M_T - \delta M_{D_S}\\
+I(t + \delta t) = I(t) + \delta M_T - \delta M_{D_I} - \delta M_R\\
+R(t + \delta t) = R(t) + \delta M_R - \delta M_W - \delta M_{D_R}
+\end{equation}\]</span>
+<p><br />
+Where the nomencalture of <span class="math inline">\(\delta M_X\)</span> describes the number of events of type <span class="math inline">\(X\)</span> that occur within a small, fixed time interval, <span class="math inline">\(\delta t\)</span>. These number of events that occur is approximately Poisson distributed such that:</p>
+<br />
+
+<span class="math display">\[\begin{equation}
+\delta M_B \approx \text{Poisson}(\mu N \delta t)\\
+\delta M_T \approx \text{Poisson}(\beta SI \delta t)\\
+\delta M_{D_S} \approx \text{Poisson}(\mu S \delta t)\\
+\delta M_{D_I} \approx \text{Poisson}(\mu I \delta t)\\
+\delta M_{D_R} \approx \text{Poisson}(\mu R \delta t)\\
+\delta M_R \approx \text{Poisson}(\gamma I \delta t)\\
+\delta M_W \approx \text{Poisson}(\omega R \delta t)
+\end{equation}\]</span>
+<p><br />
+Please refer to Chapter 6 of <a href="http://www.modelinginfectiousdiseases.org/">Keeling and Rohani</a> for more information.</p>
+</div>
+<div id="transmission-probabilities" class="section level2">
+<h2>3. Transmission probabilities</h2>
+<p>The core theoretical aspect of this model is the transmission rate, <span class="math inline">\(\beta\)</span>. This parameter is conditional on both properties of the host population and properties of the infecting virus. We will describe the parts of this parameter that are directly relevant to the tranmission model below, but readers should refer to the other <a href="to%20add">vignette</a> on within-host properties for a full description of the relationship between host immunity and binding avidity on transmission.</p>
+<div id="host-population-parameters" class="section level3">
+<h3>3.1 Host population parameters</h3>
+<p>There are two key properties of individual hosts that mediate transmission probability in this model:</p>
+<ul>
+<li>The daily contact rate, <span class="math inline">\(c\)</span></li>
+<li>The level of adaptive immunity, <span class="math inline">\(k\)</span>, that a given susceptible individual has against a particular infecting virus</li>
+</ul>
+<p>Whilst the contact rate has a straightforward interpretation (average number of contacts made by an individual per day), the level of effective adaptive immunity against a given virus is slightly more complicated.</p>
+<p>If a host is infected and then recovers, we assume that that host generates an antibody boost of <span class="math inline">\(k\)</span> units, drawn from a Poisson distribution with mean <span class="math inline">\(\sigma\)</span> upon recovery. However, we assume that the level of boosting is inversely proportional to the amount of antibody already present, such that the realised boost is given by:</p>
+<span class="math display">\[\begin{equation}
+k_{new} = k_{cur} + \text{Poisson}(\sigma - \frac{\sigma}{k_{max}}k_{cur})
+\end{equation}\]</span>
+<p>Where <span class="math inline">\(k_{new}\)</span> is the antibody titre following recovery; <span class="math inline">\(k_{cur}\)</span> is the antibody titre before recovery; <span class="math inline">\(\sigma\)</span> is the mean level of unmediated boost; and <span class="math inline">\(k_{max}\)</span> is the maximum achievable antibody titre. See <a href="https://www.ncbi.nlm.nih.gov/pubmed/25835513">Jacobson et al. 2015</a> for a gateway into the literature on antibody ceiling effects. Also refer to <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=kucharski+antigenic+seniority">Kucharski et al. 2015</a> for antibody boosting in the context of epidemiological models.</p>
+</div>
+<div id="virus-properties" class="section level3">
+<h3>3.2 Virus properties</h3>
+<p>The key feature of adaptive immunity in this model is that the total level of immunity a host has, <span class="math inline">\(k\)</span>, is not fully effective against novel viruses, similar to the idea of antigenic cartography or antibody landscapes described by <a href="http://science.sciencemag.org/content/346/6212/996">Fonville et al. 2014</a>. In this model, we consider each unique infection (infectee strain) to generate a novel virus phenotype with some antigenic distance, <span class="math inline">\(\delta\)</span> to it’s parent (infector strain). In terms of model implementation, this means that we record every individual virus that causes an infection; the host that this virus infects and the identity of the parent virus such that we can reconstruct an entire phylogeny.</p>
+<p>We choose an arbitrary virus to represent the “root” of the virus phylogenetic tree, such that the “antigenic distance” of a given virus <span class="math inline">\(i\)</span>, <span class="math inline">\(\delta_i\)</span> is given as the antigenic distance from <span class="math inline">\(i\)</span> to this root virus unless otherwise specified. Similarly, <span class="math inline">\(\delta_{ij}\)</span> denotes the antigenic distance between viruses <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>. The antigenic distance to self is always 0, such that hosts have fully effective immunity against a strain that they have seen before.</p>
+<p>In the basic form of the model where there is no antigenic drift, this antigenic distance is fixed at 0, such that exposure to any virus within a given phylogeny elicits full antibody-mediated immunity to all other viruses. In the case where we allow antigenic drift, we assume that <em>once</em> during an infection, there may be a mutation event, denoted <span class="math inline">\(m\)</span>, with some probability denoted by <span class="math inline">\(P(m)\)</span>. If <span class="math inline">\(m\)</span> occurs, an antigenic change is drawn from an exponential distribution such that the new antigenic distance to root is given by:</p>
+<span class="math display">\[\begin{equation}
+\delta_{new} = \delta_{cur} + \text{Exp}(\Delta)
+\end{equation}\]</span>
+<p>Where <span class="math inline">\(\Delta\)</span> is the mean of the exponential distribution. The resulting behaviour is that most infections result in very small antigenic changes, whereas occasional large antigenic jumps are observed; thereby rendering the host population effectively naive.</p>
+</div>
+<div id="effective-immunity" class="section level3">
+<h3>3.3 Effective immunity</h3>
+We combine the properties of host immunity and antigenic distance to give a measure of effective immunity, <span class="math inline">\(J\)</span>, for a given host against an infecting virus. When hosts recover from infection with a particular virus, <span class="math inline">\(\upsilon_i\)</span>, the identity of this virus is stored in the host’s infection history (in addition to the host receiving a boost in antibody titre). In the context of immunity, any given susceptible host, <span class="math inline">\(s\)</span> is therefore defined by the contents of their infection history, <span class="math inline">\(\textbf{h}\)</span>, and their total antibody titre, <span class="math inline">\(k\)</span>:<br />
+
+<span class="math display">\[\begin{equation}
+s : \{\textbf{h}, k\}\\
+\textbf{h} = (\upsilon_1, \upsilon_2, \dots \upsilon_n)
+\end{equation}\]</span>
+<p><br />
+Upon contact with an infected host who is infected with virus <span class="math inline">\(j\)</span> (<span class="math inline">\(\upsilon_j\)</span>), the level of effective immunity, <span class="math inline">\(J\)</span>, host <span class="math inline">\(s\)</span> has against virus <span class="math inline">\(\upsilon_j\)</span> is given by the total antibody titre less the smallest antigenic distance between <span class="math inline">\(\upsilon_j\)</span> and all viruses in the host’s immune history <span class="math inline">\(\textbf{h}\)</span>:</p>
+<span class="math display">\[\begin{equation}
+J = k - \text{min}(\delta_{ij}), i \in \textbf{h}
+\end{equation}\]</span>
+<p>Where we ensure that <span class="math inline">\(J \geq 0\)</span>.</p>
+<p>This <span class="math inline">\(J\)</span> feeds into the “probability of evading immune system” term described in the <a href>accompanying vignette</a>, which ultimately defines the level of infectiousness, <span class="math inline">\(\rho\)</span>. The transmission rate is then defined as:</p>
+<span class="math display">\[\begin{equation}
+\beta = c \cdot \rho
+\end{equation}\]</span>
+<p>If a host is successfully infected with a virus, <span class="math inline">\(\upsilon_i\)</span>, then this virus is added to the infection history such that:</p>
+<span class="math display">\[\begin{equation}
+\textbf{h}_{new} = \textbf{h} \cup \{\upsilon_i\}
+\end{equation}\]</span>
+</div>
+</div>
+<div id="virus-phylogeny" class="section level2">
+<h2>4. Virus phylogeny</h2>
+<p>Each successful infection creates a new virus from the infecting parent virus. In other words, the total number of distinct viruses is equal to the total incidence. As each virus is a direct descendent of its parent, the new infecting virus shares the properties of the parent at the time of infection, <span class="math inline">\(t_0\)</span>. Five key properties are stored for each virus:</p>
+<ol style="list-style-type: decimal">
+<li>The binding avidity at time of infection, <span class="math inline">\(V_0\)</span></li>
+<li>The current binding avidity, <span class="math inline">\(V\)</span></li>
+<li>The ID of the parent virus, <span class="math inline">\(j\)</span></li>
+<li>The antigenic distance from parent, <span class="math inline">\(\delta_{ij}\)</span> where <span class="math inline">\(i\)</span> is the virus and <span class="math inline">\(j\)</span> is the parent virus</li>
+<li>The ID of the host that the virus infected (for implementation purposes)</li>
+</ol>
+<p>The full virus phylogeny can easily be reconstructed using property 3. Taking each extant virus, create a link to its parent virus, then create a link to its parent’s parent etc. until the root virus is found. Similarly, the antigenic distance between any two viruses can be calculated using the following pseudocode:</p>
+<pre class="r{eval=false}"><code>## Algorithm to find antigenic distance between two viruses
+1. distance &lt;- 0
+2. A &lt;- number of parent viruses to root of virus i
+3. B &lt;- number of parent viruses to root of virus j
+4. Swap A and B such that A is the virus with fewest ancestors to root
+5. while A &lt; B:
+6.    p &lt;- parent of i
+7.    distance &lt;- distance + distance between i and p
+8.    i &lt;- p
+9.    A &lt;- number of parent virsuses to root of i
+10. if i == j:
+11.    return distance
+12. p_i &lt;- parent of i
+13. p_j &lt;- parent of j
+14. distance &lt;- distance + (distance between i and p_i) + (distance between j and p_j)
+## Note that here, i == NULL implies that i has no parent virus (ie. is the root virus)
+15. while p_i != NULL &amp;&amp; p_j != NULL &amp;&amp; p_i != p_i:
+16.    i &lt;- p_i
+17.    j &lt;- p_j
+18.    p_i &lt;- parent of i
+19.    p_j &lt;- parent of j
+20.    distance &lt;- distance + (distance between i and p_i) + (distance between j and p_j)
+21.    if(p_i == p_j == NULL) distance &lt;- Inf
+22. return distance</code></pre>
+</div>
+<div id="adaptive-binding-avidity" class="section level2">
+<h2>5. Adaptive binding avidity</h2>
+<p>In addition to antigenic drift described above, the binding avidity of a given virus, <span class="math inline">\(V_i\)</span>, adapts to level of immune selection pressure elicited by the host during the course of infection. We assume that in a given time step, <span class="math inline">\(\delta t\)</span>, during infection, binding avidity changes proportional to the fitness gradient at the current binding avidity level. We define the fitness gradient as proportional to the derivative of the within-host reproductive number, <span class="math inline">\(R_{in}\)</span>, with respect to binding avidity. We assume that the binding avidity trait moves “towards” the value that gives the greatest <span class="math inline">\(R_{in}\)</span> over time. Based on <span class="math inline">\(f(k, \delta_{ij}, V_i)\)</span> and <span class="math inline">\(g(V_i)\)</span> as defined in the accompanying <a href>vignette</a>, the rate of change of binding avidity with respect to time is given by:</p>
+<span class="math display">\[\begin{equation}
+\frac{dV}{dt} = \frac{dR_{in}}{dV} = g(V)f'(J,V_i) + g'(V)f(J,V_i)
+\end{equation}\]</span>
+<p>Where <span class="math inline">\(J = k - \delta_{ij}\)</span> as defined above.</p>
+<p>To avoid solving this equation numerically for every time step for each adapting virus, we pre-compute a table of expected binding avidity change for a set of given binding avidities and host immunity values within a small time step, <span class="math inline">\(\delta t\)</span>.</p>
+In other words, after each time step the new binding avidity of a given virus is calculated as:
+<span class="math display">\[\begin{equation}
+V_{new} = V_{cur} + k_co(\delta t, V_{cur}, J)
+\end{equation}\]</span>
+<p>Where <span class="math inline">\(o(\delta_t, V_{cur}, J)\)</span> is found by solving the ODEs above for the time step <span class="math inline">\(\delta t\)</span> given a current binding avidity value <span class="math inline">\(V_{cur}\)</span> and level of effective host immunity <span class="math inline">\(J\)</span> as described above. <span class="math inline">\(k_c\)</span> is a constant of proportionality.</p>
+<p>We approximate these continuous traits by pre-computing the amount of change in time step <span class="math inline">\(\delta t\)</span>, <span class="math inline">\(o\)</span>, for a set of discrete values of <span class="math inline">\(J\)</span> and <span class="math inline">\(V\)</span>. We store these in a matrix <span class="math inline">\(O\)</span>:</p>
+<span class="math display">\[\begin{equation}
+O = \begin{bmatrix}
+    o_{V_1,J_1} &amp; o_{V_1,J_2} &amp; o_{V_1,J_3} &amp; \dots  &amp; o_{V_1,J_n} \\
+    o_{V_2,J_1} &amp; o_{V_2,J_2} &amp; o_{V_2,J_3} &amp; \dots  &amp; o_{V_,J_2n} \\
+    \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+    o_{V_d,J_1} &amp; o_{V_d,J_2} &amp; o_{V_d,J_3} &amp; \dots  &amp; o_{V_d,J_n}
+    \end{bmatrix}
+\end{equation}\]</span>
+Where:
+<span class="math display">\[\begin{equation}
+V_{d+1} = V_d + \delta V\\
+J_{n + 1} = J_{n} + \delta J\\
+J = J_n \text{ if } J_n \leq J &lt; J_{n + 1}\\
+V_{cur} = V_d \text{ if } V_d \leq V_{cur} &lt; V_{d + 1}
+\end{equation}\]</span>
+<p><span class="math inline">\(\delta V\)</span> and <span class="math inline">\(\delta J\)</span> are chosen to be sufficiently small to allow a good trade off between accuracy and run time/memory usage.</p>
+<p>Finally, we add an optional extra mechanism to describe how antigenic changes may occur as a by-product of binding avidity adaptation, such that:</p>
+<span class="math display">\[\begin{equation}
+\delta_{new} = \delta_{cur} + \xi|o_{V_{cur}, J}|
+\end{equation}\]</span>
+<p>Where <span class="math inline">\(\xi\)</span> is a constant of proportionality. Furthermore, we note that <span class="math inline">\(J\)</span> will also change as <span class="math inline">\(\delta\)</span> changes.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

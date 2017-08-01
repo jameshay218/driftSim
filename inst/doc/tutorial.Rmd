@@ -1,0 +1,23 @@
+---
+title: "The Effect of Influenza Receptor Binding Avidity on Antigenic Drift"
+output: rmarkdown::html_vignette
+author: "James Hay"
+date: "31 July 2017"
+vignette: >
+  %\VignetteIndexEntry{science}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+library(driftSim)
+knitr::opts_chunk$set(echo = TRUE, fig.width=7,fig.height=6,
+                      message=FALSE, results=FALSE,warning=FALSE)
+```
+
+## Foreword
+
+
+##
+
+##

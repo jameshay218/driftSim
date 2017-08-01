@@ -162,6 +162,7 @@ plot_SIR <- function(dat){
 #' @param maxV the maximum binding avidity to calculate for
 #' @param maxK the maximum achievable antibody titre in which the virus will have to adapt
 #' @param step over how much time does this adaptation take place? usually 1 day
+#' @return a numeric matrix
 #' @export
 calculate_deltaV_matrix <- function(viruspars, maxV=3,maxK=25, step = 1){
     message("Calculating deltaV matrix...")

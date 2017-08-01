@@ -1,12 +1,16 @@
----
-title: "Short-sighted evolution of influenza cellular receptor binding avidity shapes influenza epidemic dynamics"
-author: "James Hay"
----
+# driftSim
+> Short-sighted evolution of influenza cellular receptor binding avidity shapes influenza epidemic dynamics
 
 
 [![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
 
 This git repository contains all of the code needed to run the binding avidity adaptation project either through command line or the accompanying shiny app.
+
+If you are using this app, you will likely be familiar enough with the code to get going already, or have sufficient knowledge to work from the detailed [vignette](). However, if you just want to get the app installed and running, see the minimal examples below.
+
+The essential scientific documentation of the model and what it aims to achieve can be found [here]().
+
+
 
 ## Background
 This project is a continuation of previously [published work](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3678328/). Here, we are interested in the hypothesis that within-host cellular binding avidity changes of influenza viruses play an important role in the evolutionary dynamics of influenza. Furthermore, we consider how antigenic drift interacts with binding avidity on an evolutionary basis. This package contains an implementation of an inidividual based model that incorporates binding avidity as a virus property, human host immunity, antigenic drift, and SIR dynamics in a host population.
