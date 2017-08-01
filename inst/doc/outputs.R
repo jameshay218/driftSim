@@ -30,7 +30,7 @@ plot_SIR(sir)
 ## ----fig.width=7,fig.height=10-------------------------------------------
 ## Read in virus output data
 tmp <- data.table::fread("voutput_characteristics.csv",data.table=TRUE)
-dt <- data.table(tmp)
+dt <- data.table::data.table(tmp)
 
 ## Get mean and 95% CI of distance to root over time
 means <- data.frame(dt[,list(mean=mean(distRoot)),by=birth])
