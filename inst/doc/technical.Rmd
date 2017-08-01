@@ -43,16 +43,19 @@ plot_SIR(sir)
 ## 2. Model scenarios
 There are 4 different scenarios that can be run, specified by the `scenario` argument. By specifying the scenario from 1-4, the user can turn on or off particular mechanisms relating to binding avidity adaptation and antigenic drift. Descriptions can be found using the `scenario_descriptions` function:
 
-1. **Random anigenic drift only. Binding avidity fixed**. This is the "base" form of the model. Binding avidity is fixed at whatever value was set in the `hostpars` argument, specifically `hostpars["iniBind"]`. Note that this is the version to use with fixed antigenic distance by setting `viruspars["probMut"] <- 0`.
+1. **Random anigenic drift only. Binding avidity fixed**. This is the "base" form of the model. Binding avidity is fixed at whatever value was set in the `hostpars` argument, specifically `hostpars["iniBind"]`. Note that this is the version to use with fixed antigenic distance by setting `viruspars["probMut"] <- 0`
+
 2. **No drift; adaptive binding avidity; adaptive antigenic change. Binding avidity adaptation and antigenic change proportional to binding avidity change**. This version of the model allows binding avidity of a particular virus to adapt to the host's immune state. Antigenic distance does not change from random drift, but there is antigenic change proportional to the amount of binding avidity adaptation (`viruspars["VtoD"]`). The parameter `viruspars["kc"]` specifies how quickly binding avidity adapts, and the matrix produced by `calculate_deltaV_matrix` generates the amount of change different values of binding avidity and host immunity. See the bottom of the following [vignette](https://jameshay218.github.io/driftSim/inst/doc/transmission_model.html)
-3.**Random drift, binding avidity adaptation and antigenic change from binding avidity change**. As above but antigenic drift occurs as in scenario 1 in addition to antigenic change as a byproduct of binding avidity adaptation. Make sure `viruspars["probMut"]` is above 0.
-4. **Random drift and binding avidity adaptation (no binding avidity related antigenic change)**. As above, but antigenic distance does **not** change with binding avidity adaptation, regardless of the the value for `viruspars["VtoD"]`.
+
+3.**Random drift, binding avidity adaptation and antigenic change from binding avidity change**. As above but antigenic drift occurs as in scenario 1 in addition to antigenic change as a byproduct of binding avidity adaptation. Make sure `viruspars["probMut"]` is above 0
+
+4. **Random drift and binding avidity adaptation (no binding avidity related antigenic change)**. As above, but antigenic distance does **not** change with binding avidity adaptation, regardless of the the value for `viruspars["VtoD"]`
 
 ## 3. Input flags
 The input flags can be confusing - it might not be quite clear what they each do. Descriptions of these are below, along with use cases for the host input flags. Please refer to `?exampleParameters` to get an idea of what these flags look like.
 
 1. **SIR_flag**: If set to TRUE, then the SIR dynamics (ie. number of S, I and R at each time step) are saved to the file specified by `output_files[1]`. If using this, ensure that you have specified the output file location to avoid unexpected results.
-2. **voutput_phylogenetic_flag**: If set to TRUE, then properties of all of the simulation generated viruses are saved as a table. Refer to the summary of [model output files](https://jameshay218.github.io/driftSim/inst/doc/outputs.html). Again, make sure that the file location as specified by `output_files[2]` is correct.
+2. **voutput_phylogenetic_flag**: If set to TRUE, then properties of all of the simulation generated viruses are saved as a table. Refer to the summary of [model output files](https://jameshay218.github.io/driftSim/inst/doc/outputs.html). Again, make sure that the file location as specified by `output_files[2]` is correct
 3. **voutput_pairwise_flag**: If set to TRUE, saves a random sample of 1000 viruses to a matrix giving the antigenic distance between every pair of viruses. The output location for this is set with `output_files[3]`. Refer to the summary of [model output files](https://jameshay218.github.io/driftSim/inst/doc/outputs.html)
 4.**time_flag**: If set to TRUE, records the actual run time of the simulation and prints this to the console upon completion.
 5. **save_state**: If set to TRUE, saves key properties of the *host* population to the file specified by `output_files[4]`. Refer to the summary of [model output files](https://jameshay218.github.io/driftSim/inst/doc/outputs.html)
