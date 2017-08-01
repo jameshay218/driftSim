@@ -32,6 +32,19 @@
 <h3 class="subtitle"><em>Transmission model</em></h3>
 
 
+<div id="TOC">
+<ul>
+<li><a href="#foreword">1. Foreword</a></li>
+<li><a href="#sir-model">2. SIR model</a></li>
+<li><a href="#transmission-probabilities">3. Transmission probabilities</a><ul>
+<li><a href="#host-population-parameters">3.1 Host population parameters</a></li>
+<li><a href="#virus-properties">3.2 Virus properties</a></li>
+<li><a href="#effective-immunity">3.3 Effective immunity</a></li>
+</ul></li>
+<li><a href="#virus-phylogeny">4. Virus phylogeny</a></li>
+<li><a href="#adaptive-binding-avidity">5. Adaptive binding avidity</a></li>
+</ul>
+</div>
 
 <div id="foreword" class="section level2">
 <h2>1. Foreword</h2>
@@ -74,7 +87,7 @@ Please refer to Chapter 6 of <a href="http://www.modelinginfectiousdiseases.org/
 </div>
 <div id="transmission-probabilities" class="section level2">
 <h2>3. Transmission probabilities</h2>
-<p>The core theoretical aspect of this model is the transmission rate, <span class="math inline">\(\beta\)</span>. This parameter is conditional on both properties of the host population and properties of the infecting virus. We will describe the parts of this parameter that are directly relevant to the tranmission model below, but readers should refer to the other <a href="to%20add">vignette</a> on within-host properties for a full description of the relationship between host immunity and binding avidity on transmission.</p>
+<p>The core theoretical aspect of this model is the transmission rate, <span class="math inline">\(\beta\)</span>. This parameter is conditional on both properties of the host population and properties of the infecting virus. We will describe the parts of this parameter that are directly relevant to the tranmission model below, but readers should refer to the other <a href="https://jameshay218.github.io/driftSim/inst/doc/science.html">vignette</a> on within-host properties for a full description of the relationship between host immunity and binding avidity on transmission.</p>
 <div id="host-population-parameters" class="section level3">
 <h3>3.1 Host population parameters</h3>
 <p>There are two key properties of individual hosts that mediate transmission probability in this model:</p>
@@ -113,7 +126,7 @@ Upon contact with an infected host who is infected with virus <span class="math 
 J = k - \text{min}(\delta_{ij}), i \in \textbf{h}
 \end{equation}\]</span>
 <p>Where we ensure that <span class="math inline">\(J \geq 0\)</span>.</p>
-<p>This <span class="math inline">\(J\)</span> feeds into the “probability of evading immune system” term described in the <a href>accompanying vignette</a>, which ultimately defines the level of infectiousness, <span class="math inline">\(\rho\)</span>. The transmission rate is then defined as:</p>
+<p>This <span class="math inline">\(J\)</span> feeds into the “probability of evading immune system” term described in the <a href="https://jameshay218.github.io/driftSim/inst/doc/science.html">accompanying vignette</a>, which ultimately defines the level of infectiousness, <span class="math inline">\(\rho\)</span>. The transmission rate is then defined as:</p>
 <span class="math display">\[\begin{equation}
 \beta = c \cdot \rho
 \end{equation}\]</span>
@@ -161,9 +174,9 @@ J = k - \text{min}(\delta_{ij}), i \in \textbf{h}
 </div>
 <div id="adaptive-binding-avidity" class="section level2">
 <h2>5. Adaptive binding avidity</h2>
-<p>In addition to antigenic drift described above, the binding avidity of a given virus, <span class="math inline">\(V_i\)</span>, adapts to level of immune selection pressure elicited by the host during the course of infection. We assume that in a given time step, <span class="math inline">\(\delta t\)</span>, during infection, binding avidity changes proportional to the fitness gradient at the current binding avidity level. We define the fitness gradient as proportional to the derivative of the within-host reproductive number, <span class="math inline">\(R_{in}\)</span>, with respect to binding avidity. We assume that the binding avidity trait moves “towards” the value that gives the greatest <span class="math inline">\(R_{in}\)</span> over time. Based on <span class="math inline">\(f(k, \delta_{ij}, V_i)\)</span> and <span class="math inline">\(g(V_i)\)</span> as defined in the accompanying <a href>vignette</a>, the rate of change of binding avidity with respect to time is given by:</p>
+<p>In addition to antigenic drift described above, the binding avidity of a given virus, <span class="math inline">\(V_i\)</span>, adapts to level of immune selection pressure elicited by the host during the course of infection. We assume that in a given time step, <span class="math inline">\(\delta t\)</span>, during infection, binding avidity changes proportional to the fitness gradient at the current binding avidity level. We define the fitness gradient as proportional to the derivative of the within-host reproductive number, <span class="math inline">\(R_{in}\)</span>, with respect to binding avidity. We assume that the binding avidity trait moves “towards” the value that gives the greatest <span class="math inline">\(R_{in}\)</span> over time. Based on <span class="math inline">\(f(k, \delta_{ij}, V_i)\)</span> and <span class="math inline">\(g(V_i)\)</span> as defined in the accompanying <a href="https://jameshay218.github.io/driftSim/inst/doc/science.html">vignette</a>, the rate of change of binding avidity with respect to time is given by:</p>
 <span class="math display">\[\begin{equation}
-\frac{dV}{dt} = \frac{dR_{in}}{dV} = g(V)f'(J,V_i) + g'(V)f(J,V_i)
+\frac{dV}{dt} = \frac{dR_{in}}{dV} = g(V_i)f'(J,V_i) + g'(V_i)f(J,V_i)
 \end{equation}\]</span>
 <p>Where <span class="math inline">\(J = k - \delta_{ij}\)</span> as defined above.</p>
 <p>To avoid solving this equation numerically for every time step for each adapting virus, we pre-compute a table of expected binding avidity change for a set of given binding avidities and host immunity values within a small time step, <span class="math inline">\(\delta t\)</span>.</p>

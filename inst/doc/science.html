@@ -32,11 +32,26 @@
 <h3 class="subtitle"><em>Within-host dynamics of influenza virus adaptation</em></h3>
 
 
+<div id="TOC">
+<ul>
+<li><a href="#foreword">Foreword</a></li>
+<li><a href="#model-equations">Model equations</a><ul>
+<li><a href="#probability-of-evading-immune-system">1. Probability of evading immune system</a></li>
+<li><a href="#probability-of-successful-replication-within-host">2. Probability of successful replication within host</a></li>
+<li><a href="#probability-of-successful-within-host-infection">3. Probability of successful within host infection</a></li>
+<li><a href="#within-host-reproductive-number">4. Within host reproductive number</a></li>
+<li><a href="#infectiousness">5. Infectiousness</a></li>
+<li><a href="#transmission-rate">6. Transmission rate</a></li>
+</ul></li>
+<li><a href="#derivatives">7. Derivatives</a></li>
+<li><a href="#parameter-descriptions">Parameter descriptions</a></li>
+</ul>
+</div>
 
 <div id="foreword" class="section level2">
 <h2>Foreword</h2>
 <p>The purpose of this vignette is to describe the theory behind the model of the <a href="http://www.github.com/jameshay218/driftSim">driftSim</a> package. Here, we will describe the model that governs the within-host dynamics of influenza binding avidity adaptation. Another way of understanding these equations is to check out the second (parameters) panel of the <code>driftSim</code> shiny app, which can be run with <code>driftSim::runSimulationApp()</code>. A useful piece of background reading can be found in a paper by <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3678328/">Yuan et al</a>.</p>
-<p>Note that this document does not describe the transmission model itself, which is described <a href>here</a>.</p>
+<p>Note that this document does not describe the transmission model itself, which is described <a href="https://jameshay218.github.io/driftSim/inst/doc/transmission_model.html">here</a>.</p>
 </div>
 <div id="model-equations" class="section level2">
 <h2>Model equations</h2>
@@ -44,7 +59,7 @@
 <div id="probability-of-evading-immune-system" class="section level3">
 <h3>1. Probability of evading immune system</h3>
 <p>After entering a host, the virus must first evade the immune response (Equation 1). Here, the probability of escaping the immune response increases as binding avidity increases as shown in plot C. The virus must also evade the host’s antibody-mediated immunity conferred from all previous infections (<span class="math inline">\(\textbf{h}\)</span>), adjusted by the antigenic distance between the infecting virus and the viruses that elicited the host’s previous antibody response.</p>
-<p>As hosts will have encountered a number of infections in their lifetime, the infection history <span class="math inline">\(\textbf{h}\)</span> for a given host is the vector of all viruses that the host has seen. This part of the model is described in greater detail in <a href>Section 3.3 of the accompanying vignette</a>.</p>
+<p>As hosts will have encountered a number of infections in their lifetime, the infection history <span class="math inline">\(\textbf{h}\)</span> for a given host is the vector of all viruses that the host has seen. This part of the model is described in greater detail in <a href="https://jameshay218.github.io/driftSim/inst/doc/transmission_model.html">Section 3.3 of the accompanying transmission model vignette</a>.</p>
 <p>In summary, the level of immunity that a host has against an infecting virus is the sum of the host’s antibody repetoire less the minimum antigenic distance between the infecting virus and all past infections in the host’s immune history, represented by the term <span class="math inline">\(r(k - \delta_{ij})\)</span> below. <span class="math inline">\(i\)</span> represents the infecting strain and <span class="math inline">\(j\)</span> represents the most antigenically similar strain in the host’s infection history. The definition of antigenic distance is analagous to the concepts described by <a href="http://science.sciencemag.org/content/305/5682/371">Smith et al. 2004</a></p>
 <p>The rate of change of <span class="math inline">\(f\)</span> with respect to binding avidity is shown in plot E.</p>
 <span class="math display">\[\begin{equation}
@@ -88,6 +103,18 @@ The transmission rate between hosts, <span class="math inline">\(\beta\)</span>,
 \beta = c \cdot \rho
 \end{equation}\]</span>
 </div>
+</div>
+<div id="derivatives" class="section level2">
+<h2>7. Derivatives</h2>
+<p>The rate of binding avidity adaptation of a virus within a given host is assumed to be proportional to the derivate of <span class="math inline">\(R_{in}\)</span> with respect to binding avidity:</p>
+<span class="math display">\[\begin{equation}
+\frac{dV}{dt} = \frac{dR_{in}}{dV} = g(V_i)f'(J,V_i) + g'(V_i)f(J,V_i)
+\end{equation}\]</span>
+<p>Where <span class="math inline">\(J = k - \delta_{ij}\)</span>, and the derivaties for <span class="math inline">\(g(V)\)</span> and <span class="math inline">\(f(J, V)\)</span> are given by:</p>
+<span class="math display">\[\begin{equation}
+g'(V) = -abV^{b-1}e^{-a(V^b)}\\
+f'(J, V) = prJ(1-e^{-p(V+q)})^{rJ-1}e^{-p(V + q)}
+\end{equation}\]</span>
 </div>
 <div id="parameter-descriptions" class="section level2">
 <h2>Parameter descriptions</h2>

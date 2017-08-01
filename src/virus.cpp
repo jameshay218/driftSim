@@ -41,7 +41,7 @@ Virus::Virus(int _id, int _birth, int _death, Virus* _parent, int _level, double
   changeFromR = changeR;
 }
 
-Virus::Virus(Virus* _parent, Host* _host, int _t, double _distHost, double _infectionNo){
+Virus::Virus(Virus* _parent, Host* _host, int _t, double _distToHost, double _infectionNo){
   death=-1;
   id = v_IDgenerator++;
   birth = _t;
@@ -60,7 +60,7 @@ Virus::Virus(Virus* _parent, Host* _host, int _t, double _distHost, double _infe
   }
   host = _host;
   tmpK = _host->get_hostK();
-  distToHost = _distHost;
+  distToHost = _distToHost;
   changeFromV = changeFromR = 0;
 }
 

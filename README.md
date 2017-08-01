@@ -6,11 +6,20 @@
 
 This git repository contains all of the code needed to run the binding avidity adaptation project either through command line or the accompanying shiny app.
 
-If you are using this app, you will likely be familiar enough with the code to get going already, or have sufficient knowledge to work from the detailed [vignette](). However, if you just want to get the app installed and running, see the minimal examples below.
+If you are using this app, you will likely be familiar enough with the code to get going already, or have sufficient knowledge to work from the detailed vignettes listed here:
 
-The essential scientific documentation of the model and what it aims to achieve can be found [here]().
+1. Summary of within-host aspect of the model - [the relationship between binding avidity, host immunity and transmission](https://jameshay218.github.io/driftSim/inst/doc/science.html).
+2. Summary of [transmission model](https://jameshay218.github.io/driftSim/inst/doc/transmission_model.html).
+3. Summary of [model output files](https://jameshay218.github.io/driftSim/inst/doc/outputs.html).
+4. Technical [summary](https://jameshay218.github.io/driftSim/inst/doc/technical.html) of `driftSim`.
 
+However, if you just want to get the app installed and running, see the minimal examples below.
 
+## To do
+1. Profile C++ code
+2. Add reseeding code. This will take a sample of extant viruses at a given time, set this to one side and let it mutate, and then re-seed the epidemic with this virus at a later time
+3. Virus phylogeny thinning. Every *n* steps, remove a number of viruses from the simulation, replacing each removed virus with its closests relative. This will slightly reduce accuracy, but should allow longer, bigger simulations to be run much quicker.
+4. Full tests.
 
 ## Background
 This project is a continuation of previously [published work](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3678328/). Here, we are interested in the hypothesis that within-host cellular binding avidity changes of influenza viruses play an important role in the evolutionary dynamics of influenza. Furthermore, we consider how antigenic drift interacts with binding avidity on an evolutionary basis. This package contains an implementation of an inidividual based model that incorporates binding avidity as a virus property, human host immunity, antigenic drift, and SIR dynamics in a host population.
@@ -48,7 +57,7 @@ plot_SIR(sir)
 ## Usage 2 - shiny app
 The shiny app is intended for the following three uses:
 * Parameter exploration for binding avidity and within-host survival dynamics
-* Interface to the Cpp simulation, allowing the user to vary the parameter inputs and view SIR dynamics from the 3-4 scenarios.
+* Interface to the Cpp simulation, allowing the user to vary the parameter inputs and view SIR dynamics from the 1-4 scenarios.
 * View of the virus phylogenies using results from the simulation run. This will use Sean’s matlab code or a .exe
 ```r
 library(driftSim)

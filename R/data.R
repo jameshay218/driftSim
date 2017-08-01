@@ -27,10 +27,10 @@
 #' \item{b: parameter to control the shape of the relationship between probability of successful replication and changes in binding avidity}
 #' \item{n: number of offspring per virus replication event}
 #' \item{v: number of virions initially transmitted}
-#' \item{probMut: Probability of an mutation in antigenic properties in a given infection}
+#' \item{probMut: Probability of a mutation in antigenic properties in a given infection}
 #' \item{expDist: Average of the exponential distribution from which the size of antigenic mutatations is drawn}
 #' \item{kc: Rate of binding avidity adaptation}
-#' \item{VtoD: Proportion of mediating how much antigenic change occurs given a unit of binding avidity change}
+#' \item{VtoD: Proportion mediating how much antigenic change occurs given a unit of binding avidity change}
 #' }}
 #' \item{\strong{flags}, the vector of flags for saving output options:
 #' \itemize{

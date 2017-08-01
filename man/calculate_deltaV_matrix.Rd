@@ -15,6 +15,9 @@ calculate_deltaV_matrix(viruspars, maxV = 3, maxK = 25, step = 1)
 
 \item{step}{over how much time does this adaptation take place? usually 1 day}
 }
+\value{
+a numeric matrix
+}
 \description{
 Calculates the gradient of binding avidity adaptation for different levels of host immunity.
 This is useful because we need to solve some ODEs for each combination of host immunity and

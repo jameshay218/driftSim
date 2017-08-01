@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // generateStartK
 int generateStartK(Rcpp::NumericVector dist);
-RcppExport SEXP driftSim_generateStartK(SEXP distSEXP) {
+RcppExport SEXP _driftSim_generateStartK(SEXP distSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // generateKSamples
 Rcpp::NumericVector generateKSamples(Rcpp::NumericVector cumSumK, int N);
-RcppExport SEXP driftSim_generateKSamples(SEXP cumSumKSEXP, SEXP NSEXP) {
+RcppExport SEXP _driftSim_generateKSamples(SEXP cumSumKSEXP, SEXP NSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -30,7 +30,7 @@ END_RCPP
 }
 // callFunction
 Rcpp::NumericVector callFunction(std::string filename, int N, Rcpp::Function f);
-RcppExport SEXP driftSim_callFunction(SEXP filenameSEXP, SEXP NSEXP, SEXP fSEXP) {
+RcppExport SEXP _driftSim_callFunction(SEXP filenameSEXP, SEXP NSEXP, SEXP fSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -43,7 +43,7 @@ END_RCPP
 }
 // countKs
 Rcpp::NumericVector countKs(Rcpp::NumericVector ks, int N);
-RcppExport SEXP driftSim_countKs(SEXP ksSEXP, SEXP NSEXP) {
+RcppExport SEXP _driftSim_countKs(SEXP ksSEXP, SEXP NSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -55,7 +55,7 @@ END_RCPP
 }
 // run_simulation_cpp
 int run_simulation_cpp(Rcpp::IntegerVector flags, Rcpp::NumericVector hostPopn, Rcpp::NumericVector virusPars, Rcpp::NumericMatrix deltaVMat, SEXP iniKs, int day, int final_day, std::vector<std::string> input_files, std::vector<std::string> output_files, bool VERBOSE, int scenario, SEXP callback);
-RcppExport SEXP driftSim_run_simulation_cpp(SEXP flagsSEXP, SEXP hostPopnSEXP, SEXP virusParsSEXP, SEXP deltaVMatSEXP, SEXP iniKsSEXP, SEXP daySEXP, SEXP final_daySEXP, SEXP input_filesSEXP, SEXP output_filesSEXP, SEXP VERBOSESEXP, SEXP scenarioSEXP, SEXP callbackSEXP) {
+RcppExport SEXP _driftSim_run_simulation_cpp(SEXP flagsSEXP, SEXP hostPopnSEXP, SEXP virusParsSEXP, SEXP deltaVMatSEXP, SEXP iniKsSEXP, SEXP daySEXP, SEXP final_daySEXP, SEXP input_filesSEXP, SEXP output_filesSEXP, SEXP VERBOSESEXP, SEXP scenarioSEXP, SEXP callbackSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -77,11 +77,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"driftSim_generateStartK", (DL_FUNC) &driftSim_generateStartK, 1},
-    {"driftSim_generateKSamples", (DL_FUNC) &driftSim_generateKSamples, 2},
-    {"driftSim_callFunction", (DL_FUNC) &driftSim_callFunction, 3},
-    {"driftSim_countKs", (DL_FUNC) &driftSim_countKs, 2},
-    {"driftSim_run_simulation_cpp", (DL_FUNC) &driftSim_run_simulation_cpp, 12},
+    {"_driftSim_generateStartK", (DL_FUNC) &_driftSim_generateStartK, 1},
+    {"_driftSim_generateKSamples", (DL_FUNC) &_driftSim_generateKSamples, 2},
+    {"_driftSim_callFunction", (DL_FUNC) &_driftSim_callFunction, 3},
+    {"_driftSim_countKs", (DL_FUNC) &_driftSim_countKs, 2},
+    {"_driftSim_run_simulation_cpp", (DL_FUNC) &_driftSim_run_simulation_cpp, 12},
     {NULL, NULL, 0}
 };
 

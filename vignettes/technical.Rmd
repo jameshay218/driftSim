@@ -1,0 +1,18 @@
+---
+title: "Short-sighted evolution of Influenza cellular receptor binding avidity shapes influenza epidemic dynamics"
+subtitle: "Technical specification and usage"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{technical specification}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+library(driftSim)
+knitr::opts_chunk$set(echo = TRUE, fig.width=7,fig.height=6,
+                      message=FALSE, results=FALSE,warning=FALSE)
+```
+
+## Placeholder
+This documentation is currently incomplete. All current users of the package should be able to use the package from the other vignettes and documentation. Specific use cases will be added as an when they are requested.

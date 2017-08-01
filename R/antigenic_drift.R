@@ -61,7 +61,7 @@ run_simulation <- function(
 ##' @export
 ##' @seealso \code{\link{generateHostKDist}}
 generateHostKDist_2 <- function(hostKs, N){
-  countHostK <- count(hostKs)
+  countHostK <- plyr::count(hostKs)
   freqs <- countHostK$freq/sum(countHostK$freq)
   cumSumK <- cumsum(freqs)
   startingKs <- generateKSamples(cumSumK, N)

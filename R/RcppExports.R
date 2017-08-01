@@ -9,7 +9,7 @@
 #' @useDynLib driftSim
 #' @seealso \code{\link{generateKSamples}}
 generateStartK <- function(dist) {
-    .Call('driftSim_generateStartK', PACKAGE = 'driftSim', dist)
+    .Call('_driftSim_generateStartK', PACKAGE = 'driftSim', dist)
 }
 
 #' Generate N samples of immune values (K)
@@ -21,13 +21,13 @@ generateStartK <- function(dist) {
 #' @useDynLib driftSim
 #' @seealso \code{\link{generateStartK}}
 generateKSamples <- function(cumSumK, N) {
-    .Call('driftSim_generateKSamples', PACKAGE = 'driftSim', cumSumK, N)
+    .Call('_driftSim_generateKSamples', PACKAGE = 'driftSim', cumSumK, N)
 }
 
 #' @export
 #' @useDynLib driftSim
 callFunction <- function(filename, N, f) {
-    .Call('driftSim_callFunction', PACKAGE = 'driftSim', filename, N, f)
+    .Call('_driftSim_callFunction', PACKAGE = 'driftSim', filename, N, f)
 }
 
 #' Counts Ks
@@ -39,7 +39,7 @@ callFunction <- function(filename, N, f) {
 #' @export
 #' @useDynLib driftSim
 countKs <- function(ks, N) {
-    .Call('driftSim_countKs', PACKAGE = 'driftSim', ks, N)
+    .Call('_driftSim_countKs', PACKAGE = 'driftSim', ks, N)
 }
 
 #' Interface to the entire C++ driftSim simulation
@@ -60,6 +60,6 @@ countKs <- function(ks, N) {
 #' @export
 #' @useDynLib driftSim
 run_simulation_cpp <- function(flags, hostPopn, virusPars, deltaVMat, iniKs, day, final_day, input_files, output_files, VERBOSE, scenario, callback) {
-    .Call('driftSim_run_simulation_cpp', PACKAGE = 'driftSim', flags, hostPopn, virusPars, deltaVMat, iniKs, day, final_day, input_files, output_files, VERBOSE, scenario, callback)
+    .Call('_driftSim_run_simulation_cpp', PACKAGE = 'driftSim', flags, hostPopn, virusPars, deltaVMat, iniKs, day, final_day, input_files, output_files, VERBOSE, scenario, callback)
 }
 

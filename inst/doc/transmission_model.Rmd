@@ -1,7 +1,9 @@
 ---
 title: "Short-sighted evolution of influenza cellular receptor binding avidity shapes influenza epidemic dynamics"
 subtitle: "Transmission model"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Description of transmission model}
   %\VignetteEngine{knitr::rmarkdown}
@@ -54,7 +56,7 @@ Where the nomencalture of $\delta M_X$ describes the number of events of type $X
 Please refer to Chapter 6 of [Keeling and Rohani](http://www.modelinginfectiousdiseases.org/) for more information.
 
 ## 3. Transmission probabilities
-The core theoretical aspect of this model is the transmission rate, $\beta$. This parameter is conditional on both properties of the host population and properties of the infecting virus. We will describe the parts of this parameter that are directly relevant to the tranmission model below, but readers should refer to the other [vignette](to add) on within-host properties for a full description of the relationship between host immunity and binding avidity on transmission.
+The core theoretical aspect of this model is the transmission rate, $\beta$. This parameter is conditional on both properties of the host population and properties of the infecting virus. We will describe the parts of this parameter that are directly relevant to the tranmission model below, but readers should refer to the other [vignette](https://jameshay218.github.io/driftSim/inst/doc/science.html) on within-host properties for a full description of the relationship between host immunity and binding avidity on transmission.
 
 ### 3.1 Host population parameters
 There are two key properties of individual hosts that mediate transmission probability in this model:
@@ -101,7 +103,7 @@ J = k - \text{min}(\delta_{ij}), i \in \textbf{h}
 
 Where we ensure that $J \geq 0$.
 
-This $J$ feeds into the "probability of evading immune system" term described in the [accompanying vignette](), which ultimately defines the level of infectiousness, $\rho$. The transmission rate is then defined as:
+This $J$ feeds into the "probability of evading immune system" term described in the [accompanying vignette](https://jameshay218.github.io/driftSim/inst/doc/science.html), which ultimately defines the level of infectiousness, $\rho$. The transmission rate is then defined as:
 
 \begin{equation}
 \beta = c \cdot \rho
@@ -155,10 +157,10 @@ The full virus phylogeny can easily be reconstructed using property 3. Taking ea
 ```
 
 ## 5. Adaptive binding avidity
-In addition to antigenic drift described above, the binding avidity of a given virus, $V_i$, adapts to level of immune selection pressure elicited by the host during the course of infection. We assume that in a given time step, $\delta t$, during infection, binding avidity changes proportional to the fitness gradient at the current binding avidity level. We define the fitness gradient as proportional to the derivative of the within-host reproductive number, $R_{in}$, with respect to binding avidity. We assume that the binding avidity trait moves "towards" the value that gives the greatest $R_{in}$ over time. Based on $f(k, \delta_{ij}, V_i)$ and $g(V_i)$ as defined in the accompanying [vignette](), the rate of change of binding avidity with respect to time is given by:
+In addition to antigenic drift described above, the binding avidity of a given virus, $V_i$, adapts to level of immune selection pressure elicited by the host during the course of infection. We assume that in a given time step, $\delta t$, during infection, binding avidity changes proportional to the fitness gradient at the current binding avidity level. We define the fitness gradient as proportional to the derivative of the within-host reproductive number, $R_{in}$, with respect to binding avidity. We assume that the binding avidity trait moves "towards" the value that gives the greatest $R_{in}$ over time. Based on $f(k, \delta_{ij}, V_i)$ and $g(V_i)$ as defined in the accompanying [vignette](https://jameshay218.github.io/driftSim/inst/doc/science.html), the rate of change of binding avidity with respect to time is given by:
 
 \begin{equation}
-\frac{dV}{dt} = \frac{dR_{in}}{dV} = g(V)f'(J,V_i) + g'(V)f(J,V_i)
+\frac{dV}{dt} = \frac{dR_{in}}{dV} = g(V_i)f'(J,V_i) + g'(V_i)f(J,V_i)
 \end{equation}
 
 Where $J = k - \delta_{ij}$ as defined above.
