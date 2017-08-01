@@ -35,8 +35,7 @@ output <- run_simulation(flags=flags,
                          iniKs=NULL,
                          start=0,end=365,
                          input_files="",
-                         output_files=c("SIR.csv","voutput_characteristics.csv",
-                                        "voutput_distances.csv","hosts.csv","hostKs.csv"),                                                                            VERBOSE=TRUE,scenario=4)
+                         output_files=c("SIR.csv","voutput_characteristics.csv","voutput_distances.csv","hosts.csv","hostKs.csv"),                                   VERBOSE=TRUE,scenario=4)
 ```
 
 
@@ -53,28 +52,29 @@ plot_SIR(sir)
 
 ## 3. Virus characteristics
 * Default filename: "voutput1.csv"
-* Description: A data frame with 16 columns containing the following information:
-            1. **vid**: the unique virus identifier
-            2. **birth**: the time of birth in the simulation (ie. time of infection)
-            3. **death**: the time of virus death (ie. time of recovery)
-            4. **parentid**: the unique virus identifier of the parent
-            5. **bindingAvidityIni**: the binding avidity at the time of initial infection
-            7. **bindingAvidityFinal**: the binding avidity at the time of death
-            8. **infectionNo**: if the infected host has had *n* infections previously, then this number is *n+1*. Note that this number is fixed *at the time of infection*
-            9. **distToParent**: antigenic distance to the parent virus
-            10. **hostImmunity**: the level of unmediated immunity of the host, $k$ *at the time of infection*
-            11. **hostInfections**: the number of infections that the host has had at the *end of the simulation*
-            12. **immJ**: the effective immunity of the host against this virus *at the time of infection*
-            13. **distHost**: the smallest antigenic distance between this virus and the viruses of the host's infection history *at the time of infection*
-            14. **distRoot**: the antigenic distance to the root virus at the end of the virus's life
-            15. **changeFromV**: the amount of antigenic change elicited as a byproduct of binding avidity adaptation over the virus's entire life
-            16. **changeFromR**: the amount of antigenic change elicited as from antigenic drift over the virus's entire life
+* Description: A data frame with 15 columns containing the following information:
+
+1. **vid**: the unique virus identifier
+2. **birth**: the time of birth in the simulation (ie. time of infection)
+3. **death**: the time of virus death (ie. time of recovery)
+4. **parentid**: the unique virus identifier of the parent
+5. **bindingAvidityIni**: the binding avidity at the time of initial infection
+6. **bindingAvidityFinal**: the binding avidity at the time of death
+7. **infectionNo**: if the infected host has had *n* infections previously, then this number is *n+1*. Note that this number is fixed *at the time of infection*
+8. **distToParent**: antigenic distance to the parent virus
+9. **hostImmunity**: the level of unmediated immunity of the host, $k$ *at the time of infection*
+10. **hostInfections**: the number of infections that the host has had at the *end of the simulation*
+11. **immJ**: the effective immunity of the host against this virus *at the time of infection*
+12. **distHost**: the smallest antigenic distance between this virus and the viruses of the host's infection history *at the time of infection*
+13. **distRoot**: the antigenic distance to the root virus at the end of the virus's life
+14. **changeFromV**: the amount of antigenic change elicited as a byproduct of binding avidity adaptation over the virus's entire life
+15. **changeFromR**: the amount of antigenic change elicited as from antigenic drift over the virus's entire life
 * File type: .csv file
 * Usage: various. For example:
 
 ```{r,fig.width=7,fig.height=10}
 ## Read in virus output data
-tmp <- data.table::fread("voutput1.csv",data.table=TRUE)
+tmp <- data.table::fread("voutput_characteristics.csv",data.table=TRUE)
 dt <- data.table(tmp)
 
 ## Get mean and 95% CI of distance to root over time
@@ -120,7 +120,7 @@ plot(dat1$delta~dat1$time,type='l',col="red",
      main="Example antigenic distance over time of an extant lineage")
 ```
           
-## 3. Pairwise antigenic distances pf all viruses
+## 4. Pairwise antigenic distances pf all viruses
 * Default filename: "voutput2.csv"
 * Description: An *n x n* matrix giving the pairwise antigenic distance between any two viruses from the simulation. Saves only a random sample of 1000 viruses. It is possible to change the size of this sample in the source code, but it is currently hard coded. The matrix is in chronological order (ie. top left is most recent pair of viruses)
 * File type: .csv file
@@ -132,7 +132,7 @@ image(as.matrix(voutput2))
 ```
 
 
-## 4. Host population characteristics
+## 5. Host population characteristics
 * Default filename: "hosts.csv"
 * Description: An data frame with four columns containing the following information on the entire living host population from the simulation:
     1. **state**: Infection status at the end of the simulation (0 = Susceptible; 1 = Infected; 2 = Recovered)
@@ -146,7 +146,7 @@ hostKDist <- generateHostKDist("hosts.csv",100000)
 hist(hostKDist)
 ```
 
-## 5. Host K distribution over time
+## 6. Host K distribution over time
 * Default filename: "hostKs.csv"
 * Description: A matrix containing the number of individuals in each $k$ value (columns) over the course of the simulation. The frequency at which these are saved is specified by `saveFreq` in the `hostpars` argument for `run_simulation`. See `?exampleParameters`.
 * File type: .csv file

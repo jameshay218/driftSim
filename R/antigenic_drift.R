@@ -153,17 +153,17 @@ plot_SIR <- function(dat){
     return(SIR_plot)
 }
 
-#' Calculate binding avidity adaptation matrix
-#'
-#' Calculates the gradient of binding avidity adaptation for different levels of host immunity.
-#' This is useful because we need to solve some ODEs for each combination of host immunity and
-#' each possible binding avidity value ie. precomputation
-#' @param viruspars the vector of virus pars as taken by \link{\code{run_simulation}}
-#' @param maxV the maximum binding avidity to calculate for
-#' @param maxK the maximum achievable antibody titre in which the virus will have to adapt
-#' @param step over how much time does this adaptation take place? usually 1 day
-#' @return a numeric matrix
-#' @export
+##' Calculate binding avidity adaptation matrix
+##'
+##' Calculates the gradient of binding avidity adaptation for different levels of host immunity.
+##' This is useful because we need to solve some ODEs for each combination of host immunity and
+##' each possible binding avidity value ie. precomputation
+##' @param viruspars the vector of virus pars as taken by \link{\code{run_simulation}}
+##' @param maxV the maximum binding avidity to calculate for
+##' @param maxK the maximum achievable antibody titre in which the virus will have to adapt
+##' @param step over how much time does this adaptation take place? usually 1 day
+##' @return a numeric matrix
+##' @export
 calculate_deltaV_matrix <- function(viruspars, maxV=3,maxK=25, step = 1){
     message("Calculating deltaV matrix...")
 

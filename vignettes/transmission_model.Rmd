@@ -12,6 +12,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 library(driftSim)
+library(ggplot2)
 knitr::opts_chunk$set(echo = TRUE, fig.width=7,fig.height=6,
                       message=FALSE, results=FALSE,warning=FALSE)
 ```
@@ -74,6 +75,29 @@ k_{new} = k_{cur} + \text{Poisson}(\sigma - \frac{\sigma}{k_{max}}k_{cur})
 
 Where $k_{new}$ is the antibody titre following recovery; $k_{cur}$ is the antibody titre before recovery; $\sigma$ is the mean level of unmediated boost; and $k_{max}$ is the maximum achievable antibody titre. See [Jacobson et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/25835513) for a gateway into the literature on antibody ceiling effects. Also refer to [Kucharski et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/?term=kucharski+antigenic+seniority) for antibody boosting in the context of epidemiological models.
 
+For a completely naive individual where $\sigma = 3$, the distribution of boosts is:
+```{r,fig.width = 4, fig.height=3}
+ base <- ggplot(data.frame(x=c(0,3*3)),aes(x)) + stat_function(fun=dpois,geom="bar",colour="black",n=(3*3 + 1),args=list(lambda=3))+
+                xlab("Magnitude of boost following infection") +
+                ylab("Probability") +
+                scale_y_continuous(expand=c(0,0))+
+                scale_x_continuous(expand=c(0,0))+
+                theme(
+                    text=element_text(colour="gray20",size=14),
+                    plot.title=element_text(size=28),
+                    legend.text=element_text(size=20,colour="gray20"),
+                    legend.title=element_text(size=20,colour="gray20"),
+                    panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    axis.line=element_line(colour="gray20"),
+                    axis.line.x = element_line(colour = "gray20"),
+                    axis.line.y=element_line(colour="gray20"),
+                    axis.text.x=element_text(colour="gray20"),
+                    panel.background=element_blank(),
+                    axis.text.y=element_text(colour="gray20"))
+            base
+```
+
 ### 3.2 Virus properties
 The key feature of adaptive immunity in this model is that the total level of immunity a host has, $k$, is not fully effective against novel viruses, similar to the idea of antigenic cartography or antibody landscapes described by [Fonville et al. 2014](http://science.sciencemag.org/content/346/6212/996). In this model, we consider each unique infection (infectee strain) to generate a novel virus phenotype with some antigenic distance, $\delta$ to it's parent (infector strain). In terms of model implementation, this means that we record every individual virus that causes an infection; the host that this virus infects and the identity of the parent virus such that we can reconstruct an entire phylogeny.
 
@@ -85,7 +109,29 @@ In the basic form of the model where there is no antigenic drift, this antigenic
 \delta_{new} = \delta_{cur} + \text{Exp}(\Delta)
 \end{equation}
 
-Where $\Delta$ is the mean of the exponential distribution. The resulting behaviour is that most infections result in very small antigenic changes, whereas occasional large antigenic jumps are observed; thereby rendering the host population effectively naive.
+Where $\Delta$ is the mean of the exponential distribution. The resulting behaviour is that most infections result in very small antigenic changes, whereas occasional large antigenic jumps are observed; thereby rendering the host population effectively naive. The plot below depicts probability of mutations of a given size with an exponential rate parameter of 1.3.
+
+```{r,fig.width=7,fig.height=5}
+attach(exampleParameters)
+ base <- ggplot(data.frame(x=c(0,10)),aes(x)) + stat_function(fun=dexp,geom="line",colour="red",args=list(rate=1/viruspars["expDist"])) +
+             xlab("Size of mutation") +
+                ylab("Probability (given a mutation did occur)") +
+                scale_x_continuous(expand=c(0,0))+
+                theme(
+                    text=element_text(colour="gray20",size=14),
+                    plot.title=element_text(size=28),
+                    legend.text=element_text(size=20,colour="gray20"),
+                    legend.title=element_text(size=20,colour="gray20"),
+                    panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    axis.line=element_line(colour="gray20"),
+                    axis.line.x = element_line(colour = "gray20"),
+                    axis.line.y=element_line(colour="gray20"),
+                    axis.text.x=element_text(colour="gray20"),
+                    panel.background=element_blank(),
+                    axis.text.y=element_text(colour="gray20"))
+  base
+```
 
 ### 3.3 Effective immunity
 We combine the properties of host immunity and antigenic distance to give a measure of effective immunity, $J$, for a given host against an infecting virus. When hosts recover from infection with a particular virus, $\upsilon_i$, the identity of this virus is stored in the host's infection history (in addition to the host receiving a boost in antibody titre). In the context of immunity, any given susceptible host, $s$ is therefore defined by the contents of their infection history, $\textbf{h}$, and their total antibody titre, $k$:

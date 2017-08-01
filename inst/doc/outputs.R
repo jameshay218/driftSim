@@ -21,8 +21,7 @@ output <- run_simulation(flags=flags,
                          iniKs=NULL,
                          start=0,end=365,
                          input_files="",
-                         output_files=c("SIR.csv","voutput_characteristics.csv",
-                                        "voutput_distances.csv","hosts.csv","hostKs.csv"),                                                                            VERBOSE=TRUE,scenario=4)
+                         output_files=c("SIR.csv","voutput_characteristics.csv","voutput_distances.csv","hosts.csv","hostKs.csv"),                                   VERBOSE=TRUE,scenario=4)
 
 ## ------------------------------------------------------------------------
 sir <- read.table("SIR.csv",header=FALSE,sep=",")
@@ -30,7 +29,7 @@ plot_SIR(sir)
 
 ## ----fig.width=7,fig.height=10-------------------------------------------
 ## Read in virus output data
-tmp <- data.table::fread("voutput1.csv",data.table=TRUE)
+tmp <- data.table::fread("voutput_characteristics.csv",data.table=TRUE)
 dt <- data.table(tmp)
 
 ## Get mean and 95% CI of distance to root over time
