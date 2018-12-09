@@ -11,4 +11,11 @@ Implementation of an R/C++ individual based model for simulating evolutionary dy
 \details{
 The package itself is well described in the vignettes available at \url{www.github.com/jameshay218/driftSim}. If you want to get started here, look at \code{\link{exampleParameters}} for example parameter values to get going and the \code{\link{run_simulation}} documentation. Also might be worthwhile looking at \code{\link{runSimulationApp}} if you want to use the shiny app.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/jameshay218/driftSim}
+  \item Report bugs at \url{https://github.com/jameshay218/driftSim/issues}
+}
 
+}

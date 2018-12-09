@@ -18,4 +18,3 @@ Draws a single starting immune value from a cumulative vector distribution
 \seealso{
 \code{\link{generateKSamples}}
 }
-

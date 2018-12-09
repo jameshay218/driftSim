@@ -4,12 +4,14 @@
 \alias{run_simulation}
 \title{Main simulation interface}
 \usage{
-run_simulation(flags = c(1, 0, 0, 0, 0, 0, 0, 0), hostpars = c(90000, 100,
-  0, 1.5, 1/(40 * 365), 1/25, 0.333, 0.8, 10, 0, 10, 10), viruspars = c(3, 70,
-  1, 0.7, 3, 2, 2, 0.1, 1, 0.5, 1000), deltaVMat = matrix(ncol = 2, nrow = 2),
-  iniKs = NULL, start = 0, end = 100, input_files = c("hosts.csv"),
-  output_files = c("SIR.csv", "voutput1.csv", "voutput2.csv", "hosts.csv",
-  "hostKs.csv"), VERBOSE = TRUE, scenario = 1, callback = NULL)
+run_simulation(flags = c(1, 0, 0, 0, 0, 0, 0, 0), hostpars = c(90000,
+  100, 0, 1.5, 1/(40 * 365), 1/25, 0.333, 0.8, 10, 0, 10, 10),
+  viruspars = c(3, 70, 1, 0.7, 3, 2, 2, 0.1, 1, 0.5, 1000),
+  deltaVMat = matrix(ncol = 2, nrow = 2), iniKs = NULL, start = 0,
+  end = 100, input_files = c("hosts.csv"),
+  output_files = c("SIR.csv", "voutput1.csv", "voutput2.csv",
+  "hosts.csv", "hostKs.csv"), VERBOSE = TRUE, scenario = 1,
+  callback = NULL)
 }
 \arguments{
 \item{flags}{Vector of boolean flags for simulation outputs. All of the output file names are specified in the output_files arugment.
@@ -56,4 +58,3 @@ output <- run_simulation(flags=flags, hostpars=hostpars, viruspars=viruspars, de
                       VERBOSE=TRUE,scenario=3)
 sir <- read.table("SIR.csv",header=FALSE,sep=",")
 }
-

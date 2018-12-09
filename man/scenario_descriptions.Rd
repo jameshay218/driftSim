@@ -15,4 +15,3 @@ the text description of the given scenario
 \description{
 Returns a text description of a given scenario 1-4
 }
-

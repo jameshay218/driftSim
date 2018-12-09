@@ -17,4 +17,3 @@ a vector of length N with K counts
 \description{
 Counts the number of individuals in the host population with each K value from 0 to N
 }
-

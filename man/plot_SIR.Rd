@@ -15,4 +15,3 @@ a ggplot2 object plot
 \description{
 Plots SIR dynamics for a given matrix of SIR time series data
 }
-

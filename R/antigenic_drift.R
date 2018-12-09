@@ -158,7 +158,7 @@ plot_SIR <- function(dat){
 ##' Calculates the gradient of binding avidity adaptation for different levels of host immunity.
 ##' This is useful because we need to solve some ODEs for each combination of host immunity and
 ##' each possible binding avidity value ie. precomputation
-##' @param viruspars the vector of virus pars as taken by \link{\code{run_simulation}}
+##' @param viruspars the vector of virus pars as taken by \code{\link{run_simulation}}
 ##' @param maxV the maximum binding avidity to calculate for
 ##' @param maxK the maximum achievable antibody titre in which the virus will have to adapt
 ##' @param step over how much time does this adaptation take place? usually 1 day

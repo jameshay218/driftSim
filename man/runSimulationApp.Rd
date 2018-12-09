@@ -9,4 +9,3 @@ runSimulationApp()
 \description{
 Launches the shiny app interface
 }
-

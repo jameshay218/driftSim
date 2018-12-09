@@ -20,4 +20,3 @@ Generate N samples of immune values (K)
 \seealso{
 \code{\link{generateStartK}}
 }
-

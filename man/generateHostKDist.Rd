@@ -20,4 +20,3 @@ Given a file which contains a column called "hostK", uses this column to generat
 \seealso{
 \code{\link{generateHostKDist_2}}
 }
-

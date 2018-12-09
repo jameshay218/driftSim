@@ -58,4 +58,3 @@ A list of parameters to use for the simulation as an example.
 \code{\link{calculate_deltaV_matrix}}, \code{\link{run_simulation}}
 }
 \keyword{datasets}
-

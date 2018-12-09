@@ -11,10 +11,8 @@ LazyData: true
 URL: https://github.com/jameshay218/driftSim
 BugReports: https://github.com/jameshay218/driftSim/issues
 Suggests:
-    ggplot2, reshape2, gridExtra, data.table, plyr
+    ggplot2, reshape2, gridExtra, data.table, plyr, testthat
 LinkingTo: Rcpp
 SystemRequirements: C++11
-Suggests:
-    testthat
-RoxygenNote: 5.0.1
+RoxygenNote: 6.1.0
 VignetteBuilder: knitr

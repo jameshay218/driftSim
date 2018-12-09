@@ -20,4 +20,3 @@ Given a vector of host immune values (K), creates a frequency distribution and t
 \seealso{
 \code{\link{generateHostKDist}}
 }
-

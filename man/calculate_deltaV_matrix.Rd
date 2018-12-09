@@ -7,7 +7,7 @@
 calculate_deltaV_matrix(viruspars, maxV = 3, maxK = 25, step = 1)
 }
 \arguments{
-\item{viruspars}{the vector of virus pars as taken by \link{\code{run_simulation}}}
+\item{viruspars}{the vector of virus pars as taken by \code{\link{run_simulation}}}
 
 \item{maxV}{the maximum binding avidity to calculate for}
 
@@ -23,4 +23,3 @@ Calculates the gradient of binding avidity adaptation for different levels of ho
 This is useful because we need to solve some ODEs for each combination of host immunity and
 each possible binding avidity value ie. precomputation
 }
-

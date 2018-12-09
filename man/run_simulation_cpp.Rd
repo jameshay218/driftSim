@@ -4,8 +4,8 @@
 \alias{run_simulation_cpp}
 \title{Interface to the entire C++ driftSim simulation}
 \usage{
-run_simulation_cpp(flags, hostPopn, virusPars, deltaVMat, iniKs, day, final_day,
-  input_files, output_files, VERBOSE, scenario, callback)
+run_simulation_cpp(flags, hostPopn, virusPars, deltaVMat, iniKs, day,
+  final_day, input_files, output_files, VERBOSE, scenario, callback)
 }
 \arguments{
 \item{flags}{set of boolean flags for simulation output. See \code{\link{run_simulation}}}
@@ -38,4 +38,3 @@ the final virus ID from the simulation
 \description{
 Interface to the entire C++ driftSim simulation
 }
-
