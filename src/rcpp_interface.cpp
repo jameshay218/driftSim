@@ -165,6 +165,8 @@ int run_simulation_cpp(Rcpp::IntegerVector flags,
   int index = 0;
   int startT = clock();
   int endT = 0;
+  
+  double new_infected;
 
   // Set up streams for simulation output
   string filename;
@@ -222,14 +224,17 @@ int run_simulation_cpp(Rcpp::IntegerVector flags,
   // If a distribution of host K values has been given and the flag for using saved K values is specified
   // Generate a host population with these properties
   if(iniKs != R_NilValue && import_start_saved){
+    Rcpp::Rcout << "Simulating population using provided immunity values" << endl;
     hpop = new HostPopulation(S0, I0,R0,start_day,contactRate,mu,wane,gamma,iniBinding,iniDist, Rcpp::as<Rcpp::NumericVector>(iniKs));	
   } else if(import_start_generate){
     // Otherwise, if the flag for generating a new host K distribution has been specified, 
     // call back to R to get this distribution
+    Rcpp::Rcout << "Simulating population using provided immunity distribution" << endl;
     startingKs = callFunction(input_files[0],(S0 + I0 + R0), generateHostKDist);
     hpop = new HostPopulation(S0, I0,R0,start_day,contactRate,mu,wane,gamma,iniBinding,iniDist, startingKs);		      
   } else {
     // Otherwise, create an entirely new host population (ie. no immunity)
+    Rcpp::Rcout << "Simulating population, no immunity" << endl;
     hpop = new HostPopulation(S0,I0, R0, start_day,contactRate, mu, wane, gamma,iniBinding, iniDist);
   }
 
@@ -242,13 +247,13 @@ int run_simulation_cpp(Rcpp::IntegerVector flags,
   /* ================= MAIN LOOP =============== */
   while(day <= final_day){
     // Move the simulation forward by one day
-    hpop->stepForward(day);
+    new_infected = hpop->stepForward(day);
     if(VERBOSE){
       hpop->printStatus();
       Rcpp::Rcout << endl;
     }
     // Write SIR values to output file
-    if(save_SIR) output << hpop->countSusceptibles() << "," << hpop->countInfecteds() << "," << hpop->countRecovereds() << endl;
+    if(save_SIR) output << hpop->countSusceptibles() << "," << hpop->countInfecteds() << "," << hpop->countRecovereds() << "," << new_infected << endl;
     // If saving K values are being saved over time, record these
     if(save_hostKs && day%(int)kSaveFreq == 0){
       // Extract the distribution of host K values

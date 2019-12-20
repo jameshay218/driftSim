@@ -45,10 +45,10 @@ public:
   ~HostPopulation();
 
   // Manage population temporal dynamics
-  void stepForward(int new_day);
+  double stepForward(int new_day);
   void grow();
   void decline();
-  void contact();
+  double contact();
   void recoveries();
   void waning();
   void mutations();

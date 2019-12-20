@@ -113,7 +113,10 @@ Virus* HostPopulation::getSeedVirus(){
   return(seedVirus);
 }
 
-void HostPopulation::stepForward(int new_day){
+// Returns the number of new infections so we can calculate incidence
+double HostPopulation::stepForward(int new_day){
+  double new_infected;
+  
   // Current day is changed
   day = new_day;
 
@@ -123,7 +126,7 @@ void HostPopulation::stepForward(int new_day){
 
   // Infected population grows from transmission
   //Rcpp::Rcout << "Contact" << endl;
-  contact();
+  new_infected = contact();
 
   // Infected population declines from recovery
   // Rcpp::Rcout << "Recovered" << endl;
@@ -144,7 +147,7 @@ void HostPopulation::stepForward(int new_day){
   // Mutations?
   mutations();
   
-
+  return(new_infected);
 }
 
 
@@ -215,7 +218,7 @@ void HostPopulation::decline(){
   }
 }
 
-void HostPopulation::contact(){
+double HostPopulation::contact(){
   // Generate number of contacts between infecteds and susceptibles
   
   int totalContacts = R::rpois(contactRate*countInfecteds()*countSusceptibles()/countN());
@@ -236,18 +239,19 @@ void HostPopulation::contact(){
       
       // Check if given virus can infect given host
       if(susceptibles[index2]->isSusceptible()){
-	// Find antigenic distance to host's immunity
-	tmpDist = infecteds[index1]->getCurrentVirus()->findDistanceToHost(susceptibles[index2]);
-	if(tmp <= infecteds[index1]->getCurrentVirus()->calculateRho(tmpDist, susceptibles[index2])){
-	  // If successful infection, use the infecting virus as the parent. Get distance to new host's immunity.
-	  Virus* newV = new Virus(infecteds[index1]->getCurrentVirus(), susceptibles[index2], day, tmpDist, susceptibles[index2]->getInfectionHistory().size());
-	  susceptibles[index2]->infect(newV,day);
-	  new_infecteds.push_back(susceptibles[index2]); // Record new infected to add later
-	  number_success++;
-	}
+	      // Find antigenic distance to host's immunity
+      	tmpDist = infecteds[index1]->getCurrentVirus()->findDistanceToHost(susceptibles[index2]);
+      	if(tmp <= infecteds[index1]->getCurrentVirus()->calculateRho(tmpDist, susceptibles[index2])){
+      	  // If successful infection, use the infecting virus as the parent. Get distance to new host's immunity.
+      	  Virus* newV = new Virus(infecteds[index1]->getCurrentVirus(), susceptibles[index2], day, tmpDist, susceptibles[index2]->getInfectionHistory().size());
+      	  susceptibles[index2]->infect(newV,day);
+      	  new_infecteds.push_back(susceptibles[index2]); // Record new infected to add later
+      	  number_success++;
+      	}
       }
     }
   }
+  return(number_success);
 }
 
 void HostPopulation::recoveries(){
