@@ -128,7 +128,7 @@ scenario_descriptions <- function(scenario){
 #' @export
 plot_SIR <- function(dat){
     dat <- cbind(seq(1,nrow(dat),by=1),dat)
-    colnames(dat) <- c("t","S","I","R")
+    colnames(dat) <- c("t","S","I","R","incidence")
     dat <- reshape2::melt(dat,id="t")
     colnames(dat) <- c("t","Population","value")
     SIR_plot <- ggplot() +

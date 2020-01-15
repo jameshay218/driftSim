@@ -45,6 +45,11 @@ library(driftSim)
 ##    particular host in a single day. See ?calculate_deltaV_matrix
 attach(exampleParameters)
 
+## NOTE - the default parameters include random antigenic drift.
+## To recover the model in the accompanying paper (with no drift),
+## set viruspars["probMut"] to 0
+viruspars["probMut"] <- 0
+
 sim_duration <- 365 ## Duration of simulation in days
 version <- 1
 scenario_descriptions(1) ## Which version of the simulation to run (1-4)
@@ -67,5 +72,5 @@ runSimulationApp()
 
 ## License
 
-GPL-2 © [James Hay &lt;james.hay13@imperial.ac.uk&gt;](https://github.com/).
+GPL-3 © [James Hay &lt;james.hay13@imperial.ac.uk&gt;](https://github.com/).
 
