@@ -1,5 +1,5 @@
 ---
-title: "Short-sighted evolution of Influenza cellular receptor binding avidity shapes influenza epidemic dynamics"
+title: "Stabilizing selection of seasonal influenza receptor binding in populations with partial immunity"
 subtitle: "Summary of model outputs"
 output: 
   rmarkdown::html_vignette:
@@ -41,7 +41,7 @@ output <- run_simulation(flags=flags,
 
 ## 2. SIR dynamic outputs
 * Default filename: "SIR.csv"
-* Description: A data frame with three columns giving counts for the number of susceptible, infected and recovered individuals at each time step. Note that the data frame has no column names.
+* Description: A data frame with 4 columns giving counts for the number of susceptible, infected, recovered individuals and incidence at each time step. Note that the data frame has no column names.
 * File type: .csv file
 * Usage: `plot_SIR()`
 
@@ -120,7 +120,7 @@ plot(dat1$delta~dat1$time,type='l',col="red",
      main="Example antigenic distance over time of an extant lineage")
 ```
           
-## 4. Pairwise antigenic distances pf all viruses
+## 4. Pairwise antigenic distances of all viruses
 * Default filename: "voutput2.csv"
 * Description: An *n x n* matrix giving the pairwise antigenic distance between any two viruses from the simulation. Saves only a random sample of 1000 viruses. It is possible to change the size of this sample in the source code, but it is currently hard coded. The matrix is in chronological order (ie. top left is most recent pair of viruses)
 * File type: .csv file
@@ -138,9 +138,9 @@ image(as.matrix(voutput2))
     1. **state**: Infection status at the end of the simulation (0 = Susceptible; 1 = Infected; 2 = Recovered)
     2. **last_vid**: virus identifier of the last virus to infect the host. 0 if not applicable
     3. **cur_inf**: if the host was infected at the end of the simulation, this is the virus ID of the currently infecting virus
-    4. **hostK**: the level of unmediated host immunity, $k$, at the end of the simulation.
+    4. **hostK**: the level of unmediated host immunity, $j$ (referred to as $k$ in the code), at the end of the simulation.
 * File type: .csv file
-* Usage: A key use is to generate a distribution of $k$ values from which a new host population can be created and a new simulation seeded.
+* Usage: A key use is to generate a distribution of $j$ values (referred to as $k$ in the code) from which a new host population can be created and a new simulation seeded.
 ```{r,fig.width=6,fig.height=4}
 hostKDist <- generateHostKDist("hosts.csv",100000)
 hist(hostKDist)
@@ -148,14 +148,14 @@ hist(hostKDist)
 
 ## 6. Host K distribution over time
 * Default filename: "hostKs.csv"
-* Description: A matrix containing the number of individuals in each $k$ value (columns) over the course of the simulation. The frequency at which these are saved is specified by `saveFreq` in the `hostpars` argument for `run_simulation`. See `?exampleParameters`.
+* Description: A matrix containing the number of individuals in each $j$ value (columns) (referred to as $k$ in the code) over the course of the simulation. The frequency at which these are saved is specified by `saveFreq` in the `hostpars` argument for `run_simulation`. See `?exampleParameters`.
 * File type: .csv file
-* Usage: Can be used to look at the distribution of unmediated host immunity, $k$, over the course of the simulation.
+* Usage: Can be used to look at the distribution of unmediated host immunity, $j$, over the course of the simulation.
 ```{r,fig.width=7,fig.height=4}
 hostKs <- read.table("hostKs.csv",sep=",")
 day <- 25*hostpars["saveFreq"]
 
 barplot(as.numeric(hostKs[25,1:30]),
-        xlab="k",ylab="Frequency",
-        main=paste0("Frequency of host k values at day ",day))
+        xlab="j",ylab="Frequency",
+        main=paste0("Frequency of host j values at day ",day))
 ```

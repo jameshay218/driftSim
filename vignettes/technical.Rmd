@@ -1,5 +1,5 @@
 ---
-title: "Short-sighted evolution of Influenza cellular receptor binding avidity shapes influenza epidemic dynamics"
+title: "Stabilizing selection of seasonal influenza receptor binding in populations with partial immunity"
 subtitle: "Technical specification and usage"
 output: rmarkdown::html_vignette
 vignette: >
@@ -56,15 +56,15 @@ The input flags can be confusing - it might not be quite clear what they each do
 3. **voutput_pairwise_flag**: If set to TRUE, saves a random sample of 1000 viruses to a matrix giving the antigenic distance between every pair of viruses. The output location for this is set with `output_files[3]`. Refer to the summary of [model output files](https://jameshay218.github.io/driftSim/inst/doc/outputs.html) for more detail
 4. **time_flag**: If set to TRUE, records the actual run time of the simulation and prints this to the console upon completion.
 5. **save_state**: If set to TRUE, saves key properties of the *host* population to the file specified by `output_files[4]`. Refer to the summary of [model output files](https://jameshay218.github.io/driftSim/inst/doc/outputs.html) for more detail
-6. **input_flag_generated**: If set to TRUE, generates a distribution of $k$ values that is then used to generate a starting host population with some level of immunity. You must specify a **vector of k values** using the `iniKs` argument. This flag ultimately calls `generateHotsKDist_2`, which is shown below:
+6. **input_flag_generated**: If set to TRUE, generates a distribution of $j$ values (referred to as $k$ in the code) that is then used to generate a starting host population with some level of immunity. You must specify a **vector of j values** using the `iniKs` argument. This flag ultimately calls `generateHotsKDist_2`, which is shown below:
 ```{r, eval=FALSE}
-## Generate a uniform distribution of 1000 k values from 0 to 9
+## Generate a uniform distribution of 1000 j values (referred to as $k$ in the code) from 0 to 9
 iniKs <- floor(runif(1000,0, 10))
 
 ## How many individuals do we want in the new simulation?
 N <- 10000
 
-## From the same distribution of iniKs, draw N k values
+## From the same distribution of iniKs, draw N j values (referred to as $k$ in the code)
 startingKs <- generateHostKDist_2(iniKs,N)
 ```
 
@@ -79,8 +79,8 @@ output <- run_simulation(flags=flags,
                          start=0,end=365,input_files="",output_files=c("SIR.csv","","","","",""),
                          VERBOSE=TRUE,scenario=version)
 ```
-7. **input_flag_generated**: If set to TRUE, generates a distribution of $k$ values similar to the description above, but uses the specified `input_files[1]` argument to read in a file. This essentially does the same job, but bypasses the need for the user the read in the host file and extract the $k$ values. This flag asks the simulation to run the function `generateHostKDist`.
-8. **save_k**: If set to TRUE, saves the *frequency distribution* of $k$ values at regular points in the simulation to the file location specified by `output_files[5]`. The frequency at which this distribution is saved is given by `hostpars["saveFreq"]`. Refer to the summary of [model output files](https://jameshay218.github.io/driftSim/inst/doc/outputs.html)
+7. **input_flag_generated**: If set to TRUE, generates a distribution of $j$ values (referred to as $k$ in the code) similar to the description above, but uses the specified `input_files[1]` argument to read in a file. This essentially does the same job, but bypasses the need for the user the read in the host file and extract the $j$ values (referred to as $k$ in the code). This flag asks the simulation to run the function `generateHostKDist`.
+8. **save_k**: If set to TRUE, saves the *frequency distribution* of $j$ values (referred to as $k$ in the code) at regular points in the simulation to the file location specified by `output_files[5]`. The frequency at which this distribution is saved is given by `hostpars["saveFreq"]`. Refer to the summary of [model output files](https://jameshay218.github.io/driftSim/inst/doc/outputs.html)
 
 
 ## 4. UML diagram

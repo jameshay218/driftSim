@@ -1,5 +1,5 @@
 # driftSim
-> Short-sighted evolution of influenza cellular receptor binding avidity shapes influenza epidemic dynamics
+> Stabilizing selection of seasonal influenza receptor binding in populations with partial immunity
 
 
 [![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
@@ -15,12 +15,14 @@ If you are using this app, you will likely be familiar enough with the code to g
 
 However, if you just want to get the app installed and running, see the minimal examples below.
 
+## Notes
+1. In the accompanying paper, homologous antibody titers are represented by the symbol $j$, whereas in the code here they are represented by $k$. Furthermore, $k$ has been used to represent realised antibody boost upon recovery in the paper. We have updated the documentation to reflect this change, but have left the arguments and output file names unchanged to avoid compatibility issues in downstream code (eg. "hostKs.csv")
+
 ## To do
 1. Profile C++ code
 2. Add reseeding code. This will take a sample of extant viruses at a given time, set this to one side and let it mutate, and then re-seed the epidemic with this virus at a later time
 3. Virus phylogeny thinning. Every *n* steps, remove a number of viruses from the simulation, replacing each removed virus with its closests relative. This will slightly reduce accuracy, but should allow longer, bigger simulations to be run much quicker.
 4. Change time step size in $\tau$-leap algorithm to be specified by the user. Currently set to 1 day time steps.
-5. Full tests.
 
 ## Background
 This project is a continuation of previously [published work](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3678328/). Here, we are interested in the hypothesis that within-host cellular binding avidity changes of influenza viruses play an important role in the evolutionary dynamics of influenza. Furthermore, we consider how antigenic drift interacts with binding avidity on an evolutionary basis. This package contains an implementation of an individual based model that incorporates binding avidity as a virus property, human host immunity, antigenic drift, and SIR dynamics in a host population.
@@ -64,7 +66,7 @@ plot_SIR(sir)
 The shiny app is intended for the following three uses:
 * Parameter exploration for binding avidity and within-host survival dynamics
 * Interface to the Cpp simulation, allowing the user to vary the parameter inputs and view SIR dynamics from the 1-4 scenarios.
-* View of the virus phylogenies using results from the simulation run. This will use Sean’s matlab code or a .exe
+* View of the virus phylogenies using results from the simulation run. This will use Sean's matlab code or a .exe
 ```r
 library(driftSim)
 runSimulationApp()
@@ -72,5 +74,4 @@ runSimulationApp()
 
 ## License
 
-GPL-3 © [James Hay &lt;james.hay13@imperial.ac.uk&gt;](https://github.com/).
-
+GPL-3 © [James Hay <jameshay218@gmail.com>](https://github.com/jameshay218).

@@ -1,7 +1,7 @@
 Package: driftSim
 Title: Short-sighted evolution of influenza cellular receptor binding avidity shapes influenza epidemic dynamics
-Version: 1.0.0
-Author: James Hay <james.hay13@imperial.ac.uk>
+Version: 1.0.1
+Author: James Hay <jameshay218@gmail.com>
 Maintainer: James Hay <james.hay13@imperial.ac.uk> <jameshay218@gmail.com>
 Description: Implementation of an R/C++ individual based model for simulating evolutionary dynamics of influenza binding avidity and antigenic drift in a human population with adaptive immunity.
 Depends:

@@ -1,5 +1,5 @@
 ---
-title: "Short-sighted evolution of Influenza cellular receptor binding avidity shapes influenza epidemic dynamics"
+title: "Stabilizing selection of seasonal influenza receptor binding in populations with partial immunity"
 subtitle: "Within-host dynamics of influenza virus adaptation"
 output: 
   rmarkdown::html_vignette:
@@ -37,12 +37,12 @@ p = viruspars["p"] #' parameter to control degree by which changes in binding av
             for(k in 0:(N_reinfect-1)){
                 probTarget = exp(-p*(V+q)) #' probability of being targetted by immune system. As binding avidity increases, this probability decreases
                 probEscape = 1-probTarget #' probability of escape
-                immK = r*(k- delta) #' Strength of host immune respone. As k increases, virus must escape more antibodies. As delta increases, this effect diminishes as infecting virus is further from host immunity.
-                if(immK < 0) immK = 0
+                immJ = r*(k- delta) #' Strength of host immune respone. As k increases, virus must escape more antibodies. As delta increases, this effect diminishes as infecting virus is further from host immunity.
+                if(immJ < 0) immJ = 0
                 
-                f = (probEscape)^(immK) #' probability of escape from immunity
+                f = (probEscape)^(immJ) #' probability of escape from immunity
                 
-                if(k >= 1) f_dash= immK*p*((1-probTarget)^(immK-1))*(probTarget) #' derivative of this. ie. rate of change of relationship between binding avidity and probability of immune escape
+                if(k >= 1) f_dash= immJ*p*((1-probTarget)^(immJ-1))*(probTarget) #' derivative of this. ie. rate of change of relationship between binding avidity and probability of immune escape
                 else f_dash= rep(0, length(V))
                 f_array[[k+1]] <- f  
                 df_array[[k+1]] <- f_dash
@@ -123,7 +123,7 @@ B <- ggplot() + geom_line(data=rho_data,aes(x=x,y=y,colour=z)) + scale_color_man
                 ) +
                 scale_x_continuous(expand=c(0,0)) +
                 scale_y_continuous(limits=c(0,1),expand=c(0,0)) +
-                ylab("Probability of Infection Between Hosts (rho)") + 
+                ylab(expression(Probability~of~Infection~Between~Hosts~rho)) + 
                 xlab("Binding Avidity") +
                 ggtitle("Plot B") +
                 geom_hline(yintercept = rho0,linetype="longdash",colour="dodgerblue4")+
@@ -208,7 +208,7 @@ B <- ggplot() + geom_line(data=rho_data,aes(x=x,y=y,colour=z)) + scale_color_man
                 ) +
                 scale_x_continuous(expand=c(0,0)) +
                 scale_y_continuous(expand=c(0,0)) +
-                ylab("Probability of Evading Immune System, f(k,V)") + 
+                ylab("Probability of Evading Immune System, f(j,V)") + 
                 xlab("Binding Avidity")  + ggtitle("Plot E")
 
             probRep_dat <- data.frame(x=V,y=probInf)
@@ -238,9 +238,9 @@ B <- ggplot() + geom_line(data=rho_data,aes(x=x,y=y,colour=z)) + scale_color_man
             for(k in 0:(N_reinfect-1)){
                 probT = exp(-p*(fixedV+q))
                 probE = 1- probT
-                immK1 = r*(k-d)
-                immK1[immK1 < 0] <- 0
-                probSurvival1 = 1 - (n*exp(-a*(fixedV^b))*(probE^immK1))^-v
+                immJ1 = r*(k-d)
+                immJ1[immJ1 < 0] <- 0
+                probSurvival1 = 1 - (n*exp(-a*(fixedV^b))*(probE^immJ1))^-v
                 probSurvival1[probSurvival1 < 0] <- 0
                 delta_array[[k+1]] <- probSurvival1
             }
@@ -269,21 +269,21 @@ B <- ggplot() + geom_line(data=rho_data,aes(x=x,y=y,colour=z)) + scale_color_man
                 ylab("Probability of Infection Between Hosts") + 
                 xlab("Antigenic Distance to Host Immunity")  + ggtitle("Plot G")
  
-            immK_array <- NULL
-            immK2 <- seq(0,r*N_reinfect,by=1)
+            immJ_array <- NULL
+            immJ2 <- seq(0,r*N_reinfect,by=1)
             for(k in 0:(N_reinfect-1)){
                 probT1 = exp(-p*(fixedV+q))
                 probE1 = 1- probT1
-                probSurvival2 = 1 - (n*exp(-a*(fixedV^b))*(probE1^immK2))^-v
+                probSurvival2 = 1 - (n*exp(-a*(fixedV^b))*(probE1^immJ2))^-v
                 probSurvival2[probSurvival2 < 0] <- 0
-                immK_array[[k+1]] <- probSurvival2
+                immJ_array[[k+1]] <- probSurvival2
             }
-            immK_data<- NULL
-            for(i in 1:length(immK_array)){
-                data <- data.frame(x=immK2/r,y=immK_array[[i]],z=as.character(i))
-                immK_data <- rbind(immK_data,data)
+            immJ_data<- NULL
+            for(i in 1:length(immJ_array)){
+                data <- data.frame(x=immJ2/r,y=immJ_array[[i]],z=as.character(i))
+                immJ_data <- rbind(immJ_data,data)
             }
-            H <- ggplot() + geom_line(data=immK_data,aes(x=x,y=y,colour=z)) + scale_color_manual(values=colours) +
+            H <- ggplot() + geom_line(data=immJ_data,aes(x=x,y=y,colour=z)) + scale_color_manual(values=colours) +
                 theme(plot.title=element_text(hjust=0.5),
                     panel.grid.major=element_blank(),
                     panel.grid.minor=element_blank(),
@@ -300,7 +300,7 @@ B <- ggplot() + geom_line(data=rho_data,aes(x=x,y=y,colour=z)) + scale_color_man
                 scale_x_continuous(expand=c(0,0)) +
                 scale_y_continuous(limits=c(0,1),expand=c(0,0)) +
                 ylab("Probability of Infection Between Hosts") + 
-                xlab("ImmK")  + ggtitle("Plot H")
+                xlab("immJ")  + ggtitle("Plot H")
 
 ```
 
@@ -310,7 +310,7 @@ The purpose of this vignette is to describe the theory behind the model of the [
 Note that this document does not describe the transmission model itself, which is described [here](https://jameshay218.github.io/driftSim/inst/doc/transmission_model.html).
 
 ## Model equations
-The plots in the shiny app are governed by the equations shown below. These equations make up a model to represent how changes in binding avidity impact the various stages from host infection through to reinfection. The model also considers the immune history of the host, $\textbf{h}$, and the level of immunity, $k$, a host has, which is represented by the blue-red lines in the plots (blue $k=0$, red $k=k_{max}$). For the purposes of these plots, a higher value of $k$ simply represents higher levels of antibody-mediated immunity.
+The plots in the shiny app are governed by the equations shown below. These equations make up a model to represent how changes in binding avidity impact the various stages from host infection through to reinfection. The model also considers the immune history of the host, $\textbf{h}$, and the level of immunity, $j$, a host has, which is represented by the blue-red lines in the plots (blue $j=0$, red $j=j_{max}$). For the purposes of these plots, a higher value of $j$ simply represents higher levels of antibody-mediated immunity.
 
 ### 1. Probability of evading immune system
 After entering a host, the virus must first evade the immune response (Equation 1). Here, the probability of escaping the immune response increases as binding avidity increases as shown in plot A. The virus must also evade the host's antibody-mediated immunity conferred from all previous infections ($\textbf{h}$), adjusted by the antigenic distance between the infecting virus and the viruses that elicited the host's previous antibody response.
@@ -321,7 +321,7 @@ E + ggtitle("Plot A")
 
 As hosts will have encountered a number of infections in their lifetime, the infection history $\textbf{h}$ for a given host is the vector of all viruses that the host has seen. This part of the model is described in greater detail in [Section 3.3 of the accompanying transmission model vignette](https://jameshay218.github.io/driftSim/inst/doc/transmission_model.html). 
 
-In summary, the level of immunity that a host has against an infecting virus is the sum of the host's antibody repetoire less the minimum antigenic distance between the infecting virus and all past infections in the host's immune history, represented by the term $r(k - \delta_{ij})$ below. $i$ represents the infecting strain and $j$ represents the most antigenically similar strain in the host's infection history. The definition of antigenic distance is analagous to the concepts described by [Smith et al. 2004](http://science.sciencemag.org/content/305/5682/371)
+In summary, the level of immunity that a host has against an infecting virus is the sum of the host's antibody repetoire less the minimum antigenic distance between the infecting virus and all past infections in the host's immune history, represented by the term $r(j - \delta_{il})$ below. $i$ represents the infecting strain and $l$ represents the most antigenically similar strain in the host's infection history. The definition of antigenic distance is analagous to the concepts described by [Smith et al. 2004](http://science.sciencemag.org/content/305/5682/371)
 
 The rate of change of $f$ with respect to binding avidity is shown in plot B.
 
@@ -330,13 +330,13 @@ C + ggtitle("Plot B")
 ```
 
 \begin{equation}
-  f(k,\delta_{ij},V_i) = [1-e^{-p(V_i+q)}]^{r(k - \delta_{ij})}
+  f(k,\delta_{il},V_i) = [1-e^{-p(V_i+q)}]^{r(j - \delta_{il})}
 \end{equation}
 
-Where $V_i$ is the binding avidity of virus $i$; $k$ is the total antibody titre of the host; $\delta_{ij}$ is the antigenic distance between strain $i$ and the host immunity virus, $j$; and the remaining parameters are defined at the bottom of this document (or with `?exampleParameters` from the package).
+Where $V_i$ is the binding avidity of virus $i$; $j$ is the total antibody titre of the host; $\delta_{il}$ is the antigenic distance between strain $i$ and the host immunity virus, $l$; and the remaining parameters are defined at the bottom of this document (or with `?exampleParameters` from the package).
 
 ### 2. Probability of successful replication within host
-Binding avidity also affects how well a virus is able to replicate within the host, as described by Equation 2. This relationship is shown in plot C. The naive case (ie. $k=0$) is shown in plot D.
+Binding avidity also affects how well a virus is able to replicate within the host, as described by Equation 2. This relationship is shown in plot C. The naive case (ie. $j=0$) is shown in plot D.
 
 \begin{equation}
 g(V_i) = e^{-aV_i^b}
@@ -349,21 +349,21 @@ cowplot::plot_grid(A + ggtitle("Plot C"), F + ggtitle("Plot D"),ncol=2)
 ### 3. Probability of successful within host infection
 To successfully infect a host, the virus must escape the immune system (Equation 1) and successfully replicate (Equation 2). The probability of a successful within-host infection is given by:
 \begin{equation}
-\phi(H_k,V_i) = f(k,\delta_{ij},V_i) \cdot g(V_i) = [1-e^{-p(V_i+q)}]^{r(k - \delta_{ij})} \cdot e^{-aV_i^b}
+\phi(H_j,V_i) = f(j,\delta_{il},V_i) \cdot g(V_i) = [1-e^{-p(V_i+q)}]^{r(j - \delta_{il})} \cdot e^{-aV_i^b}
 \end{equation}
 
-Where $H_k$ represents the host with immunity $k$ and a known infection history such that $H_k : \{k, \delta_{ij}\}$.
+Where $H_j$ represents the host with immunity $j$ and a known infection history such that $H_j : \{j, \delta_{il}\}$.
 
 ### 4. Within host reproductive number
 The within-host reproductive number is given by the product of the probability of successful within host infection, and the number of offspring virions produced per event:
 \begin{equation}
-  R_{in} = n \cdot \phi(H_k,V_i)
+  R_{in} = n \cdot \phi(H_j,V_i)
 \end{equation}
 
 ### 5. Infectiousness
 The infectiousness of a particular virus is therefore related to the within-host reproductive number and the number of initially infecting virions as follows:
 \begin{equation}
-\rho = 1 - (\frac{1}{R_{in}})^{-v} = 1-(\frac{1}{\phi(H_k, V_i)})^{-nv}
+\rho = 1 - (\frac{1}{R_{in}})^{-v} = 1-(\frac{1}{\phi(H_j, V_i)})^{-nv}
 \end{equation}
 
 Plot E below shows the probability of infection between hosts as a function of binding avidity.
@@ -387,7 +387,7 @@ The rate of binding avidity adaptation of a virus within a given host is assumed
 \frac{dV}{dt} = \frac{dR_{in}}{dV} = g(V_i)f'(J,V_i) + g'(V_i)f(J,V_i)
 \end{equation}
 
-Where $J = k - \delta_{ij}$, and the derivaties for $g(V)$ and $f(J, V)$ are given by:
+Where $J = j - \delta_{il}$, and the derivaties for $g(V)$ and $f(J, V)$ are given by:
 
 \begin{equation}
 g'(V) = -abV^{b-1}e^{-a(V^b)}\\

@@ -1,5 +1,5 @@
 ---
-title: "Short-sighted evolution of influenza cellular receptor binding avidity shapes influenza epidemic dynamics"
+title: "Stabilizing selection of seasonal influenza receptor binding in populations with partial immunity"
 subtitle: "Transmission model"
 output: 
   rmarkdown::html_vignette:
@@ -40,7 +40,7 @@ R(t + \delta t) = R(t) + \delta M_R - \delta M_W - \delta M_{D_R}
 \end{equation}
 \
 
-Where the nomencalture of $\delta M_X$ describes the number of events of type $X$ that occur within a small, fixed time interval, $\delta t$. These number of events that occur is approximately Poisson distributed such that:
+Where the nomencalture of $\delta M_X$ describes the number of events of type $X$ that occur within a small, fixed time interval, $\delta t$. The number of events that occur are approximately Poisson distributed such that:
 
 \
 \begin{equation}
@@ -57,23 +57,23 @@ Where the nomencalture of $\delta M_X$ describes the number of events of type $X
 Please refer to Chapter 6 of [Keeling and Rohani](http://www.modelinginfectiousdiseases.org/) for more information.
 
 ## 3. Transmission probabilities
-The core theoretical aspect of this model is the transmission rate, $\beta$. This parameter is conditional on both properties of the host population and properties of the infecting virus. We will describe the parts of this parameter that are directly relevant to the tranmission model below, but readers should refer to the other [vignette](https://jameshay218.github.io/driftSim/inst/doc/science.html) on within-host properties for a full description of the relationship between host immunity and binding avidity on transmission.
+The core of this model is the transmission rate, $\beta$. This parameter is conditional on both properties of the host population and properties of the infecting virus. We describe here the parts of this parameter that are directly relevant to the tranmission model below, but readers should refer to the other [vignette](https://jameshay218.github.io/driftSim/inst/doc/science.html) on within-host properties for a full description of the relationship between host immunity and binding avidity on transmission.
 
 ### 3.1 Host population parameters
 There are two key properties of individual hosts that mediate transmission probability in this model:
 
 * The daily contact rate, $c$
-* The level of adaptive immunity, $k$, that a given susceptible individual has against a particular infecting virus
+* The level of adaptive immunity, $J$, that a given susceptible individual has against a particular infecting virus
 
 Whilst the contact rate has a straightforward interpretation (average number of contacts made by an individual per day), the level of effective adaptive immunity against a given virus is slightly more complicated. 
 
-If a host is infected and then recovers, we assume that that host generates an antibody boost of $k$ units, drawn from a Poisson distribution with mean $\sigma$ upon recovery. However, we assume that the level of boosting is inversely proportional to the amount of antibody already present, such that the realised boost is given by:
+Hosts have antibody-mediated immunity $j$ against all viruses that they have been previously exposed to. If a host is infected and then recovers, we assume that that host generates an antibody boost of $k\sim\text{Poisson}(\psi - \frac{\psi}{j_{max}}j)$ units upon recovery. However, we assume that the level of boosting is inversely proportional to the amount of antibody already present, such that the realised boost is given by:
 
 \begin{equation}
-k_{new} = k_{cur} + \text{Poisson}(\sigma - \frac{\sigma}{k_{max}}k_{cur})
+j^{\prime} = j + \text{Poisson}(\psi - \frac{\psi}{j_{max}}j)
 \end{equation}
 
-Where $k_{new}$ is the antibody titre following recovery; $k_{cur}$ is the antibody titre before recovery; $\sigma$ is the mean level of unmediated boost; and $k_{max}$ is the maximum achievable antibody titre. See [Jacobson et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/25835513) for a gateway into the literature on antibody ceiling effects. Also refer to [Kucharski et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/?term=kucharski+antigenic+seniority) for antibody boosting in the context of epidemiological models.
+where $j^{\prime}$ is the antibody titer following recovery; $j$ is the antibody titer before recovery; $\sigma$ is the mean level of unmediated boost; and $j_{max}$ is the maximum achievable antibody titer. See [Jacobson et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/25835513) for a gateway into the literature on antibody ceiling effects. Also refer to [Kucharski et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/?term=kucharski+antigenic+seniority) for antibody boosting in the context of epidemiological models.
 
 For a completely naive individual where $\sigma = 3$, the distribution of boosts is:
 ```{r,fig.width = 4, fig.height=3}
@@ -99,7 +99,7 @@ For a completely naive individual where $\sigma = 3$, the distribution of boosts
 ```
 
 ### 3.2 Virus properties
-The key feature of adaptive immunity in this model is that the total level of immunity a host has, $k$, is not fully effective against novel viruses, similar to the idea of antigenic cartography or antibody landscapes described by [Fonville et al. 2014](http://science.sciencemag.org/content/346/6212/996). In this model, we consider each unique infection (infectee strain) to generate a novel virus phenotype with some antigenic distance, $\delta$ to it's parent (infector strain). In terms of model implementation, this means that we record every individual virus that causes an infection; the host that this virus infects and the identity of the parent virus such that we can reconstruct an entire phylogeny.
+The key feature of adaptive immunity in this model is that the total level of immunity a host has, $j$, is not fully effective against novel viruses, similar to the idea of antigenic cartography or antibody landscapes described by [Fonville et al. 2014](http://science.sciencemag.org/content/346/6212/996). In this model, we consider each unique infection (infectee strain) to generate a novel virus phenotype with some antigenic distance, $\delta$ to it's parent (infector strain). In terms of model implementation, this means that we record every individual virus that causes an infection; the host that this virus infects and the identity of the parent virus such that we can reconstruct an entire phylogeny.
 
 We choose an arbitrary virus to represent the "root" of the virus phylogenetic tree, such that the "antigenic distance" of a given virus $i$, $\delta_i$ is given as the antigenic distance from $i$ to this root virus unless otherwise specified. Similarly, $\delta_{ij}$ denotes the antigenic distance between viruses $i$ and $j$. The antigenic distance to self is always 0, such that hosts have fully effective immunity against a strain that they have seen before. 
 
@@ -134,20 +134,18 @@ attach(exampleParameters)
 ```
 
 ### 3.3 Effective immunity
-We combine the properties of host immunity and antigenic distance to give a measure of effective immunity, $J$, for a given host against an infecting virus. When hosts recover from infection with a particular virus, $\upsilon_i$, the identity of this virus is stored in the host's infection history (in addition to the host receiving a boost in antibody titre). In the context of immunity, any given susceptible host, $s$ is therefore defined by the contents of their infection history, $\textbf{h}$, and their total antibody titre, $k$:
-\
-\begin{equation}
-s : \{\textbf{h}, k\}\\
-\textbf{h} = (\upsilon_1, \upsilon_2, \dots \upsilon_n)
-\end{equation}
-\
-Upon contact with an infected host who is infected with virus $j$ ($\upsilon_j$), the level of effective immunity, $J$, host $s$ has against virus $\upsilon_j$ is given by the total antibody titre less the smallest antigenic distance between $\upsilon_j$ and all viruses in the host's immune history $\textbf{h}$:
+We combine the properties of host immunity and antigenic distance to give a measure of effective immunity, $J$, for a given host against an infecting virus. When hosts recover from infection with a particular virus, $\upsilon_i$, the identity of this virus is stored in the host's infection history (in addition to the host receiving a boost in antibody titer). In the context of immunity, any given susceptible host, $i$ is therefore defined by the contents of their infection history, $\textbf{h}_i$, and their total homologous antibody titer, $j_i$:
 
 \begin{equation}
-J = k - \text{min}(\delta_{ij}), i \in \textbf{h}
+s : \{\textbf{h}_i, j_i\}\\
+\textbf{h}_i = \{\upsilon_1, \upsilon_2, \dots \upsilon_n\}
 \end{equation}
 
-Where we ensure that $J \geq 0$.
+Upon contact with an infected host who is infected with virus $s$ ($\upsilon_s$), the level of effective immunity, $J_{is}$, host $i$ has against virus $\upsilon_s$ is given by the total antibody titer less the smallest antigenic distance between $\upsilon_s$ and all viruses in the host's immune history $\textbf{h}_i$:
+
+\begin{equation}
+J_{is} = \text{max}(0,j_i - \text{min}(\delta_{li})), l \in \textbf{h}_i
+\end{equation}
 
 This $J$ feeds into the "probability of evading immune system" term described in the [accompanying vignette](https://jameshay218.github.io/driftSim/inst/doc/science.html), which ultimately defines the level of infectiousness, $\rho$. The transmission rate is then defined as:
 
@@ -156,11 +154,11 @@ This $J$ feeds into the "probability of evading immune system" term described in
 \end{equation}
 
 
-If a host is successfully infected with a virus, $\upsilon_i$, then this virus is added to the infection history such that:
+If a host is successfully infected with a virus, $\upsilon_s$, then this virus is added to the infection history such that:
 
 
 \begin{equation}
-\textbf{h}_{new} = \textbf{h} \cup \{\upsilon_i\}
+\textbf{h}_i^{new} = \textbf{h}_i \cup \{\upsilon_s\}
 \end{equation}
 
 
@@ -203,13 +201,13 @@ The full virus phylogeny can easily be reconstructed using property 3. Taking ea
 ```
 
 ## 5. Adaptive binding avidity
-In addition to antigenic drift described above, the binding avidity of a given virus, $V_i$, adapts to level of immune selection pressure elicited by the host during the course of infection. We assume that in a given time step, $\delta t$, during infection, binding avidity changes proportional to the fitness gradient at the current binding avidity level. We define the fitness gradient as proportional to the derivative of the within-host reproductive number, $R_{in}$, with respect to binding avidity. We assume that the binding avidity trait moves "towards" the value that gives the greatest $R_{in}$ over time. Based on $f(k, \delta_{ij}, V_i)$ and $g(V_i)$ as defined in the accompanying [vignette](https://jameshay218.github.io/driftSim/inst/doc/science.html), the rate of change of binding avidity with respect to time is given by:
+In addition to antigenic drift described above, the binding avidity of a given virus, $V_i$, adapts to level of immune selection pressure elicited by the host during the course of infection. We assume that in a given time step, $\delta t$, during infection, binding avidity changes proportional to the fitness gradient at the current binding avidity level. We define the fitness gradient as proportional to the derivative of the within-host reproductive number, $R_{in}$, with respect to binding avidity. We assume that the binding avidity trait moves "towards" the value that gives the greatest $R_{in}$ over time. Based on $f(J, V_i)$ and $g(V_i)$ as defined in the accompanying [vignette](https://jameshay218.github.io/driftSim/inst/doc/science.html), the rate of change of binding avidity with respect to time is given by:
 
 \begin{equation}
 \frac{dV}{dt} = \frac{dR_{in}}{dV} = g(V_i)f'(J,V_i) + g'(V_i)f(J,V_i)
 \end{equation}
 
-Where $J = k - \delta_{ij}$ as defined above.
+Where $J = j - \delta$ as defined above.
 
 To avoid solving this equation numerically for every time step for each adapting virus, we pre-compute a table of expected binding avidity change for a set of given binding avidities and host immunity values within a small time step, $\delta t$.
 
