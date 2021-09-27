@@ -2,46 +2,34 @@
 
 using namespace std;
 
-int Host::_meanBoost = 10;
-int Host::_maxTitre = 10;
-
-void Host::changeMeanBoost(int newBoost){
-  _meanBoost = newBoost;
-}
-
-void Host::set_maxTitre(int newTitre){
-  _maxTitre = newTitre;
-}
-
 Host::Host(){
   state = Susceptible;
-  currentInfection = NULL;
-  hostK = 0;
+  currentInfection=NULL;
+  symptomatic=false;
 }
 
 Host::Host(State _state, HostPopulation* _popn){
   state = _state;
-  currentInfection = NULL;
+  symptomatic=false;
+  currentInfection=NULL;
   popn = _popn;
-  hostK = 0;
 }
 
 
-Host::Host(State _state, HostPopulation* _popn, int _k){
+Host::Host(State _state, HostPopulation* _popn, bool _symptomatic){
+  symptomatic = _symptomatic;
+  currentInfection=NULL;
   state = _state;
-  currentInfection = NULL;
   popn = _popn;
-  hostK = (double)_k;
 }
 
-Host::Host(State _state, HostPopulation* _popn, int _k, Virus* _firstInf){
-state = _state;
-  currentInfection = NULL;
+Host::Host(State _state, HostPopulation* _popn, bool _symptomatic, Virus* firstInf){
+  symptomatic = _symptomatic;
+  currentInfection=NULL;
+  state = _state;
   popn = _popn;
-  hostK = (double)_k;
-  infectionHistory.push_back(_firstInf);
+  infectionHistory.push_back(firstInf);
 }
-
 
 Host::~Host(){
   int j = infectionHistory.size();
@@ -70,7 +58,7 @@ bool Host::isSusceptible(){
 
 void Host::infect(Virus* newInfection, int cur_t){
   state = Infected;
-
+  
   if(currentInfection != NULL){
     currentInfection->kill(cur_t);
     infectionHistory.push_back(currentInfection);
@@ -78,19 +66,9 @@ void Host::infect(Virus* newInfection, int cur_t){
   currentInfection = newInfection;
 }
 
-int Host::decaying_boost(){
-  int boost;
-  double scale = (-(double)_meanBoost/(double)_maxTitre)*(double)hostK + (double)_meanBoost;
-  boost = R::rpois(scale);
-  if(boost < 0) boost = 0;
-  return(boost);
-}
 
 void Host::recover(int cur_t){
   state = Recovered;
-  int boost = decaying_boost();
-  hostK += boost;
-
   if(currentInfection != NULL){
     currentInfection->kill(cur_t);
     infectionHistory.push_back(currentInfection);
@@ -127,12 +105,15 @@ void Host::wane(){
   state = Susceptible;
 }
 
-double Host::calculateBeta(){
-  return(popn->getContactRate()*currentInfection->calculateRho(this));
+double Host::calculateInfectiousness(int cur_t){
+  double vl = 0;
+  if(currentInfection != NULL){
+      vl = currentInfection->calculateViralLoad(cur_t);
+  }
+  return vl;
 }
-
-double Host::get_hostK(){
-  return(hostK);
+double Host::calculateSusceptibility(Virus* infecting_virus){
+  
 }
 
 default_random_engine Host::get_generator(){

@@ -11,7 +11,6 @@
 #include <map>
 
 class Host;
-class Virus;
 
 class HostPopulation{
 private:
@@ -31,7 +30,6 @@ private:
   double wane;
   double gamma;
 
-  Virus* seedVirus;
 
 public:
   std::default_random_engine generator;
@@ -39,9 +37,9 @@ public:
   // Constructors
   HostPopulation();
   // With no starting immunity
-  HostPopulation(int initialS, int initialI, int initialR, int iniDay, double _contactRate, double _mu, double _wane, double _gamma, double _iniBindingAvid, double initialDistance);
+  HostPopulation(int initialS, int initialI, int initialR, int iniDay, double _contactRate, double _mu, double _wane, double _gamma);
   // With a given vector of starting immunity values
-  HostPopulation(int initialS, int initialI, int initialR, int iniDay, double _contactRate, double _mu, double _wane, double _gamma, double _iniBindingAvid, double initialDistance, Rcpp::NumericVector startingK);
+  HostPopulation(int initialS, int initialI, int initialR, int iniDay, double _contactRate, double _mu, double _wane, double _gamma);
   ~HostPopulation();
 
   // Manage population temporal dynamics
@@ -51,7 +49,6 @@ public:
   double contact();
   void recoveries();
   void waning();
-  void mutations();
   void updateCompartments();
 
   // Get properties of HostPopulation
@@ -62,17 +59,10 @@ public:
   int countRecovereds();
   int countN();
 
-  Virus* getSeedVirus();
-
   // Print out current population status
   void printStatus();
   void writeHosts(std::ofstream& output, std::string filename);
-  void readHosts(std::string hostFilename, std::string virusFilename);
-  std::map<int, Virus*> readViruses(std::string virusFilename);
-  void writeViruses(std::ofstream& output, std::string filename, bool savingState);
-  void virusPairwiseMatrix(std::ofstream& output, std::string filename, int sampSize);
-  
-  Rcpp::NumericVector getHostKDist();
+  void readHosts(std::string hostFilename);
 
 };
 

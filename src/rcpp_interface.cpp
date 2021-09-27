@@ -12,75 +12,10 @@
 #include <Rcpp.h>
 #include <vector>
 
-#include "virus.hpp"
 #include "host.hpp"
 #include "hostpopulation.hpp"
 
 using namespace std;
-
-//' Draws a single starting immune value from a cumulative vector distribution
-//'
-//' @param dist the vector of K values to draw from.
-//' @return A single K value from the given distribution
-//' @export
-//' @useDynLib driftSim
-//' @seealso \code{\link{generateKSamples}}
-//[[Rcpp::export]]
-int generateStartK(Rcpp::NumericVector dist){
-  double tmp = R::unif_rand();
-  int index = 0;
-  while(tmp > dist[index] && index < dist.size()){
-    index++;
-  }
-  return(index);
-}
-
-//' Generate N samples of immune values (K)
-//' 
-//' @param cumSumK the cumulative distribution of K frequencies
-//' @param N the number samples to draw
-//' @return A random sample of N K values from cumSumK
-//' @export
-//' @useDynLib driftSim
-//' @seealso \code{\link{generateStartK}}
-//[[Rcpp::export]]
-Rcpp::NumericVector generateKSamples(Rcpp::NumericVector cumSumK, int N){
-  Rcpp::NumericVector ks(N);
-  for(int i = 0; i < N; ++i){
-    ks[i] = generateStartK(cumSumK);
-  }
-  return(ks);
-}
-
-//' @export
-//' @useDynLib driftSim
-//[[Rcpp::export]]
-Rcpp::NumericVector callFunction(std::string filename, int N, Rcpp::Function f){
-  Rcpp::NumericVector hostKDist = f(filename, N);
-  return(hostKDist);
-}
-
-
-//' Counts Ks
-//'
-//' Counts the number of individuals in the host population with each K value from 0 to N
-//' @param ks the vector of K values
-//' @param N the maximum K value to count
-//' @return a vector of length N with K counts
-//' @export
-//' @useDynLib driftSim
-//[[Rcpp::export]]
-Rcpp::NumericVector countKs(Rcpp::NumericVector ks, int N){
-  Rcpp::NumericVector counted(N);
-  int j = ks.size();
-  int tmp = 0;
-  for(int i = 0; i < j; i++){
-    tmp = ks[i];
-    if(tmp >= N) tmp = N-1;
-    counted[tmp] += 1;
-  }
-  return(counted);
-}
 
 //' Interface to the entire C++ driftSim simulation
 //'
