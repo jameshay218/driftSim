@@ -11,6 +11,7 @@
 #include <map>
 
 class Host;
+class Virus;
 
 class HostPopulation{
 private:
@@ -23,31 +24,32 @@ private:
   std::vector<Host*> new_recovereds;
   std::vector<Host*> new_susceptibles;
   std::vector<Host*> new_births;
+  
+  std::vector<Virus*> seed_viruses;
 
   int day;
-  double contactRate;
-  double mu;
-  double wane;
-  double gamma;
-
+  double contactRate; // How many contacts made on average per time step?
+  double mu; // Birth and death rate
+  double wane; // Rate of losing full immunity
 
 public:
   std::default_random_engine generator;
 
   // Constructors
   HostPopulation();
-  // With no starting immunity
-  HostPopulation(int initialS, int initialI, int initialR, int iniDay, double _contactRate, double _mu, double _wane, double _gamma);
-  // With a given vector of starting immunity values
-  HostPopulation(int initialS, int initialI, int initialR, int iniDay, double _contactRate, double _mu, double _wane, double _gamma);
+  HostPopulation(int initialS, int initialI, int initialR, int iniDay, double _contactRate, double _mu, double _wane, int seed_variant);
+
+  // Destructor
   ~HostPopulation();
 
   // Manage population temporal dynamics
   double stepForward(int new_day);
   void grow();
   void decline();
+  void seed(int variant, int number); // Function to seed new infections of a certain variant
   double contact();
   void recoveries();
+  void onsets();
   void waning();
   void updateCompartments();
 
@@ -62,7 +64,7 @@ public:
   // Print out current population status
   void printStatus();
   void writeHosts(std::ofstream& output, std::string filename);
-  void readHosts(std::string hostFilename);
+  void writeViruses(std::ofstream& output, std::string filename);
 
 };
 

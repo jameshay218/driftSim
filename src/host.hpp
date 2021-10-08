@@ -16,10 +16,7 @@ private:
   std::vector<Virus*> infectionHistory; // Keep a vector of past infections
   Virus* currentInfection; // Pointer to currently infecting virus
   
-  bool symptomatic; // Symptomatic or not?
-  
-  int infection_time; 
-  
+  bool symptomatic;
 
 public:
 
@@ -31,25 +28,28 @@ public:
   Host(State _state, HostPopulation* _popn, Virus* firstInf); // Constructor if currently infected or recovered with one past infection
   ~Host();
 
-  // Calculations/Events
+  // Calculations
   double calculateInfectiousness(int cur_t); // Get infectiousness based on viral kinetics
   double calculateSusceptibility(Virus* infecting_virus); // Get susceptibility based on infecting virus and infection history
+  
+  // Events
   void infect(Virus* newInfection, int cur_t);
   void addInfection(Virus* infection);
-  void recover(int cur_t);
+  bool recover(int cur_t);
+  void onset(int cur_t);
   void wane();
   void die(int cur_t);
-
-  bool isInfected();
-  bool isDead();
-  bool isSusceptible();
-  bool isRecovered();
 
   // Attribute Access
   Virus* getCurrentVirus();
   std::vector<Virus*> getInfectionHistory();
   State getState();
-  std::default_random_engine get_generator();
+  
+  bool isInfected();
+  bool isDead();
+  bool isSusceptible();
+  bool isRecovered();
+  bool isSymptomatic();
   
 };
 

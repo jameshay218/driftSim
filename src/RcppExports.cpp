@@ -10,83 +10,29 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// generateStartK
-int generateStartK(Rcpp::NumericVector dist);
-RcppExport SEXP _driftSim_generateStartK(SEXP distSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type dist(distSEXP);
-    rcpp_result_gen = Rcpp::wrap(generateStartK(dist));
-    return rcpp_result_gen;
-END_RCPP
-}
-// generateKSamples
-Rcpp::NumericVector generateKSamples(Rcpp::NumericVector cumSumK, int N);
-RcppExport SEXP _driftSim_generateKSamples(SEXP cumSumKSEXP, SEXP NSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type cumSumK(cumSumKSEXP);
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    rcpp_result_gen = Rcpp::wrap(generateKSamples(cumSumK, N));
-    return rcpp_result_gen;
-END_RCPP
-}
-// callFunction
-Rcpp::NumericVector callFunction(std::string filename, int N, Rcpp::Function f);
-RcppExport SEXP _driftSim_callFunction(SEXP filenameSEXP, SEXP NSEXP, SEXP fSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type filename(filenameSEXP);
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< Rcpp::Function >::type f(fSEXP);
-    rcpp_result_gen = Rcpp::wrap(callFunction(filename, N, f));
-    return rcpp_result_gen;
-END_RCPP
-}
-// countKs
-Rcpp::NumericVector countKs(Rcpp::NumericVector ks, int N);
-RcppExport SEXP _driftSim_countKs(SEXP ksSEXP, SEXP NSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type ks(ksSEXP);
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    rcpp_result_gen = Rcpp::wrap(countKs(ks, N));
-    return rcpp_result_gen;
-END_RCPP
-}
 // run_simulation_cpp
-int run_simulation_cpp(Rcpp::IntegerVector flags, Rcpp::NumericVector hostPopn, Rcpp::NumericVector virusPars, Rcpp::NumericMatrix deltaVMat, SEXP iniKs, int day, int final_day, std::vector<std::string> input_files, std::vector<std::string> output_files, bool VERBOSE, int scenario, SEXP callback);
-RcppExport SEXP _driftSim_run_simulation_cpp(SEXP flagsSEXP, SEXP hostPopnSEXP, SEXP virusParsSEXP, SEXP deltaVMatSEXP, SEXP iniKsSEXP, SEXP daySEXP, SEXP final_daySEXP, SEXP input_filesSEXP, SEXP output_filesSEXP, SEXP VERBOSESEXP, SEXP scenarioSEXP, SEXP callbackSEXP) {
+int run_simulation_cpp(Rcpp::IntegerVector flags, Rcpp::NumericVector hostPopn, Rcpp::NumericMatrix vlPars, Rcpp::NumericMatrix infectiousnessPars, Rcpp::NumericMatrix crossImmunity, int day, int final_day, std::vector<std::string> output_files, bool VERBOSE, SEXP callback);
+RcppExport SEXP _driftSim_run_simulation_cpp(SEXP flagsSEXP, SEXP hostPopnSEXP, SEXP vlParsSEXP, SEXP infectiousnessParsSEXP, SEXP crossImmunitySEXP, SEXP daySEXP, SEXP final_daySEXP, SEXP output_filesSEXP, SEXP VERBOSESEXP, SEXP callbackSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type flags(flagsSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type hostPopn(hostPopnSEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type virusPars(virusParsSEXP);
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type deltaVMat(deltaVMatSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type iniKs(iniKsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type vlPars(vlParsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type infectiousnessPars(infectiousnessParsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type crossImmunity(crossImmunitySEXP);
     Rcpp::traits::input_parameter< int >::type day(daySEXP);
     Rcpp::traits::input_parameter< int >::type final_day(final_daySEXP);
-    Rcpp::traits::input_parameter< std::vector<std::string> >::type input_files(input_filesSEXP);
     Rcpp::traits::input_parameter< std::vector<std::string> >::type output_files(output_filesSEXP);
     Rcpp::traits::input_parameter< bool >::type VERBOSE(VERBOSESEXP);
-    Rcpp::traits::input_parameter< int >::type scenario(scenarioSEXP);
     Rcpp::traits::input_parameter< SEXP >::type callback(callbackSEXP);
-    rcpp_result_gen = Rcpp::wrap(run_simulation_cpp(flags, hostPopn, virusPars, deltaVMat, iniKs, day, final_day, input_files, output_files, VERBOSE, scenario, callback));
+    rcpp_result_gen = Rcpp::wrap(run_simulation_cpp(flags, hostPopn, vlPars, infectiousnessPars, crossImmunity, day, final_day, output_files, VERBOSE, callback));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_driftSim_generateStartK", (DL_FUNC) &_driftSim_generateStartK, 1},
-    {"_driftSim_generateKSamples", (DL_FUNC) &_driftSim_generateKSamples, 2},
-    {"_driftSim_callFunction", (DL_FUNC) &_driftSim_callFunction, 3},
-    {"_driftSim_countKs", (DL_FUNC) &_driftSim_countKs, 2},
-    {"_driftSim_run_simulation_cpp", (DL_FUNC) &_driftSim_run_simulation_cpp, 12},
+    {"_driftSim_run_simulation_cpp", (DL_FUNC) &_driftSim_run_simulation_cpp, 10},
     {NULL, NULL, 0}
 };
 
