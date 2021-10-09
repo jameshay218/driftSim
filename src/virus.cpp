@@ -37,7 +37,7 @@ Virus::Virus(int _t, int _variant, Virus* _parent, Host* _host, int _infectionNo
     
     int index;
     
-    if(vlPars.nrow() == 0){
+    if(vlPars.nrow() > 0){
         // A little funky but feels efficient to code. We have a pre-computed matrix of values to pull from.
         // We have a matrix for each variant. There are the same number of rows for each variant. These
         // matrices get concatenated and we pull from the correct "chunk" of the combined matrix.
@@ -56,9 +56,10 @@ Virus::Virus(int _t, int _variant, Virus* _parent, Host* _host, int _infectionNo
         to = 5;
         tw = 10;
         alpha = 10;
+        symptomatic=false;
     }
     
-    if(infectiousnessPars.nrow() == 0){
+    if(infectiousnessPars.nrow() > 0){
         infectiousnessMax = infectiousnessPars(variant, 0);
         infectiousnessGradient = infectiousnessPars(variant, 1);
         infectiousnessInflection = infectiousnessPars(variant, 2);
@@ -67,6 +68,28 @@ Virus::Virus(int _t, int _variant, Virus* _parent, Host* _host, int _infectionNo
         infectiousnessGradient = 0.75;
         infectiousnessInflection = 5;
     }
+}
+
+Virus::Virus(double _t, double _tg, double _tp, double _to, double _tw, double _alpha, 
+             double _infectiousnessMax, double _infectiousnessGradient, double _infectiousnessInflection){
+    birth = _t;
+    death = -1;
+    variant = 0;
+    infectionNo = 0;
+    
+    parent = NULL;
+    host = NULL;
+    
+    tg = _tg;
+    tp = _tp;
+    to = _to;
+    tw = _tw;
+    alpha = _alpha;
+    symptomatic=false;
+    
+    infectiousnessMax = _infectiousnessMax;
+    infectiousnessGradient = _infectiousnessGradient;
+    infectiousnessInflection = _infectiousnessInflection;
 }
 
 // Default constructor
@@ -165,17 +188,17 @@ void Virus::updateHost(Host* newHost){
     host = newHost;
 }
 
-void Virus::kill(int cur_t){
+void Virus::kill(double cur_t){
     death = cur_t;
 }
 
 // Set viral kinetics parameters
 void Virus::set_default(){
-    tg = 2;
-    tp = 3;
-    to = 5;
-    tw = 10;
-    alpha = 10;
+    tg = 2.0;
+    tp = 3.0;
+    to = 5.0;
+    tw = 10.0;
+    alpha = 10.0;
     symptomatic=false;
     
     infectiousnessMax = 0.5;
@@ -229,7 +252,10 @@ int Virus::getVariant(){
 }
 
 int Virus::getAgeOfParentAtBirth(){
-    return birth - parent->getBirth();
+    if(parent->getBirth() >= 0){
+        return birth - parent->getBirth();
+    }
+    return(-1);
 }
 
 double Virus::get_tg(){return tg;}
@@ -246,7 +272,7 @@ double Virus::get_infectiousnessInflection(){return infectiousnessInflection;}
 
 
 // If current time is long enough after creation to have 0 viral load, then should be recovered
-bool Virus::hasRecovered(int cur_t){
+bool Virus::hasRecovered(double cur_t){
     if(cur_t - birth >= tp + tw){
         return true;
     } else {
@@ -255,7 +281,7 @@ bool Virus::hasRecovered(int cur_t){
 }
 
 // Check if onset is today
-bool Virus::hasOnset(int cur_t){
+bool Virus::hasOnset(double cur_t){
     if(symptomatic &&  cur_t - birth == to){
         return true;
     }
@@ -266,8 +292,8 @@ bool Virus::hasOnset(int cur_t){
 // Model functions
 /* ========================================== */
 // Viral load calculation
-double Virus::calculateViralLoad(int cur_t){
-    int t = cur_t - birth;
+double Virus::calculateViralLoad(double cur_t){
+    double t = cur_t - birth;
     double y;
     
     // If virus has been killed
@@ -280,7 +306,8 @@ double Virus::calculateViralLoad(int cur_t){
     if(t <= tg){
         y = true_0;
     } else if(t > tg & t <= tp) {
-        y = t*alpha/tp;
+        //y = (t-tg)*alpha/(tp-tg);
+        y = (t-tg)*alpha/(tp-tg);
     } else if(t > tp){
         y = alpha - (t-tp)*(alpha/(to - tp + tw));
     } else {
@@ -295,7 +322,7 @@ double Virus::calculateViralLoad(int cur_t){
 
 // Get infectiousness right now based on current viral load and some assumed relationship between viral load
 // and probability of transmitting
-double Virus::getInfectiousness(int cur_t){
+double Virus::getInfectiousness(double cur_t){
     double vl = calculateViralLoad(cur_t);
     
     // Just one assumption. Assume logistic curve for relationship between viral load and probability of transmission

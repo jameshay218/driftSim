@@ -49,6 +49,10 @@ public:
     // Constructor for simulation
     Virus(int _t, int _variant, Virus* _parent, Host* _host, int _infectionNo);
     
+    // For solving/plotting model
+    Virus(double _t, double _tg, double _tp, double _to, double _tw, double _alpha, 
+          double _infectiousnessMax, double _infectiousnessGradient, double _infecitousnessInflection);
+        
     // Destructor
     ~Virus(){}; 
 
@@ -73,7 +77,7 @@ public:
     // Infection state
     void updateParent(Virus* newParent);
     void updateHost(Host* newHost);
-    void kill(int cur_t);
+    void kill(double cur_t);
     
     // Set viral kinetics parameters
     void set_default();
@@ -99,8 +103,8 @@ public:
     int getVariant();
     int getAgeOfParentAtBirth();
     
-    bool hasRecovered(int cur_t);
-    bool hasOnset(int cur_t);
+    bool hasRecovered(double cur_t);
+    bool hasOnset(double cur_t);
     
     Host* getHost();
     Virus* getParent(); 
@@ -119,8 +123,8 @@ public:
     double get_infectiousnessInflection();
     
     // Calculations/events
-    double calculateViralLoad(int cur_t);
-    double getInfectiousness(int cur_t);
+    double calculateViralLoad(double cur_t);
+    double getInfectiousness(double cur_t);
 };
 
 #endif

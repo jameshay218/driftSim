@@ -5,12 +5,14 @@
 #' 2) save_viruses: if TRUE, saves information on the simulation viruses.
 #' 3) use_time: if TRUE, records the duration of the simulation run
 #' 4) save_hosts: if TRUE, saves the properties of the simulation host population.
-#' @param hostpars vector of parameters relating to the host population. In order, these are: S0, I0, R0, contact rate, birth/death rate, temporary immunity waning rate (duration of recovered period), true 0 viral load value, and the ID of the seed variant
+#' @param hostpars vector of parameters relating to the host population. In order, these are: S0, R0, contact rate, birth/death rate, temporary immunity waning rate (duration of recovered period), true 0 viral load value
+#' @param seeds matrix of seeds
 #' @param vlPars pre-computed matrix of random viral load kinetics parameters
 #' @param infectiousnessPars matrix of infectiousness parameters
 #' @param crossImmunity matrix of cross immunity
 #' @param start Simulation start day
 #' @param end Simulation end day
+#' @param tstep time step of simulation
 #' @param output_files Vector of output file names. Note that these should be csv files. In order: 1) location of the SIR dynamics; 2) location of virus characteristics output; 3) Where to save the entire host population characteristics.
 #' @param VERBOSE If TRUE, prints additional simulation output
 #' @param callback Leave this - this is just used by the shiny app for the progress bar.
@@ -19,17 +21,28 @@
 #' @useDynLib driftSim
 run_simulation <- function(
     flags=c(1,0,0,0),
-    hostpars=c(90000,100,0,1.5,1/(40*365),1/25,0,0),
+    hostpars=c(90000,0,1.5,1/(40*365),1/25,0,1000),
+    seeds=matrix(c(0,0,10),nrow=1),
     vlPars,
     infectiousnessPars,
     crossImmunity,
     start=0,
     end=100,
-    output_files = c("SIR.csv","voutput.csv","hosts.csv"),
+    tstep=1,
+    output_files = c("SIR.csv","tests.csv","voutput.csv","hosts.csv"),
     VERBOSE=TRUE,
     callback=NULL){
-    return(run_simulation_cpp(flags,hostpars,vlPars,infectiousnessPars,crossImmunity,
-                              start, end, output_files,VERBOSE,callback))
+    return(run_simulation_cpp(flags,hostpars,seeds,vlPars,infectiousnessPars,crossImmunity,
+                              start, end, tstep,output_files,VERBOSE,callback))
+}
+
+#' @export
+solve_viral_kinetics <- function(times, tg, tp, to, tw, alpha){
+    return(solve_viral_kinetics_cpp(times, tg, tp, to, tw, alpha, 0, 0, 0))
+}
+#' @export
+solve_infectiousness <- function(times, tg, tp, to, tw, alpha, infectiousnessMax,infectiousnessGradient,infectiousnessInflection){
+    return(solve_infectiousness_cpp(times, tg, tp, to, tw, alpha, infectiousnessMax,infectiousnessGradient,infectiousnessInflection))
 }
 
 
@@ -37,6 +50,7 @@ run_simulation <- function(
 #'
 #' Plots SIR dynamics for a given matrix of SIR time series data
 #' @param dat the two dimensional matrix of S, I and R data
+#' @param plotR if FALSE, do not plot R compartment
 #' @return a ggplot2 object plot
 #' @export
 plot_SIR <- function(dat){
@@ -44,6 +58,7 @@ plot_SIR <- function(dat){
     colnames(dat) <- c("t","S","I","R","incidence")
     dat <- reshape2::melt(dat,id="t")
     colnames(dat) <- c("t","Population","value")
+    
     SIR_plot <- ggplot() +
         geom_line(data=dat,aes(x=t,y=value,colour=Population,group=Population)) +
         xlab("Time (days)") +

@@ -52,7 +52,7 @@ bool Host::isSymptomatic(){
   return(symptomatic);
 }
 
-void Host::infect(Virus* newInfection, int cur_t){
+void Host::infect(Virus* newInfection, double cur_t){
   state = Infected;
   
   if(currentInfection != NULL){
@@ -63,7 +63,7 @@ void Host::infect(Virus* newInfection, int cur_t){
 }
 
 // If has current infection and viral load has waned to 0, then recover
-bool Host::recover(int cur_t){
+bool Host::recover(double cur_t){
   // Only recover if currently infected and enough time has elapsed to recover
   if(currentInfection != NULL && currentInfection->hasRecovered(cur_t)){
     state = Recovered;
@@ -77,7 +77,7 @@ bool Host::recover(int cur_t){
 }
 
 // Check if symptom onset is today. If so, set state to symptomatic
-void Host::onset(int cur_t){
+void Host::onset(double cur_t){
   if(currentInfection != NULL && currentInfection->hasOnset(cur_t)){
     symptomatic=true;
   }
@@ -99,7 +99,7 @@ void Host::addInfection(Virus* infection){
   infectionHistory.push_back(infection);
 }
 
-void Host::die(int cur_t){
+void Host::die(double cur_t){
   state = Dead;
   if(currentInfection != NULL){
     currentInfection->kill(cur_t);
@@ -113,7 +113,7 @@ void Host::wane(){
 }
 
 // If have a current infection, then get infectiousness of this virus
-double Host::calculateInfectiousness(int cur_t){
+double Host::calculateInfectiousness(double cur_t){
   double infectiousness = 0;
   if(currentInfection != NULL){
     infectiousness = currentInfection->getInfectiousness(cur_t);

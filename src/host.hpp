@@ -29,16 +29,16 @@ public:
   ~Host();
 
   // Calculations
-  double calculateInfectiousness(int cur_t); // Get infectiousness based on viral kinetics
+  double calculateInfectiousness(double cur_t); // Get infectiousness based on viral kinetics
   double calculateSusceptibility(Virus* infecting_virus); // Get susceptibility based on infecting virus and infection history
   
   // Events
-  void infect(Virus* newInfection, int cur_t);
+  void infect(Virus* newInfection, double cur_t);
   void addInfection(Virus* infection);
-  bool recover(int cur_t);
-  void onset(int cur_t);
+  bool recover(double cur_t);
+  void onset(double cur_t);
   void wane();
-  void die(int cur_t);
+  void die(double cur_t);
 
   // Attribute Access
   Virus* getCurrentVirus();

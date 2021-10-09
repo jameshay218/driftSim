@@ -14,7 +14,7 @@ HostPopulation::HostPopulation(){
   }
 }
 
-HostPopulation::HostPopulation(int initialS, int initialI, int initialR, int iniDay, 
+HostPopulation::HostPopulation(int initialS, int initialI, int initialR, double iniDay, 
                                double _contactRate, double _mu, double _wane,
                                int seed_variant){
   
@@ -27,6 +27,8 @@ HostPopulation::HostPopulation(int initialS, int initialI, int initialR, int ini
   contactRate = _contactRate;
   mu = _mu;
   wane = _wane;
+  
+  Rcpp::Rcout << "Creating host population" << std::endl;
   
   // Create seed virus
   parentV = new Virus(-1, seed_variant, NULL, NULL, 0);
@@ -76,7 +78,7 @@ HostPopulation::~HostPopulation(){
 }
 
 // Returns the number of new infections so we can calculate incidence
-double HostPopulation::stepForward(int new_day){
+double HostPopulation::stepForward(double new_day){
   double new_infected;
   
   // Current day is changed
@@ -314,7 +316,7 @@ int HostPopulation::countRecovereds(){
   return(recovereds.size());
 }
 
-int HostPopulation::getDay(){
+double HostPopulation::getDay(){
   return(day);
 }
 
@@ -324,6 +326,21 @@ int HostPopulation::countN(){
 
 double HostPopulation::getContactRate(){
   return(contactRate);
+}
+
+void HostPopulation::set_contactRate(double _contactRate){
+  contactRate = _contactRate;
+}
+
+bool HostPopulation::inVirusVector(Virus* V){
+  int j = seed_viruses.size();
+  bool result = false;
+  for(int i = 0; i < j; i++){
+    if(V == seed_viruses[i]){
+      result = true;
+    }
+  }
+  return(result);  
 }
 
 
@@ -338,6 +355,41 @@ void HostPopulation::printStatus(){
 
 
 /* ------------------------------------------- FILE MANIPULATION CODE ---------------------------------------------- */
+ 
+void HostPopulation::testingRound(std::ofstream& output, int n_sample){
+  // Put all hosts into one vector
+  vector<vector<Host*>> tmp = {susceptibles, infecteds, recovereds};
+  
+  int N_total = countN();
+  
+  double prob_sample = (double) n_sample/ (double) N_total;
+  
+  // Go through all hosts
+  int end = tmp.size();
+  int tot = 0;
+  for(int i = 0; i < end; ++i){
+    // Go through each State type
+    tot = tmp[i].size();
+    for(int j = 0; j < tot;++j){
+      // If sampled
+      if(R::unif_rand() < prob_sample){
+        // Write day
+        output << day << ",";
+        // Write state
+        output << tmp[i][j]->getState() << ",";
+        // If currently infected, write current viral load
+        if(tmp[i][j]->isInfected() == 1){
+          output << tmp[i][j]->getCurrentVirus()->calculateViralLoad(day) << ",";
+        }
+        else {
+          output << "0" << ",";
+        }
+        output << tmp[i][j]->isSymptomatic() << endl;
+      }
+    }
+  }
+}
+
 void HostPopulation::writeHosts(std::ofstream& output, std::string filename){
   Rcpp::Rcout << "#########################" << endl;
   Rcpp::Rcout << "Writing hosts to csv..." << endl;
@@ -401,13 +453,17 @@ void HostPopulation::writeViruses(std::ofstream& output, std::string filename){
         for(int i = 0; i < j; ++i){
             // If host is currently infected, add this virus to list to be printed
           if(tmp[y][i]->isInfected()){
-    	    viruses.push_back(tmp[y][i]->getCurrentVirus());
+            if(!inVirusVector(tmp[y][i]->getCurrentVirus())){
+    	        viruses.push_back(tmp[y][i]->getCurrentVirus());
+            }
           }
           // Then, go through the infection history and add each other virus
           x = tmp[y][i]->getInfectionHistory().size();
           if(x > 0){
     	    for(int ii = 0; ii < x; ++ii){
+    	      if(!inVirusVector(tmp[y][i]->getInfectionHistory()[ii])){
     	        viruses.push_back(tmp[y][i]->getInfectionHistory()[ii]);
+    	      }
     	    }
           }
         }
@@ -418,11 +474,12 @@ void HostPopulation::writeViruses(std::ofstream& output, std::string filename){
       return(lhs->getId() < rhs->getId());
     });
   Rcpp::Rcout << "Writing output..." << endl;
+  
   output << "vid,variant_id,variant,birth,death,parentid,parent_age_at_creation,infectionNo,tg,tp,to,tw,alpha,symptomatic,infectiousnessMax,infectiousnessGradient,infectiousnessInflection" << endl;
- 
   j = seed_viruses.size();
+
   if(j > 0){
-      for(int i = 0; i < j; j++){
+      for(int i = 0; i < j; i++){
         output << seed_viruses[i]->getId() << ",";
         output << seed_viruses[i]->getVariantId() << ",";
         output << seed_viruses[i]->getVariant() << ",";
@@ -430,10 +487,11 @@ void HostPopulation::writeViruses(std::ofstream& output, std::string filename){
         output << seed_viruses[i]->getDeath() << ",";
         if(seed_viruses[i]->getParent() != NULL){
 	        output << seed_viruses[i]->getParent()->getId() << ",";
+          output << seed_viruses[i]->getAgeOfParentAtBirth() << ",";
         } else {
 	        output << "0" << ",";
+          output << "0" << ",";
         }
-        output << seed_viruses[i]->getAgeOfParentAtBirth() << ",";
         output << seed_viruses[i]->getInfectionNo() << ",";
         
         // Kinetics pars
@@ -445,7 +503,7 @@ void HostPopulation::writeViruses(std::ofstream& output, std::string filename){
         output << seed_viruses[i]->get_symptomatic() << ",";
         output << seed_viruses[i]->get_infectiousnessMax() << ",";
         output << seed_viruses[i]->get_infectiousnessGradient() << ",";
-        output << seed_viruses[i]->get_infectiousnessInflection() << ",";
+        output << seed_viruses[i]->get_infectiousnessInflection();
         
         output << endl;
       }
@@ -476,7 +534,7 @@ void HostPopulation::writeViruses(std::ofstream& output, std::string filename){
       output << viruses[i]->get_symptomatic() << ",";
       output << viruses[i]->get_infectiousnessMax() << ",";
       output << viruses[i]->get_infectiousnessGradient() << ",";
-      output << viruses[i]->get_infectiousnessInflection() << ",";
+      output << viruses[i]->get_infectiousnessInflection();
       
       output << endl;
   }
@@ -484,4 +542,5 @@ void HostPopulation::writeViruses(std::ofstream& output, std::string filename){
   Rcpp::Rcout << "Writing viruses complete" << endl;
   Rcpp::Rcout << "#########################" << endl << endl;
  }
+ 
 

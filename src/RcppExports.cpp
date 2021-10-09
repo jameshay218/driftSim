@@ -10,29 +10,71 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// solve_viral_kinetics_cpp
+Rcpp::NumericVector solve_viral_kinetics_cpp(Rcpp::NumericVector times, double tg, double tp, double to, double tw, double alpha, double infectiousnessMax, double infectiousnessGradient, double infectiousnessInflection);
+RcppExport SEXP _driftSim_solve_viral_kinetics_cpp(SEXP timesSEXP, SEXP tgSEXP, SEXP tpSEXP, SEXP toSEXP, SEXP twSEXP, SEXP alphaSEXP, SEXP infectiousnessMaxSEXP, SEXP infectiousnessGradientSEXP, SEXP infectiousnessInflectionSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
+    Rcpp::traits::input_parameter< double >::type tg(tgSEXP);
+    Rcpp::traits::input_parameter< double >::type tp(tpSEXP);
+    Rcpp::traits::input_parameter< double >::type to(toSEXP);
+    Rcpp::traits::input_parameter< double >::type tw(twSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< double >::type infectiousnessMax(infectiousnessMaxSEXP);
+    Rcpp::traits::input_parameter< double >::type infectiousnessGradient(infectiousnessGradientSEXP);
+    Rcpp::traits::input_parameter< double >::type infectiousnessInflection(infectiousnessInflectionSEXP);
+    rcpp_result_gen = Rcpp::wrap(solve_viral_kinetics_cpp(times, tg, tp, to, tw, alpha, infectiousnessMax, infectiousnessGradient, infectiousnessInflection));
+    return rcpp_result_gen;
+END_RCPP
+}
+// solve_infectiousness_cpp
+Rcpp::NumericVector solve_infectiousness_cpp(Rcpp::NumericVector times, double tg, double tp, double to, double tw, double alpha, double infectiousnessMax, double infectiousnessGradient, double infectiousnessInflection);
+RcppExport SEXP _driftSim_solve_infectiousness_cpp(SEXP timesSEXP, SEXP tgSEXP, SEXP tpSEXP, SEXP toSEXP, SEXP twSEXP, SEXP alphaSEXP, SEXP infectiousnessMaxSEXP, SEXP infectiousnessGradientSEXP, SEXP infectiousnessInflectionSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
+    Rcpp::traits::input_parameter< double >::type tg(tgSEXP);
+    Rcpp::traits::input_parameter< double >::type tp(tpSEXP);
+    Rcpp::traits::input_parameter< double >::type to(toSEXP);
+    Rcpp::traits::input_parameter< double >::type tw(twSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< double >::type infectiousnessMax(infectiousnessMaxSEXP);
+    Rcpp::traits::input_parameter< double >::type infectiousnessGradient(infectiousnessGradientSEXP);
+    Rcpp::traits::input_parameter< double >::type infectiousnessInflection(infectiousnessInflectionSEXP);
+    rcpp_result_gen = Rcpp::wrap(solve_infectiousness_cpp(times, tg, tp, to, tw, alpha, infectiousnessMax, infectiousnessGradient, infectiousnessInflection));
+    return rcpp_result_gen;
+END_RCPP
+}
 // run_simulation_cpp
-int run_simulation_cpp(Rcpp::IntegerVector flags, Rcpp::NumericVector hostPopn, Rcpp::NumericMatrix vlPars, Rcpp::NumericMatrix infectiousnessPars, Rcpp::NumericMatrix crossImmunity, int day, int final_day, std::vector<std::string> output_files, bool VERBOSE, SEXP callback);
-RcppExport SEXP _driftSim_run_simulation_cpp(SEXP flagsSEXP, SEXP hostPopnSEXP, SEXP vlParsSEXP, SEXP infectiousnessParsSEXP, SEXP crossImmunitySEXP, SEXP daySEXP, SEXP final_daySEXP, SEXP output_filesSEXP, SEXP VERBOSESEXP, SEXP callbackSEXP) {
+int run_simulation_cpp(Rcpp::IntegerVector flags, Rcpp::NumericVector hostPopn, Rcpp::NumericMatrix seeds, Rcpp::NumericMatrix vlPars, Rcpp::NumericMatrix infectiousnessPars, Rcpp::NumericMatrix crossImmunity, double day, double final_day, double tstep, std::vector<std::string> output_files, bool VERBOSE, SEXP callback);
+RcppExport SEXP _driftSim_run_simulation_cpp(SEXP flagsSEXP, SEXP hostPopnSEXP, SEXP seedsSEXP, SEXP vlParsSEXP, SEXP infectiousnessParsSEXP, SEXP crossImmunitySEXP, SEXP daySEXP, SEXP final_daySEXP, SEXP tstepSEXP, SEXP output_filesSEXP, SEXP VERBOSESEXP, SEXP callbackSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type flags(flagsSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type hostPopn(hostPopnSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type seeds(seedsSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type vlPars(vlParsSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type infectiousnessPars(infectiousnessParsSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type crossImmunity(crossImmunitySEXP);
-    Rcpp::traits::input_parameter< int >::type day(daySEXP);
-    Rcpp::traits::input_parameter< int >::type final_day(final_daySEXP);
+    Rcpp::traits::input_parameter< double >::type day(daySEXP);
+    Rcpp::traits::input_parameter< double >::type final_day(final_daySEXP);
+    Rcpp::traits::input_parameter< double >::type tstep(tstepSEXP);
     Rcpp::traits::input_parameter< std::vector<std::string> >::type output_files(output_filesSEXP);
     Rcpp::traits::input_parameter< bool >::type VERBOSE(VERBOSESEXP);
     Rcpp::traits::input_parameter< SEXP >::type callback(callbackSEXP);
-    rcpp_result_gen = Rcpp::wrap(run_simulation_cpp(flags, hostPopn, vlPars, infectiousnessPars, crossImmunity, day, final_day, output_files, VERBOSE, callback));
+    rcpp_result_gen = Rcpp::wrap(run_simulation_cpp(flags, hostPopn, seeds, vlPars, infectiousnessPars, crossImmunity, day, final_day, tstep, output_files, VERBOSE, callback));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_driftSim_run_simulation_cpp", (DL_FUNC) &_driftSim_run_simulation_cpp, 10},
+    {"_driftSim_solve_viral_kinetics_cpp", (DL_FUNC) &_driftSim_solve_viral_kinetics_cpp, 9},
+    {"_driftSim_solve_infectiousness_cpp", (DL_FUNC) &_driftSim_solve_infectiousness_cpp, 9},
+    {"_driftSim_run_simulation_cpp", (DL_FUNC) &_driftSim_run_simulation_cpp, 12},
     {NULL, NULL, 0}
 };
 
