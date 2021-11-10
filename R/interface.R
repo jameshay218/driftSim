@@ -26,13 +26,30 @@ run_simulation <- function(
     vlPars,
     infectiousnessPars,
     crossImmunity,
+    ageDistribution=NULL,
+    infectivityCurve=NULL,
+    susceptibilityCurve=NULL,
     start=0,
     end=100,
     tstep=1,
     output_files = c("SIR.csv","tests.csv","voutput.csv","hosts.csv"),
     VERBOSE=TRUE,
     callback=NULL){
+    
+    if(is.null(ageDistribution)){
+        ageDistribution = c(1.0)
+    }
+    
+    if(is.null(infectivityCurve)){
+        infectivityCurve = c(1.0)
+    }
+    
+    if(is.null(susceptibilityCurve)){
+        susceptibilityCurve = c(1.0)
+    }
+    
     return(run_simulation_cpp(flags,hostpars,seeds,vlPars,infectiousnessPars,crossImmunity,
+                              ageDistribution, infectivityCurve, susceptibilityCurve,
                               start, end, tstep,output_files,VERBOSE,callback))
 }
 

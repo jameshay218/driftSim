@@ -9,6 +9,7 @@ Host::Host(){
   
   vaccinated=false;
   vaccination_time=-1;
+  age=0;
 ;}
 
 Host::Host(State _state, HostPopulation* _popn){
@@ -19,6 +20,18 @@ Host::Host(State _state, HostPopulation* _popn){
   
   vaccinated=false;
   vaccination_time=-1;
+  age=0;
+}
+
+Host::Host(State _state, HostPopulation* _popn, int _age){
+  state = _state;
+  symptomatic=false;
+  currentInfection=NULL;
+  popn = _popn;
+  
+  vaccinated=false;
+  vaccination_time=-1;
+  age=_age;
 }
 
 
@@ -31,6 +44,19 @@ Host::Host(State _state, HostPopulation* _popn, Virus* firstInf){
   
   vaccinated=false;
   vaccination_time=-1;
+  age=0;
+}
+
+Host::Host(State _state, HostPopulation* _popn, Virus* firstInf, int _age){
+  symptomatic = false;
+  currentInfection=NULL;
+  state = _state;
+  popn = _popn;
+  infectionHistory.push_back(firstInf);
+  
+  vaccinated=false;
+  vaccination_time=-1;
+  age=_age;
 }
 
 Host::~Host(){
@@ -43,19 +69,19 @@ Host::~Host(){
 }
 
 bool Host::isSusceptible(){
-  return(state==0);
+  return(state==Susceptible);
 }
 
 bool Host::isInfected(){
-  return(state == 1);
+  return(state==Infected);
 }
 
 bool Host::isRecovered(){
-  return(state==2);
+  return(state==Recovered);
 }
 
 bool Host::isDead(){
-  return(state==3);
+  return(state==Dead);
 }
 bool Host::isSymptomatic(){
   return(symptomatic);
@@ -116,6 +142,10 @@ double Host::getVaccTime(){
   return(vaccination_time);
 }
 
+int Host::getAge(){
+  return(age);
+}
+
 void Host::addInfection(Virus* infection){
   infectionHistory.push_back(infection);
 }
@@ -139,7 +169,8 @@ void Host::wane(){
 double Host::calculateInfectiousness(double cur_t){
   double infectiousness = 0;
   if(currentInfection != NULL){
-    infectiousness = currentInfection->getInfectiousness(cur_t);
+    //Rcpp::Rcout << "Age: " << age << "; infectiousness: " << popn->getInfectivity(age) << std::endl;
+    infectiousness = currentInfection->getInfectiousness(cur_t)*popn->getInfectivity(age);
   }
   return infectiousness;
 }
@@ -173,5 +204,6 @@ double Host::calculateSusceptibility(Virus* infectingVirus, double cur_t){
       max_immunity = tmp_immunity;
     }
   }
-  return(1.0 - max_immunity);
+  
+  return((1.0 - max_immunity)*popn->getSusceptibility(age));
 }

@@ -37,13 +37,23 @@ private:
   double max_vacc_immunity;
   
   double vacc_prob;
+  
+  Rcpp::NumericVector infectivity_curve;
+  Rcpp::NumericVector susceptibility_curve;
+  Rcpp::IntegerVector possible_ages;
+  Rcpp::NumericVector age_distribution;
 
 public:
   std::default_random_engine generator;
 
   // Constructors
   HostPopulation();
-  HostPopulation(int initialS, int initialI, int initialR, double iniDay, double _contactRate, double _mu, double _wane, int seed_variant);
+  HostPopulation(int initialS, int initialI, int initialR, double iniDay, double _contactRate, double _mu, 
+                 double _wane, int seed_variant);
+  HostPopulation(int initialS, int initialI, int initialR, double iniDay, double _contactRate, double _mu, 
+                 double _wane, int seed_variant,
+                 Rcpp::NumericVector _age_distribution, 
+                 Rcpp::NumericVector _infectivity_curve, Rcpp::NumericVector _susceptibility_curve);
   HostPopulation(int initialS, int initialI, int initialR, double iniDay, double _contactRate, double _mu, double _wane, 
                  double _max_vacc_immunity, double _inf_wane_rate, double _vacc_wane_rate, int seed_variant);
 
@@ -78,6 +88,9 @@ public:
   double getMaxVaccImmunity();
   double getInfWaneRate();
   double getVaccWaneRate();
+  
+  double getInfectivity(int age);
+  double getSusceptibility(int age);
 
   // Print out current population status
   bool inVirusVector(Virus* V);

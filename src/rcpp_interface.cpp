@@ -75,6 +75,9 @@ int run_simulation_cpp(Rcpp::IntegerVector flags,
 		       Rcpp::NumericMatrix vlPars,  
 		       Rcpp::NumericMatrix infectiousnessPars,
 		       Rcpp::NumericMatrix crossImmunity,
+		       Rcpp::NumericVector ageDistribution,
+		       Rcpp::NumericVector infectivityCurve,
+		       Rcpp::NumericVector susceptibilityCurve,
 		       double day, 
 		       double final_day,
 		       double tstep,
@@ -156,7 +159,8 @@ int run_simulation_cpp(Rcpp::IntegerVector flags,
    // Generate a host population with these properties
    Rcpp::Rcout << "Simulating population" << endl;
   
-   hpop = new HostPopulation(S0,I0, R0, start_day,contactRate, mu, wane, seed_variant);
+   hpop = new HostPopulation(S0,I0, R0, start_day,contactRate, mu, wane, seed_variant, 
+                             infectivityCurve, susceptibilityCurve,ageDistribution);
    Rcpp::Rcout << "Host population created" << std::endl;
 
   if(VERBOSE){

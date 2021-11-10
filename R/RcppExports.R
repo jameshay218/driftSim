@@ -33,7 +33,7 @@ solve_infectiousness_cpp <- function(times, tg, tp, to, tw, alpha, infectiousnes
 #' @return the final virus ID from the simulation
 #' @export
 #' @useDynLib driftSim
-run_simulation_cpp <- function(flags, hostPopn, seeds, vlPars, infectiousnessPars, crossImmunity, day, final_day, tstep, output_files, VERBOSE, callback) {
-    .Call('_driftSim_run_simulation_cpp', PACKAGE = 'driftSim', flags, hostPopn, seeds, vlPars, infectiousnessPars, crossImmunity, day, final_day, tstep, output_files, VERBOSE, callback)
+run_simulation_cpp <- function(flags, hostPopn, seeds, vlPars, infectiousnessPars, crossImmunity, ageDistribution, infectivityCurve, susceptibilityCurve, day, final_day, tstep, output_files, VERBOSE, callback) {
+    .Call('_driftSim_run_simulation_cpp', PACKAGE = 'driftSim', flags, hostPopn, seeds, vlPars, infectiousnessPars, crossImmunity, ageDistribution, infectivityCurve, susceptibilityCurve, day, final_day, tstep, output_files, VERBOSE, callback)
 }
 

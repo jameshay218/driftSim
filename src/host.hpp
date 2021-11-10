@@ -16,9 +16,12 @@ private:
   std::vector<Virus*> infectionHistory; // Keep a vector of past infections
   Virus* currentInfection; // Pointer to currently infecting virus
   
+  // Vaccination and symptom status
   bool symptomatic;
-  bool vaccinated;
-  double vaccination_time;
+  bool vaccinated; 
+  double vaccination_time; // Time of vaccination in days
+  
+  int age; // Age in years
 
 public:
 
@@ -27,7 +30,9 @@ public:
   // Constructors
   Host();
   Host(State _state, HostPopulation* _popn); // Constructor for susceptible
+  Host(State _state, HostPopulation* _popn, int _age); // Constructor for susceptible with age
   Host(State _state, HostPopulation* _popn, Virus* firstInf); // Constructor if currently infected or recovered with one past infection
+  Host(State _state, HostPopulation* _popn, Virus* firstInf, int _age); // Constructor if currently infected or recovered with one past infection + age
   ~Host();
 
   // Calculations
@@ -56,6 +61,7 @@ public:
   bool isSymptomatic();
   bool isVaccinated();
   double getVaccTime();
+  int getAge();
   
 };
 

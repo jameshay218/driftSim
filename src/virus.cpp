@@ -15,7 +15,6 @@ int Virus::n_variants = 1; // How many variants exist?
 double Virus::true_0 = 0; // True 0 viral load value
 
 Rcpp::IntegerVector Virus::variantGenerators; // Track how many of each variant we've made
-
 Rcpp::NumericMatrix Virus::crossImmunity ; // Matrix of cross-immunity between viruses
 Rcpp::NumericMatrix Virus::vlPars; // Matrix of all vl pars to draw from
 Rcpp::NumericMatrix Virus::infectiousnessPars; // Matrix of infectiousness parameters, row for each variant
