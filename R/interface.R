@@ -6,7 +6,7 @@
 #' 3) use_time: if TRUE, records the duration of the simulation run
 #' 4) save_hosts: if TRUE, saves the properties of the simulation host population.
 #' @param hostpars vector of parameters relating to the host population. In order, these are: S0, R0, contact rate, birth/death rate, temporary immunity waning rate (duration of recovered period), true 0 viral load value
-#' @param seeds matrix of seeds
+#' @param seeds matrix of seeds. First column is seed time; second is variant ID; third is seed size
 #' @param vlPars pre-computed matrix of random viral load kinetics parameters
 #' @param infectiousnessPars matrix of infectiousness parameters
 #' @param crossImmunity matrix of cross immunity

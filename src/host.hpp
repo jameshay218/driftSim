@@ -17,6 +17,8 @@ private:
   Virus* currentInfection; // Pointer to currently infecting virus
   
   bool symptomatic;
+  bool vaccinated;
+  double vaccination_time;
 
 public:
 
@@ -30,7 +32,7 @@ public:
 
   // Calculations
   double calculateInfectiousness(double cur_t); // Get infectiousness based on viral kinetics
-  double calculateSusceptibility(Virus* infecting_virus); // Get susceptibility based on infecting virus and infection history
+  double calculateSusceptibility(Virus* infecting_virus, double cur_t); // Get susceptibility based on infecting virus and infection history
   
   // Events
   void infect(Virus* newInfection, double cur_t);
@@ -39,6 +41,8 @@ public:
   void onset(double cur_t);
   void wane();
   void die(double cur_t);
+  
+  void vaccinate(double cur_t);
 
   // Attribute Access
   Virus* getCurrentVirus();
@@ -50,6 +54,8 @@ public:
   bool isSusceptible();
   bool isRecovered();
   bool isSymptomatic();
+  bool isVaccinated();
+  double getVaccTime();
   
 };
 

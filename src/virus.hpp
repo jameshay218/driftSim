@@ -37,6 +37,9 @@ private:
     double alpha;
     double symptomatic;
     
+    // Host status at infection
+    bool host_vacc_status;
+    
     // Infectiousness parameters
     double infectiousnessMax;
     double infectiousnessGradient;
@@ -116,6 +119,7 @@ public:
     double get_tw();
     double get_alpha();
     bool get_symptomatic();
+    bool get_host_vacc();
     
     // Access infectiousness parameters
     double get_infectiousnessMax();

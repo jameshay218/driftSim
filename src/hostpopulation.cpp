@@ -28,6 +28,11 @@ HostPopulation::HostPopulation(int initialS, int initialI, int initialR, double 
   mu = _mu;
   wane = _wane;
   
+  vacc_wane_rate=-0.03;
+  inf_wane_rate=0;
+  max_vacc_immunity=0.7;
+  vacc_prob=0.01;
+  
   Rcpp::Rcout << "Creating host population" << std::endl;
   
   // Create seed virus
@@ -41,6 +46,49 @@ HostPopulation::HostPopulation(int initialS, int initialI, int initialR, double 
   for(int i =0; i < initialI; ++i){
     H = new Host(Infected, this);
       // Create new virus with parameters
+    V = new Virus(day, seed_variant, parentV, H, 0);
+    H->infect(V,day);
+    infecteds.push_back(H);
+  }
+  for(int i = 0; i < initialR; ++i){
+    H = new Host(Recovered, this);
+    recovereds.push_back(H);
+  }
+}
+
+HostPopulation::HostPopulation(int initialS, int initialI, int initialR, double iniDay, 
+                               double _contactRate, double _mu, double _wane,
+                               double _max_vacc_immunity, double _inf_wane_rate, double _vacc_wane_rate,
+                               int seed_variant){
+  
+  // Pointers for creating hosts and viruses
+  Host* H;
+  Virus* V;
+  Virus* parentV;
+  
+  day = iniDay;
+  contactRate = _contactRate;
+  mu = _mu;
+  wane = _wane;
+  
+  vacc_wane_rate=_vacc_wane_rate;
+  inf_wane_rate=_inf_wane_rate;
+  max_vacc_immunity=_max_vacc_immunity;
+  vacc_prob=0.1;
+  
+  Rcpp::Rcout << "Creating host population" << std::endl;
+  
+  // Create seed virus
+  parentV = new Virus(-1, seed_variant, NULL, NULL, 0);
+  seed_viruses.push_back(parentV);
+  
+  for(int i = 0; i < initialS;++i){
+    H = new Host(Susceptible, this);
+    susceptibles.push_back(H);
+  }
+  for(int i =0; i < initialI; ++i){
+    H = new Host(Infected, this);
+    // Create new virus with parameters
     V = new Virus(day, seed_variant, parentV, H, 0);
     H->infect(V,day);
     infecteds.push_back(H);
@@ -87,6 +135,9 @@ double HostPopulation::stepForward(double new_day){
   //New births of susceptibles
   // Rcpp::Rcout << "Grow" << endl;
   grow();
+  
+  // Vaccinations
+  vaccinations();
 
   // Infected population grows from transmission
   //Rcpp::Rcout << "Contact" << endl;
@@ -147,6 +198,27 @@ void HostPopulation::grow(){
     new_births.push_back(h);
   }
 }
+
+void HostPopulation::vaccinations(){
+  // Put all hosts into one vector
+  vector<vector<Host*>> tmp = {susceptibles, infecteds, recovereds};
+  
+  // Go through all hosts
+  int end = tmp.size();
+  int tot = 0;
+  for(int i = 0; i < end; ++i){
+    // Go through each State type
+    tot = tmp[i].size();
+    for(int j = 0; j < tot;++j){
+      if(!tmp[i][j]->isVaccinated()){
+        if(R::unif_rand() < vacc_prob){
+          tmp[i][j]->vaccinate(day);
+        }
+      }
+    }
+  }
+}
+
 
 void HostPopulation::decline(){
   int newDeaths = R::rpois(mu*countSusceptibles());
@@ -222,7 +294,7 @@ double HostPopulation::contact(){
       if(susceptibles[index2]->isSusceptible()){
           // Calculate probability of transmission
           probTransmission = infecteds[index1]->calculateInfectiousness(day); // Infector has certain infectiousness
-          probInfection = susceptibles[index2]->calculateSusceptibility(infecteds[index1]->getCurrentVirus()); // Infectee has immunity against this virus
+          probInfection = susceptibles[index2]->calculateSusceptibility(infecteds[index1]->getCurrentVirus(), day); // Infectee has immunity against this virus
             // Successful if transmission occurs and this gets through immunity  
           if(tmp <= probTransmission*probInfection){
               // If successful infection, use the infecting virus as the parent. 
@@ -332,6 +404,18 @@ void HostPopulation::set_contactRate(double _contactRate){
   contactRate = _contactRate;
 }
 
+
+double HostPopulation::getMaxVaccImmunity(){
+  return(max_vacc_immunity);
+}
+double HostPopulation::getInfWaneRate(){
+  return(inf_wane_rate);
+}
+double HostPopulation::getVaccWaneRate(){
+  return(vacc_wane_rate);
+}
+
+
 bool HostPopulation::inVirusVector(Virus* V){
   int j = seed_viruses.size();
   bool result = false;
@@ -380,9 +464,11 @@ void HostPopulation::testingRound(std::ofstream& output, int n_sample){
         // If currently infected, write current viral load
         if(tmp[i][j]->isInfected() == 1){
           output << tmp[i][j]->getCurrentVirus()->calculateViralLoad(day) << ",";
+          output << tmp[i][j]->getCurrentVirus()->getVariant() << ",";
         }
         else {
           output << "0" << ",";
+          output << "NA" << ",";
         }
         output << tmp[i][j]->isSymptomatic() << endl;
       }
@@ -399,11 +485,12 @@ void HostPopulation::writeHosts(std::ofstream& output, std::string filename){
   // Put all hosts into one vector
   vector<vector<Host*>> tmp = {susceptibles, infecteds, recovereds};
 
-  output << "state,last_vid,cur_inf,symptomatic" << endl;
+  output << "state,last_vid,cur_inf,symptomatic,vaccine_time,inf_history" << endl;
   
   // Go through all hosts
   int end = tmp.size();
   int tot = 0;
+  int inf_hist_size=0;
   for(int i = 0; i < end; ++i){
     // Go through each State type
     tot = tmp[i].size();
@@ -426,7 +513,15 @@ void HostPopulation::writeHosts(std::ofstream& output, std::string filename){
         else {
             output << tmp[i][j]->isInfected() << ",";
         }
-        output << tmp[i][j]->isSymptomatic() << endl;
+        output << tmp[i][j]->isSymptomatic() << ",";
+        output << tmp[i][j]->getVaccTime() << ",";
+        inf_hist_size =tmp[i][j]->getInfectionHistory().size();
+        if(inf_hist_size > 0){
+          for(int k = 0; k < inf_hist_size; ++k){
+            output << tmp[i][j]->getInfectionHistory()[k]->getId() << "-";
+          }
+        }
+        output << std::endl;
     }
   }
   output.close();
@@ -475,8 +570,12 @@ void HostPopulation::writeViruses(std::ofstream& output, std::string filename){
     });
   Rcpp::Rcout << "Writing output..." << endl;
   
-  output << "vid,variant_id,variant,birth,death,parentid,parent_age_at_creation,infectionNo,tg,tp,to,tw,alpha,symptomatic,infectiousnessMax,infectiousnessGradient,infectiousnessInflection" << endl;
+  output << "vid,variant_id,variant,birth,death,parentid,parent_age_at_creation,infectionNo,tg,tp,to,tw,alpha,symptomatic,infectiousnessMax,infectiousnessGradient,infectiousnessInflection,host_vacc_status" << endl;
   j = seed_viruses.size();
+  
+  Rcpp::Rcout << "...writing seed viruses..." << endl;
+  Rcpp::Rcout << "Writing viruses complete" << endl;
+  Rcpp::Rcout << "#########################" << endl << endl;
 
   if(j > 0){
       for(int i = 0; i < j; i++){
@@ -503,12 +602,15 @@ void HostPopulation::writeViruses(std::ofstream& output, std::string filename){
         output << seed_viruses[i]->get_symptomatic() << ",";
         output << seed_viruses[i]->get_infectiousnessMax() << ",";
         output << seed_viruses[i]->get_infectiousnessGradient() << ",";
-        output << seed_viruses[i]->get_infectiousnessInflection();
+        output << seed_viruses[i]->get_infectiousnessInflection() << ",";
+        output << seed_viruses[i]->get_host_vacc();
+        
         
         output << endl;
       }
   }
   Rcpp::Rcout << "Seed viruses saved" << endl;
+  Rcpp::Rcout << "...writing all viruses..." << endl;
 
   j = viruses.size();
   for(int i = 0; i < j;++i){
@@ -534,7 +636,8 @@ void HostPopulation::writeViruses(std::ofstream& output, std::string filename){
       output << viruses[i]->get_symptomatic() << ",";
       output << viruses[i]->get_infectiousnessMax() << ",";
       output << viruses[i]->get_infectiousnessGradient() << ",";
-      output << viruses[i]->get_infectiousnessInflection();
+      output << viruses[i]->get_infectiousnessInflection() << ",";
+      output << viruses[i]->get_host_vacc();
       
       output << endl;
   }

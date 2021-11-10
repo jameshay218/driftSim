@@ -31,6 +31,12 @@ private:
   double contactRate; // How many contacts made on average per time step?
   double mu; // Birth and death rate
   double wane; // Rate of losing full immunity
+  
+  double inf_wane_rate;
+  double vacc_wane_rate;
+  double max_vacc_immunity;
+  
+  double vacc_prob;
 
 public:
   std::default_random_engine generator;
@@ -38,6 +44,8 @@ public:
   // Constructors
   HostPopulation();
   HostPopulation(int initialS, int initialI, int initialR, double iniDay, double _contactRate, double _mu, double _wane, int seed_variant);
+  HostPopulation(int initialS, int initialI, int initialR, double iniDay, double _contactRate, double _mu, double _wane, 
+                 double _max_vacc_immunity, double _inf_wane_rate, double _vacc_wane_rate, int seed_variant);
 
   // Destructor
   ~HostPopulation();
@@ -45,6 +53,7 @@ public:
   // Manage population temporal dynamics
   double stepForward(double new_day);
   void grow();
+  void vaccinations();
   void decline();
   void seed(int variant, int number); // Function to seed new infections of a certain variant
   double contact();
@@ -62,8 +71,13 @@ public:
   int countRecovereds();
   int countN();
   
-  // CHange parameters
+  // Change parameters
   void set_contactRate(double _contactRate);
+  
+  // Access parameters
+  double getMaxVaccImmunity();
+  double getInfWaneRate();
+  double getVaccWaneRate();
 
   // Print out current population status
   bool inVirusVector(Virus* V);

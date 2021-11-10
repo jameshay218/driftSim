@@ -35,6 +35,12 @@ Virus::Virus(int _t, int _variant, Virus* _parent, Host* _host, int _infectionNo
     parent = _parent;
     host = _host;
     
+    if(host != NULL){
+        host_vacc_status=_host->isVaccinated();
+    } else {
+        host_vacc_status = false;
+    }
+    
     int index;
     
     if(vlPars.nrow() > 0){
@@ -79,6 +85,7 @@ Virus::Virus(double _t, double _tg, double _tp, double _to, double _tw, double _
     
     parent = NULL;
     host = NULL;
+    host_vacc_status=false;
     
     tg = _tg;
     tp = _tp;
@@ -104,6 +111,7 @@ Virus::Virus(){
     
     parent = NULL;
     host = NULL;
+    host_vacc_status=false;
     
     tg = 2;
     tp = 3;
@@ -201,6 +209,8 @@ void Virus::set_default(){
     alpha = 10.0;
     symptomatic=false;
     
+    host_vacc_status=false;
+    
     infectiousnessMax = 0.5;
     infectiousnessGradient = 0.75;
     infectiousnessInflection = 5;
@@ -264,6 +274,7 @@ double Virus::get_tp(){return tp;}
 double Virus::get_to(){return to;}
 double Virus::get_alpha(){return alpha;}
 bool Virus::get_symptomatic(){return symptomatic;}
+bool Virus::get_host_vacc(){return host_vacc_status;}
 
 // Set infectiousness parameters
 double Virus::get_infectiousnessMax(){return infectiousnessMax;}
